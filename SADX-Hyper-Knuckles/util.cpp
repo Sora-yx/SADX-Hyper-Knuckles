@@ -113,3 +113,19 @@ void PlayerLookAt(NJS_VECTOR* from, NJS_VECTOR* to, Angle* outx, Angle* outy) {
 		*outy = -(*outy) + 0x4000;
 	}
 }
+
+bool isKnuxAI(EntityData1* data1) {
+
+	if (TailsAI_ptr != nullptr && data1->CharIndex == 1 && data1->CharID == Characters_Knuckles)
+		return true;
+
+	return false;
+}
+
+bool isPlayerOnHyperForm(int player) {
+
+	if (CharObj2Ptrs[player]->Upgrades & Upgrades_SuperSonic)
+		return true;
+
+	return false;
+}

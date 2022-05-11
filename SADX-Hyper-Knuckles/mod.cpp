@@ -21,6 +21,9 @@ extern "C" {
 		modpath = path;
 
 		ReadConfig(path, helperFunctions);
+		HyperKnux_Init(path, helperFunctions);
+		Audio_Init(helperFunctions);
+		WaterHack_Init();
 	}
 
 
