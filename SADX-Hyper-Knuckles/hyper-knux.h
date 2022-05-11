@@ -24,7 +24,7 @@ PVMEntry HyperKnux_DCEntry[] = {
 };
 
 PVMEntry HyperKnux_DXEntry[] = {
-	{"SUPERMILES_DX", &HyperKnuxDX_TEXLIST},
+	{"HYPERKNUX_DX", &HyperKnuxDX_TEXLIST},
 	{"SUPERSONIC", &SUPERSONIC_TEXLIST},
 };
 
