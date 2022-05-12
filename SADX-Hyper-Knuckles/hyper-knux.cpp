@@ -26,20 +26,29 @@ void HyperKnux_PerformLightingThing() {
 		Direct3D_PerformLighting(2);
 }
 
+NJS_TEXLIST* getHyperKnuxTex()
+{
+	if (isHyperKnux && textureChanges) {
+
+		if (isDCCharUsed)
+			return &HyperKnuxDC_TEXLIST;
+		else
+			return &HyperKnuxDX_TEXLIST;
+	}
+
+	return &KNUCKLES_TEXLIST;
+}
+
 // Sets the texture list to use when rendering.
 Sint32 __cdecl setHyperKnuxTexture(NJS_TEXLIST* texlist)
 {
 
-	if (isHyperKnux && textureChanges) {
-
-		if (isDCCharUsed)
-			texlist = &HyperKnuxDC_TEXLIST;
-		else
-			texlist = &HyperKnuxDX_TEXLIST;
-	}
+	texlist = getHyperKnuxTex();
 
 	return njSetTexture(texlist);
 }
+
+
 
 void SubRings(unsigned char player, EntityData1* data) {
 
@@ -258,6 +267,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 		}
 
 		CheckSuperMusic_Restart(playerID);
+		CheckKnuxAfterImages(player, co2);
 
 		break;
 	case hyperKnuxUntransfo:

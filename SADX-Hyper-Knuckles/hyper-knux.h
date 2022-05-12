@@ -30,3 +30,4 @@ PVMEntry HyperKnux_DXEntry[] = {
 
 void Load_HyperPhysics(taskwk* data1);
 bool isPlayerOnHyperForm(int player);
+void CheckKnuxAfterImages(EntityData1* data, CharObj2* co2);

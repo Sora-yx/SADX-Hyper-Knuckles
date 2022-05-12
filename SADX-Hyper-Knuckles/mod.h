@@ -59,3 +59,4 @@ struct ObjUnknownB
 void __cdecl Audio_Init(const HelperFunctions& helperFunctions);
 void WaterHack_Init();
 void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunctions);
+NJS_TEXLIST* getHyperKnuxTex();
