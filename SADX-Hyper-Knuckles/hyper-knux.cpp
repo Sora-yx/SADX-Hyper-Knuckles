@@ -187,10 +187,9 @@ bool CheckPlayer_Input(unsigned char playerID) {
 	return false;
 }
 
-
-
 void HyperKnuxDelete(ObjectMaster* obj) {
 
+	isQuakeEnabled = false;
 	unSuper(obj->Data1->CharIndex);
 	MusicList[MusicIDs_sprsonic].Name = "sprsonic";
 }

@@ -24,12 +24,13 @@ extern "C" {
 		HyperKnux_Init(path, helperFunctions);
 		Audio_Init(helperFunctions);
 		WaterHack_Init();
+		init_KnuxEarthquake();
 	}
 
 
 	__declspec(dllexport) void __cdecl OnFrame()
 	{
-
+		CamShakes();	
 	}
 
 	__declspec(dllexport) ModInfo SADXModInfo = { ModLoaderVer };

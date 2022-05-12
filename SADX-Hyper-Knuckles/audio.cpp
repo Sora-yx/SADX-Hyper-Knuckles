@@ -68,6 +68,9 @@ void __cdecl Audio_Init(const HelperFunctions& helperFunctions)
 		AddSound2("7001", "s3kTransfo");
 	}
 
+	AddSound1("7003", "quake");
+	AddSound2("7003", "quake");
+
 
 	return;
 }

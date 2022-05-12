@@ -154,3 +154,35 @@ void njRotateZ_(Angle z)
 		njRotateZ(_nj_current_matrix_ptr_, z);
 	}
 }
+
+
+int timerShake = 0;
+int pass = 0;
+
+void CamShakes()
+{
+	if (!isQuakeEnabled || !IsIngame())
+		return;
+
+	if (!timerShake) {
+		Camera_Data1->Position.x += 2.0;
+		pass++;
+	}
+
+	if (timerShake == 2) {
+		Camera_Data1->Position.x -= 2.0;
+		pass++;
+	}
+
+	if (pass > 12)
+	{
+		pass = 0;
+		isQuakeEnabled = false;
+		return;
+	}
+
+	if (timerShake > 6)
+		timerShake = 0;
+	else
+		timerShake++;
+}

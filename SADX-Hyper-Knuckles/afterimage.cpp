@@ -53,7 +53,7 @@ static void Knuckles_AfterImages(task* tsk)
 		RestoreConstantAttr();
 		Direct3D_PerformLighting(0);
 
-		if (tsk->twp->wtimer < 200)
+		if (tsk->twp->wtimer < USHRT_MAX)
 			tsk->twp->wtimer++;
 		else
 			tsk->twp->wtimer = 0;
