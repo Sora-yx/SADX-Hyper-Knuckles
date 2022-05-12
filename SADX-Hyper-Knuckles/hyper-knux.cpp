@@ -86,7 +86,7 @@ void unSuper(unsigned char player) {
 		co2->PhysicsData = PhysicsArray[Characters_Knuckles];
 
 	data->Status = 0;
-	ForcePlayerAction(0, 24);
+	ForcePlayerAction(player, 24);
 
 
 	if (IsIngame())
@@ -99,6 +99,7 @@ void unSuper(unsigned char player) {
 
 	co2->Upgrades &= ~Upgrades_SuperSonic;
 	co2->Powerups &= ~Powerups_Invincibility;
+	SetGlidSPD(false);
 	return;
 }
 
@@ -129,6 +130,7 @@ void SetHyperKnux(CharObj2* co2, EntityData1* data1) {
 
 	Load_SuperAura(taskw);
 	Load_HyperPhysics(taskw);
+	SetGlidSPD(true);
 	data1->Action = 1;
 
 	return;
@@ -239,6 +241,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 
 		if (++data->Index == timer)
 		{
+
 			ForcePlayerAction(player->Index, 24);
 			data->Action++;
 		}
@@ -280,6 +283,8 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 	}
 }
 
+int resetTimer = 0;
+
 
 void Knux_Main_r(ObjectMaster* obj) {
 
@@ -297,6 +302,15 @@ void Knux_Main_r(ObjectMaster* obj) {
 		break;
 	case 60:
 		Knux_DoEarthQuakeGround(player, co2);
+		break;
+	case 61:
+
+		if (++resetTimer == 20) {
+			player->Action = 1;
+			co2->AnimationThing.Index = 0;
+			resetTimer = 0;
+		}
+
 		break;
 	}
 
@@ -331,7 +345,6 @@ void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunct
 	Init_HyperKnuxTextures(path, helperFunctions);
 	Knuckles_Main_t = new Trampoline((int)Knuckles_Main, (int)Knuckles_Main + 0x7, Knux_Main_r);
 	Knuckles_Display_t = new Trampoline((int)Knuckles_Display, (int)Knuckles_Display + 0x7, Knuckles_Display_r);
-
 
 	//Textures init
 	WriteCall((void*)0x472255, HyperKnux_PerformLightingThing);

@@ -35,3 +35,4 @@ bool isPlayerOnHyperForm(int player);
 void CheckKnuxAfterImages(EntityData1* data, CharObj2* co2);
 void Knux_EarthQuakeOnGroundCheck(EntityData1* data, CharObj2* co2);
 void Knux_DoEarthQuakeGround(EntityData1* data, CharObj2* co2);
+void SetGlidSPD(bool increase);

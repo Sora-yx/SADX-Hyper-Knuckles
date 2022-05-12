@@ -62,3 +62,4 @@ void WaterHack_Init();
 void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunctions);
 NJS_TEXLIST* getHyperKnuxTex();
 void init_KnuxEarthquake();
+void init_PhysicsHack();

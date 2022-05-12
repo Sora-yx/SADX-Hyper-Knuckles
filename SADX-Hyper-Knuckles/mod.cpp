@@ -23,6 +23,7 @@ extern "C" {
 		ReadConfig(path, helperFunctions);
 		HyperKnux_Init(path, helperFunctions);
 		Audio_Init(helperFunctions);
+		init_PhysicsHack();
 		WaterHack_Init();
 		init_KnuxEarthquake();
 	}

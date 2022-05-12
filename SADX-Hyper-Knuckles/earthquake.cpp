@@ -8,12 +8,16 @@ ObjectFunc(Exe_leg_shock, 0x576E00);
 
 NJS_POINT3 Velo = { 5.0f, 5.0f, 5.0f };
 
+bool isQuakeEnabled = false;
+
+CollisionData legCol = { 0, 1, 0x0, 0x0, 0x0, {0}, 0.0, 1.0, 0.0, 0.0, 0, 0, 0 };
+//use bomb item to kill enemy, then smoke and egg walker shog leg for the effects
 void CreateBombQuake(EntityData1* player, CharObj2* co2)
 {
     isQuakeEnabled = true;
     stru_3C5AB24 = player->Position;
     bombRadius = 6.0f;
-    PlayVoice(7003);
+    PlayVoice(7003); //S3k SFX 
     RumbleA(player->CharIndex, 0);
 
     CreateSmoke(&player->Position, &Velo, 8.0f);
@@ -21,8 +25,7 @@ void CreateBombQuake(EntityData1* player, CharObj2* co2)
     shockwave->Data1->Position = player->Position;
     shockwave->Data1->Rotation = player->Rotation;
     shockwave->Data1->Position.y += 2.5f;
-    Collision_Init(shockwave, (CollisionData*)0x15EC4E0, 1, 4u);
-
+    Collision_Init(shockwave, &legCol, 1, 4u);
 }
 
 static void Knux_GrabWallCheck_Origin(EntityData1* a1, CharObj2* a2)
@@ -37,13 +40,12 @@ static void Knux_GrabWallCheck_Origin(EntityData1* a1, CharObj2* a2)
     }
 }
 
-bool isQuakeEnabled = false;
+
 void KnuxGrabWallCheck_r(EntityData1* a1, CharObj2* a2)
 {
     if (a2->Speed.x > 2.0f) {
 
         CreateBombQuake(a1, a2);
- 
     }
 
     Knux_GrabWallCheck_Origin(a1, a2);
@@ -62,7 +64,6 @@ static void __declspec(naked) KnuxGrabWallCheckASM()
     }
 }
 
-
 void Knux_EarthQuakeOnGroundCheck(EntityData1* data, CharObj2* co2)
 {
     if (!data || data->Action != jump && data->Action != glide)
@@ -79,17 +80,26 @@ void Knux_EarthQuakeOnGroundCheck(EntityData1* data, CharObj2* co2)
 
 void Knux_DoEarthQuakeGround(EntityData1* data, CharObj2* co2)
 {
-    if ( (isHyperKnux && data->Status & (Status_Ground | Status_OnColli)) != 0)
-    {
-        data->Action = 1;
-        co2->AnimationThing.Index = 20;
+    if ( (isHyperKnux && data->Status & (Status_Ground | Status_OnColli)) != 0) {
+    
+
         CreateBombQuake(data, co2);
+
+        if (co2->SurfaceFlags & (ColFlags_Dig)) {
+
+            return;
+        }
+        else
+        {
+            data->Action = 61;
+            co2->AnimationThing.Index = 20;
+        }
+
     }
 }
 
 int Knux_JumpCancel_r(CharObj2* a1, EntityData1* data)
 {
- 
     if ((AttackButtons & Controllers[data->CharIndex].PressedButtons) == 0 || isHyperKnux)
     {
         return 0;

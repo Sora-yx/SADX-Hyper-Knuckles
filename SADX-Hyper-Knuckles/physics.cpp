@@ -87,16 +87,55 @@ static void __cdecl ResetAngle_r(EntityData1* data, EntityData2* data2, CharObj2
 	}
 }
 
+void Increase_ClimbSPD(taskwk* a1, NJS_POINT3* a2)
+{
+	float spd = 0.9f;
+
+	if (isHyperKnux)
+	{
+		if (a2->x > 0.10f)
+			a2->x += spd;
+		else if (a2->x < -0.10f)
+			a2->x -= spd;
+
+		if (a2->y > 0.10f)
+			a2->y += spd;
+		else if (a2->y < -0.10f)
+			a2->y -= spd;
+
+		if (a2->z > 0.10f)
+			a2->z += 0.5f;
+		else if (a2->z < -0.10f)
+			a2->z -= 0.5f;
+
+	}
+
+	PConvertVector_P2G(a1, a2);
+}
+
+float glideSPDCAP = 15.0f;
+
+void SetGlidSPD(bool increase)
+{
+	if (increase)
+		glideSPDCAP = 15.0f;
+	else
+		glideSPDCAP = 3.5f;
+
+
+	WriteData((float**)0x4445da, &glideSPDCAP);
+
+}
 
 void init_PhysicsHack()
 {
-
-
 
 	bool bSS = GetModuleHandle(L"Better-Super-Sonic");
 
 	if (!bSS) {
 		ResetAngle_t = new Trampoline(0x443AD0, 0x443AD7, ResetAngle_r);
 	}
+
+	WriteCall((void*)0x44453F, Increase_ClimbSPD);
 
 }
