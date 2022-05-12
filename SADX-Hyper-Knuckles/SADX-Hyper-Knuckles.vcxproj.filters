@@ -65,10 +65,10 @@
     <ClCompile Include="audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="afterimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="earthquake.cpp">
+      <Filter>Source Files\abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="afterimage.cpp">
       <Filter>Source Files\abilities</Filter>
     </ClCompile>
   </ItemGroup>

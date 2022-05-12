@@ -267,6 +267,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 
 		CheckSuperMusic_Restart(playerID);
 		CheckKnuxAfterImages(player, co2);
+		Knux_EarthQuakeOnGroundCheck(player, co2);
 
 		break;
 	case hyperKnuxUntransfo:
@@ -283,16 +284,24 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 void Knux_Main_r(ObjectMaster* obj) {
 
 	EntityData1* data = obj->Data1;
+	EntityData1* player = obj->Data1;
+	CharObj2* co2 = GetCharObj2(player->Index);
 
-	if (data->Action == 0) {
+	switch (data->Action)
+	{
+	case 0:
+	{
 		ObjectMaster* HyperKnux_ObjManager = LoadObject((LoadObj)2, 0, HyperKnux_Manager);
 		HyperKnux_ObjManager->Data1->CharIndex = data->CharIndex;
+	}
+		break;
+	case 60:
+		Knux_DoEarthQuakeGround(player, co2);
+		break;
 	}
 
 	ObjectFunc(origin, Knuckles_Main_t->Target());
 	origin(obj);
-
-
 }
 
 void __cdecl Init_HyperKnuxTextures(const char* path, const HelperFunctions& helperFunctions) {
