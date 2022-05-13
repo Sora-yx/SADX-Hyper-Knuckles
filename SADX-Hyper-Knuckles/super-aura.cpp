@@ -3,6 +3,7 @@
 extern NJS_TEXLIST Knux_SuperAura_TEXLIST;
 
 Trampoline* SuperAura_Display_t = nullptr;
+
 DataArray(NJS_TEXLIST, texlist_aura, 0x1422160, 8);
 DataArray(NJS_TEXLIST, texlist_aura2, 0x14221A0, 8);
 DataArray(NJS_TEXLIST, texlist_water_wave, 0x14221E0, 8);
@@ -16,7 +17,6 @@ static NJS_TEXNAME SADXAuratexid4 = { (char*)"k_aura05", 0, 0 };
 static NJS_TEXNAME SADXAuratexid5 = { (char*)"k_aura06", 0, 0 };
 static NJS_TEXNAME SADXAuratexid6 = { (char*)"k_aura07", 0, 0 };
 static NJS_TEXNAME SADXAuratexid7 = { (char*)"k_aura08", 0, 0 };
-
 
 static NJS_TEXLIST KnuxSuperAuraTexListArray[8] = {
 	&SADXAuratexid0, 1,
@@ -65,7 +65,6 @@ void njTexlistSetSuperAura2(NJS_TEXLIST* texlist)
 	njSetTexture(texlist);
 }
 
-//Serie of hack to make every aura display a yellow texture when Super Sonic. (Using Shadow texlist)
 void Set_AuraTextures() {
 
 	for (uint8_t i = 0; i < LengthOfArray(KnuxSuperAuraTexListArray); i++) {
@@ -74,13 +73,13 @@ void Set_AuraTextures() {
 		KnuxSuperAuraTexListArray2[i].textures[0] = Knux_SuperAura_TEXLIST.textures[i + 8];
 	}
 
-	//trail
-	WriteData((uint8_t*)0x4C1678, (uint8_t)64); // B
+	//swap trail color
+	WriteData((uint8_t*)0x4C1678, (uint8_t)64); // Blue from 0 to 64
 
 	return;
 }
 
-void RestoreOriginalAuraTexture()
+void RestoreOriginalTrailColor()
 {
 	WriteData((uint8_t*)0x4C1678, (uint8_t)00); // B
 }
@@ -199,7 +198,6 @@ void SuperAuraKnux_Display(task* obj)
 			}
 		}
 	}
-
 }
 
 void __cdecl SuperAura_Display_r(task* obj)

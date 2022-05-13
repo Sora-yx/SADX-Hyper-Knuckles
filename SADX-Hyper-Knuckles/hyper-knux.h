@@ -45,4 +45,4 @@ void SetGlidSPD(bool increase);
 void InstantMaxHeat_InputCheck(EntityData1* data, CharObj2* co2);
 void SetInstantMaxHeat(bool state);
 void Set_AuraTextures();
-void RestoreOriginalAuraTexture();
+void RestoreOriginalTrailColor();

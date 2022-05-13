@@ -104,6 +104,8 @@ void unSuper(unsigned char player) {
 		return;
 
 	isHyperKnux = false;
+	isQuakeEnabled = false;
+	RestoreOriginalTrailColor();
 
 	EntityData1* data = EntityData1Ptrs[player];
 	CharObj2* co2 = CharObj2Ptrs[player];
@@ -169,8 +171,7 @@ void HyperKnux_PlayTransfoAnimation(EntityData1* player) {
 	if (AlwaysHyperKnux || !AnimationTransfo)
 		return;
 
-	ForcePlayerAction(player->Index, 12);
-	//player->Action = 75;
+	player->Action = 75;
 	CharObj2Ptrs[player->CharIndex]->AnimationThing.Index = 33;
 }
 
@@ -197,7 +198,6 @@ bool CheckUntransform_Input(unsigned char playerID) {
 	return false;
 }
 
-
 bool CheckPlayer_Input(unsigned char playerID) {
 
 	EntityData1* data = EntityData1Ptrs[playerID];
@@ -219,8 +219,7 @@ bool CheckPlayer_Input(unsigned char playerID) {
 
 void HyperKnuxDelete(ObjectMaster* obj) {
 
-	isQuakeEnabled = false;
-	RestoreOriginalAuraTexture();
+
 	unSuper(obj->Data1->CharIndex);
 	MusicList[MusicIDs_sprsonic].Name = "sprsonic";
 }
