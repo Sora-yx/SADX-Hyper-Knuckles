@@ -6,20 +6,55 @@ int ActualSong = 0;
 
 Trampoline* Knuckles_Main_t = nullptr;
 Trampoline* Knuckles_Display_t = nullptr;
+ModelInfo* HyperKnux_Model[5];
+
+int HKDXAnimTextures[] = { 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 };//Texture IDs for animation
+int HKDCAnimTextures[] = { 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38 };//Texture IDs for animation
+
+const int animSPD = 2;
 
 bool isDCCharUsed = false;
 bool isHyperKnux = false;
+
+void animateTextures()
+{
+	if (!isHyperKnux)
+		return;
+
+	uint16_t texid = isDCCharUsed ? HKDCAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDCAnimTextures))] : HKDXAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDXAnimTextures))];
+
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->sibling->basicdxmodel->mats[0].attr_texId = texid; //head
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->basicdxmodel->mats[0].attr_texId = texid; //chest
+
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg right 1		
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg right 2		
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg right 3		
+
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg left 1		
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg left 2		
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg left 3
+
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm right 1		
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm right 2		
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm right 3		
+
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 1		
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 2		
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 3
+
+}
 
 static void Knuckles_Display_r(ObjectMaster* tsk)
 {
 	EntityData1* data = tsk->Data1;
 
 	isHyperKnux = isPlayerOnHyperForm(data->CharIndex) == true ? 1 : 0;
-
+	animateTextures();
 	TARGET_DYNAMIC(Knuckles_Display)(tsk);
 }
 
 void HyperKnux_PerformLightingThing() {
+
 	if (isHyperKnux)
 		Direct3D_PerformLighting(4);
 	else
@@ -42,13 +77,9 @@ NJS_TEXLIST* getHyperKnuxTex()
 // Sets the texture list to use when rendering.
 Sint32 __cdecl setHyperKnuxTexture(NJS_TEXLIST* texlist)
 {
-
 	texlist = getHyperKnuxTex();
-
 	return njSetTexture(texlist);
 }
-
-
 
 void SubRings(unsigned char player, EntityData1* data) {
 
@@ -67,12 +98,10 @@ void SubRings(unsigned char player, EntityData1* data) {
 	return;
 }
 
-
 void unSuper(unsigned char player) {
 
 	if (AlwaysHyperKnux)
 		return;
-
 
 	isHyperKnux = false;
 
@@ -87,7 +116,6 @@ void unSuper(unsigned char player) {
 
 	data->Status = 0;
 	ForcePlayerAction(player, 24);
-
 
 	if (IsIngame())
 	{
@@ -119,11 +147,11 @@ void Load_SuperAura(taskwk* data1) {
 
 void SetHyperKnux(CharObj2* co2, EntityData1* data1) {
 
-
 	taskwk* taskw = (taskwk*)data1;
 
 	if (IsIngame() && CurrentSFX != None)
 		PlayVoice(7001);
+
 
 	co2->Upgrades |= Upgrades_SuperSonic;
 	co2->Powerups |= Powerups_Invincibility;
@@ -192,6 +220,7 @@ bool CheckPlayer_Input(unsigned char playerID) {
 void HyperKnuxDelete(ObjectMaster* obj) {
 
 	isQuakeEnabled = false;
+	RestoreOriginalAuraTexture();
 	unSuper(obj->Data1->CharIndex);
 	MusicList[MusicIDs_sprsonic].Name = "sprsonic";
 }
@@ -214,6 +243,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 	switch (data->Action) {
 
 	case hyperKnuxSetTask:
+		Set_AuraTextures();
 		obj->DeleteSub = HyperKnuxDelete;
 		data->Action++;
 		break;
@@ -241,7 +271,6 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 
 		if (++data->Index == timer)
 		{
-
 			ForcePlayerAction(player->Index, 24);
 			data->Action++;
 		}
@@ -270,8 +299,8 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 
 		CheckSuperMusic_Restart(playerID);
 		CheckKnuxAfterImages(player, co2);
-		Knux_EarthQuakeOnGroundCheck(player, co2);
-
+		Knux_EarthQuake_InputCheck(player, co2);
+		InstantMaxHeat_InputCheck(player, co2);
 		break;
 	case hyperKnuxUntransfo:
 		unSuper(playerID);
@@ -288,25 +317,38 @@ int resetTimer = 0;
 
 void Knux_Main_r(ObjectMaster* obj) {
 
-	EntityData1* data = obj->Data1;
-	EntityData1* player = obj->Data1;
-	CharObj2* co2 = GetCharObj2(player->Index);
 
-	switch (data->Action)
+	EntityData1* playerData = obj->Data1;
+	CharObj2* co2 = GetCharObj2(playerData->Index);
+	EntityData2* data2 = (EntityData2*)obj->Data2;
+
+	switch (playerData->Action)
 	{
 	case 0:
 	{
 		ObjectMaster* HyperKnux_ObjManager = LoadObject((LoadObj)2, 0, HyperKnux_Manager);
-		HyperKnux_ObjManager->Data1->CharIndex = data->CharIndex;
+		HyperKnux_ObjManager->Data1->CharIndex = playerData->CharIndex;
 	}
+	break;
+	case 18:
+		SetInstantMaxHeat(false);
 		break;
 	case 60:
-		Knux_DoEarthQuakeGround(player, co2);
+		Knux_DoEarthQuakeGround(playerData, co2);
+		if (!isNewTricks())
+		{
+			PResetAngle((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
+			PGetRotation((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
+			PGetAcceleration((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
+			PGetSpeed((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
+			PSetPosition((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
+			PResetPosition(playerData, data2, co2);
+		}
 		break;
 	case 61:
 
 		if (++resetTimer == 20) {
-			player->Action = 1;
+			playerData->Action = 1;
 			co2->AnimationThing.Index = 0;
 			resetTimer = 0;
 		}
@@ -316,6 +358,26 @@ void Knux_Main_r(ObjectMaster* obj) {
 
 	ObjectFunc(origin, Knuckles_Main_t->Target());
 	origin(obj);
+}
+
+void __cdecl DrawHyperKnuxModel(NJS_ACTION* action, Float frame)
+{
+	NJS_OBJECT* model = HyperKnux_Model[root]->getmodel();
+
+	if (action->object == KNUCKLES_ACTIONS[62]->object)
+	{
+		model = HyperKnux_Model[ball]->getmodel();
+	}
+
+	if (action->object == KNUCKLES_ACTIONS[61]->object)
+	{
+		model = HyperKnux_Model[curl]->getmodel();
+	}
+
+	if (isHyperKnux)
+		njAction_QueueObject(model, action->motion, frame);
+	else
+		njAction(action, frame);
 }
 
 void __cdecl Init_HyperKnuxTextures(const char* path, const HelperFunctions& helperFunctions) {
@@ -338,15 +400,47 @@ void __cdecl Init_HyperKnuxTextures(const char* path, const HelperFunctions& hel
 	}
 }
 
+void Load_HyperKnuxModels()
+{
+	if (isDCCharUsed)
+	{
+		HyperKnux_Model[root] = LoadBasicModel("HYPEKNUX_DC");
+		HyperKnux_Model[curl] = LoadBasicModel("HYPECURL_DC");
+		HyperKnux_Model[ball] = LoadBasicModel("HYPEBALL_DC");
+		HyperKnux_Model[lw] = LoadBasicModel("HYPE_LW_DC");
+		HyperKnux_Model[rw] = LoadBasicModel("HYPE_RW_DC");
+	}
+	else
+	{
+		HyperKnux_Model[root] = LoadBasicModel("HYPEKNUX_DX");
+		HyperKnux_Model[curl] = LoadBasicModel("HYPECURL_DX");
+		HyperKnux_Model[ball] = LoadBasicModel("HYPEBALL_DX");
+		HyperKnux_Model[lw] = LoadBasicModel("HYPE_LW_DX");
+		HyperKnux_Model[rw] = LoadBasicModel("HYPE_RW_DX");
+	}
+}
+
+void Free_HyperKnuxModels()
+{
+	for (uint8_t i = 0; i < LengthOfArray(HyperKnux_Model); i++) {
+		FreeMDL(HyperKnux_Model[i]);
+	}
+}
 
 void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunctions)
 {
 
 	Init_HyperKnuxTextures(path, helperFunctions);
+
 	Knuckles_Main_t = new Trampoline((int)Knuckles_Main, (int)Knuckles_Main + 0x7, Knux_Main_r);
 	Knuckles_Display_t = new Trampoline((int)Knuckles_Display, (int)Knuckles_Display + 0x7, Knuckles_Display_r);
 
 	//Textures init
 	WriteCall((void*)0x472255, HyperKnux_PerformLightingThing);
 	WriteCall((void*)0x47224E, setHyperKnuxTexture);
+
+	//models
+	Load_HyperKnuxModels();
+	WriteCall((void*)0x47258B, DrawHyperKnuxModel);
+	WriteCall((void*)0x472649, DrawHyperKnuxModel);
 }

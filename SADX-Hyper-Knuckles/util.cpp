@@ -1,9 +1,17 @@
 #include "pch.h"
 
 ModelInfo* LoadBasicModel(const char* name) {
+
 	PrintDebug("[Hyper Knux Mod] Loading basic model: %s... ", name);
 
-	std::string fullPath = "system\\models\\";
+	std::string modelFolder = "DX\\";
+
+	HMODULE SA1Char = GetModuleHandle(L"SA1_Chars");
+
+	if (SA1Char)
+		modelFolder = "DC\\";
+
+	std::string fullPath = "system\\models\\" + modelFolder;
 	fullPath = fullPath + name + ".sa1mdl";
 
 	ModelInfo* mdl = new ModelInfo(HelperFunctionsGlobal.GetReplaceablePath(fullPath.c_str()));
@@ -185,4 +193,9 @@ void CamShakes()
 		timerShake = 0;
 	else
 		timerShake++;
+}
+
+bool isNewTricks()
+{
+	return GetModuleHandle(L"sadx-new-tricks") != NULL;
 }

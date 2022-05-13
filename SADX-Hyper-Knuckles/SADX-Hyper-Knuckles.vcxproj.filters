@@ -71,5 +71,11 @@
     <ClCompile Include="afterimage.cpp">
       <Filter>Source Files\abilities</Filter>
     </ClCompile>
+    <ClCompile Include="max-heat.cpp">
+      <Filter>Source Files\abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="super-aura.cpp">
+      <Filter>Source Files\abilities</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

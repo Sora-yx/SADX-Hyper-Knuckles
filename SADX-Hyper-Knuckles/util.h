@@ -21,3 +21,7 @@ void njRotateY_(Angle y);
 void njRotateZ_(Angle z);
 void CamShakes(_OBJ_CAMERAPARAM* camparam);
 void CamShakes();
+bool isNewTricks();
+
+
+FunctionPointer(void, PResetPosition, (EntityData1* data, EntityData2* mwp, CharObj2* pwp), 0x43EE70);

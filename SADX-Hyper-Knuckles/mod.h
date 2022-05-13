@@ -63,3 +63,13 @@ void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunct
 NJS_TEXLIST* getHyperKnuxTex();
 void init_KnuxEarthquake();
 void init_PhysicsHack();
+void Free_HyperKnuxModels();
+void init_AuraHack();
+
+enum hyperKnuxModelE {
+	root,
+	curl,
+	ball,
+	lw,
+	rw
+};

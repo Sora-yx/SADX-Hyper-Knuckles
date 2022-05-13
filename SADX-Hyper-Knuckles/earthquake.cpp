@@ -11,7 +11,7 @@ NJS_POINT3 Velo = { 5.0f, 5.0f, 5.0f };
 bool isQuakeEnabled = false;
 
 CollisionData legCol = { 0, 1, 0x0, 0x0, 0x0, {0}, 0.0, 1.0, 0.0, 0.0, 0, 0, 0 };
-//use bomb item to kill enemy, then smoke and egg walker shog leg for the effects
+//use bomb item to kill enemy, then smoke and egg walker shockwave for the effects
 void CreateBombQuake(EntityData1* player, CharObj2* co2)
 {
     isQuakeEnabled = true;
@@ -64,7 +64,7 @@ static void __declspec(naked) KnuxGrabWallCheckASM()
     }
 }
 
-void Knux_EarthQuakeOnGroundCheck(EntityData1* data, CharObj2* co2)
+void Knux_EarthQuake_InputCheck(EntityData1* data, CharObj2* co2)
 {
     if (!data || data->Action != jump && data->Action != glide)
         return;
@@ -82,7 +82,6 @@ void Knux_DoEarthQuakeGround(EntityData1* data, CharObj2* co2)
 {
     if ( (isHyperKnux && data->Status & (Status_Ground | Status_OnColli)) != 0) {
     
-
         CreateBombQuake(data, co2);
 
         if (co2->SurfaceFlags & (ColFlags_Dig)) {
@@ -94,7 +93,6 @@ void Knux_DoEarthQuakeGround(EntityData1* data, CharObj2* co2)
             data->Action = 61;
             co2->AnimationThing.Index = 20;
         }
-
     }
 }
 
@@ -132,4 +130,5 @@ void init_KnuxEarthquake()
 {
     KnuxGrabWall_Check_t = new Trampoline((int)0x4757E0, (int)0x4757E6, KnuxGrabWallCheckASM);
     WriteCall((void*)0x478721, Knux_JumpCancel); //prevent jump cancel to happen when using earthquake
+
 }

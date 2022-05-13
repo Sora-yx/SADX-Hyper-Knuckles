@@ -26,12 +26,18 @@ extern "C" {
 		init_PhysicsHack();
 		WaterHack_Init();
 		init_KnuxEarthquake();
+		init_AuraHack();
 	}
 
 
 	__declspec(dllexport) void __cdecl OnFrame()
 	{
 		CamShakes();	
+	}	
+	
+	__declspec(dllexport) void __cdecl OnExit()
+	{
+		Free_HyperKnuxModels();
 	}
 
 	__declspec(dllexport) ModInfo SADXModInfo = { ModLoaderVer };
