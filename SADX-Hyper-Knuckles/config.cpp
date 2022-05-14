@@ -35,6 +35,5 @@ void ReadConfig(const char* path, const HelperFunctions& helperFunctions) {
 	CurrentSuperMusic = config->getInt("Audio", "CurrentSuperMusic", Random);
 	CurrentSFX = config->getInt("Audio", "GetVoice", SADX_SFX);
 	delete config;
-
 	return;
 }

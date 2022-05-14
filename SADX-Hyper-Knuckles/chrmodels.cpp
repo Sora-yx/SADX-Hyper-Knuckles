@@ -1,13 +1,11 @@
 #include "pch.h"
 
-extern ModelInfo* HyperKnux_Model[5];
 NJS_OBJECT* KnuxObjCopy[73];
-NJS_ACTION* KnuxAnimCopy[115];
-
+NJS_OBJECT* KnuxAnimCopy[90];
 
 void CopyKnuxOriginalModel()
 {
-	for (int i = 0; i < 23; i++)
+	for (int i = 0; i < LengthOfArray(KnuxObjCopy); i++)
 	{
 		KnuxObjCopy[i] = KNUCKLES_OBJECTS[i];
 	}
@@ -36,93 +34,295 @@ void CopyKnuxOriginalModel()
 	KnuxObjCopy[20]->model = KNUCKLES_OBJECTS[20]->model;
 	KnuxObjCopy[21]->model = KNUCKLES_OBJECTS[21]->model;
 	KnuxObjCopy[22]->model = KNUCKLES_OBJECTS[22]->model;
+
+	//anim obj
+	KnuxAnimCopy[0] = KNUCKLES_ACTIONS[0]->object;
+	KnuxAnimCopy[1] = KNUCKLES_ACTIONS[1]->object;
+	KnuxAnimCopy[2] = KNUCKLES_ACTIONS[2]->object;
+	KnuxAnimCopy[3] = KNUCKLES_ACTIONS[3]->object;
+	KnuxAnimCopy[4] = KNUCKLES_ACTIONS[4]->object;
+	KnuxAnimCopy[5] = KNUCKLES_ACTIONS[5]->object;
+	KnuxAnimCopy[6] = KNUCKLES_ACTIONS[6]->object;
+	KnuxAnimCopy[7] = KNUCKLES_ACTIONS[7]->object;
+
+	KnuxAnimCopy[9] = KNUCKLES_ACTIONS[9]->object;
+	KnuxAnimCopy[10] = KNUCKLES_ACTIONS[10]->object;
+	KnuxAnimCopy[11] = KNUCKLES_ACTIONS[11]->object;
+	KnuxAnimCopy[12] = KNUCKLES_ACTIONS[12]->object;
+	KnuxAnimCopy[13] = KNUCKLES_ACTIONS[13]->object;
+	KnuxAnimCopy[14] = KNUCKLES_ACTIONS[14]->object;
+	KnuxAnimCopy[15] = KNUCKLES_ACTIONS[15]->object;
+	KnuxAnimCopy[16] = KNUCKLES_ACTIONS[16]->object;
+	KnuxAnimCopy[17] = KNUCKLES_ACTIONS[17]->object;
+	KnuxAnimCopy[18] = KNUCKLES_ACTIONS[18]->object;
+	KnuxAnimCopy[19] = KNUCKLES_ACTIONS[19]->object;
+	KnuxAnimCopy[20] = KNUCKLES_ACTIONS[20]->object;
+	KnuxAnimCopy[21] = KNUCKLES_ACTIONS[21]->object;
+	KnuxAnimCopy[22] = KNUCKLES_ACTIONS[22]->object;
+	KnuxAnimCopy[23] = KNUCKLES_ACTIONS[23]->object;
+	KnuxAnimCopy[24] = KNUCKLES_ACTIONS[24]->object;
+	KnuxAnimCopy[25] = KNUCKLES_ACTIONS[25]->object;
+	KnuxAnimCopy[26] = KNUCKLES_ACTIONS[26]->object;
+	KnuxAnimCopy[27] = KNUCKLES_ACTIONS[27]->object;
+	KnuxAnimCopy[28] = KNUCKLES_ACTIONS[28]->object;
+	KnuxAnimCopy[29] = KNUCKLES_ACTIONS[29]->object;
+	KnuxAnimCopy[30] = KNUCKLES_ACTIONS[30]->object;
+	KnuxAnimCopy[31] = KNUCKLES_ACTIONS[31]->object;
+	KnuxAnimCopy[32] = KNUCKLES_ACTIONS[32]->object;
+	KnuxAnimCopy[33] = KNUCKLES_ACTIONS[33]->object;
+	KnuxAnimCopy[34] = KNUCKLES_ACTIONS[34]->object;
+	KnuxAnimCopy[35] = KNUCKLES_ACTIONS[35]->object;
+	KnuxAnimCopy[36] = KNUCKLES_ACTIONS[36]->object;
+	KnuxAnimCopy[37] = KNUCKLES_ACTIONS[37]->object;
+	KnuxAnimCopy[38] = KNUCKLES_ACTIONS[38]->object;
+	KnuxAnimCopy[39] = KNUCKLES_ACTIONS[39]->object;
+	KnuxAnimCopy[40] = KNUCKLES_ACTIONS[40]->object;
+	KnuxAnimCopy[41] = KNUCKLES_ACTIONS[41]->object;
+	KnuxAnimCopy[42] = KNUCKLES_ACTIONS[42]->object;
+	KnuxAnimCopy[43] = KNUCKLES_ACTIONS[43]->object;
+	KnuxAnimCopy[44] = KNUCKLES_ACTIONS[44]->object;
+	KnuxAnimCopy[45] = KNUCKLES_ACTIONS[45]->object;
+	KnuxAnimCopy[46] = KNUCKLES_ACTIONS[46]->object;
+	KnuxAnimCopy[47] = KNUCKLES_ACTIONS[47]->object;
+	KnuxAnimCopy[48] = KNUCKLES_ACTIONS[48]->object;
+	KnuxAnimCopy[49] = KNUCKLES_ACTIONS[49]->object;
+	KnuxAnimCopy[50] = KNUCKLES_ACTIONS[50]->object;
+	KnuxAnimCopy[51] = KNUCKLES_ACTIONS[51]->object;
+	KnuxAnimCopy[52] = KNUCKLES_ACTIONS[52]->object;
+	KnuxAnimCopy[53] = KNUCKLES_ACTIONS[53]->object;
+	KnuxAnimCopy[54] = KNUCKLES_ACTIONS[54]->object;
+	KnuxAnimCopy[55] = KNUCKLES_ACTIONS[55]->object;
+	KnuxAnimCopy[56] = KNUCKLES_ACTIONS[56]->object;
+	KnuxAnimCopy[58] = KNUCKLES_ACTIONS[58]->object;
+	KnuxAnimCopy[59] = KNUCKLES_ACTIONS[59]->object;
+	KnuxAnimCopy[60] = KNUCKLES_ACTIONS[60]->object;
+
+	KnuxAnimCopy[61] = KNUCKLES_ACTIONS[61]->object;
+	KnuxAnimCopy[62] = KNUCKLES_ACTIONS[62]->object;
+
+	KnuxAnimCopy[63] = KNUCKLES_ACTIONS[63]->object;
+	KnuxAnimCopy[64] = KNUCKLES_ACTIONS[64]->object;
+	KnuxAnimCopy[65] = KNUCKLES_ACTIONS[65]->object;
+	KnuxAnimCopy[66] = KNUCKLES_ACTIONS[66]->object;
+	KnuxAnimCopy[67] = KNUCKLES_ACTIONS[67]->object;
+	KnuxAnimCopy[68] = KNUCKLES_ACTIONS[68]->object;
+	KnuxAnimCopy[69] = KNUCKLES_ACTIONS[69]->object;
+	KnuxAnimCopy[70] = KNUCKLES_ACTIONS[70]->object;
+	KnuxAnimCopy[71] = KNUCKLES_ACTIONS[71]->object;
+	KnuxAnimCopy[72] = KNUCKLES_ACTIONS[72]->object;
+	KnuxAnimCopy[73] = KNUCKLES_ACTIONS[73]->object;
+	KnuxAnimCopy[74] = KNUCKLES_ACTIONS[74]->object;
+	KnuxAnimCopy[75] = KNUCKLES_ACTIONS[75]->object;
+	KnuxAnimCopy[76] = KNUCKLES_ACTIONS[76]->object;
+	KnuxAnimCopy[77] = KNUCKLES_ACTIONS[77]->object;
+	KnuxAnimCopy[78] = KNUCKLES_ACTIONS[78]->object;
+	KnuxAnimCopy[79] = KNUCKLES_ACTIONS[79]->object;
+	KnuxAnimCopy[80] = KNUCKLES_ACTIONS[80]->object;
+	KnuxAnimCopy[81] = KNUCKLES_ACTIONS[81]->object;
+	KnuxAnimCopy[82] = KNUCKLES_ACTIONS[82]->object;
+	KnuxAnimCopy[83] = KNUCKLES_ACTIONS[83]->object;
+	KnuxAnimCopy[84] = KNUCKLES_ACTIONS[84]->object;
+	KnuxAnimCopy[85] = KNUCKLES_ACTIONS[85]->object;
+	KnuxAnimCopy[86] = KNUCKLES_ACTIONS[86]->object;
+	KnuxAnimCopy[87] = KNUCKLES_ACTIONS[87]->object;
+	KnuxAnimCopy[88] = KNUCKLES_ACTIONS[88]->object;
+	KnuxAnimCopy[89] = KNUCKLES_ACTIONS[89]->object;
 }
 
-void RestoreKnuxOriginalModel()
-{
-	for (uint8_t i = 0; i < 23; i++)
-	{
-		if (KnuxObjCopy[i])
-		{
-			KNUCKLES_OBJECTS[i] = KnuxObjCopy[i];
-		}
-	}
-}
 
-
-void SetHyperKnuxModels()
-{
-
-	NJS_OBJECT* Root = HyperKnux_Model[root]->getmodel();
-
-	KNUCKLES_OBJECTS[0]->model = Root->model;
-	KNUCKLES_OBJECTS[1]->model = Root->model;
-	KNUCKLES_OBJECTS[2]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->sibling->model; //2
-	KNUCKLES_OBJECTS[3]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->model; //3);	
-	KNUCKLES_OBJECTS[4]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->model;
-	KNUCKLES_OBJECTS[5]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling->model;
-	KNUCKLES_OBJECTS[6]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->model;
-	KNUCKLES_OBJECTS[7]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->model;
-	KNUCKLES_OBJECTS[8]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->model;
-	KNUCKLES_OBJECTS[9]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->model;
-	KNUCKLES_OBJECTS[10]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->model;
-	KNUCKLES_OBJECTS[11]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->model;
-	KNUCKLES_OBJECTS[12]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->model;
-	KNUCKLES_OBJECTS[13]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->model;
-	KNUCKLES_OBJECTS[14]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->model;
-	KNUCKLES_OBJECTS[15]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->model;
-	KNUCKLES_OBJECTS[16]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->model;
-
-	KNUCKLES_OBJECTS[17]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->model;
-	KNUCKLES_OBJECTS[18]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->model;
-	KNUCKLES_OBJECTS[19]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->model;
-	KNUCKLES_OBJECTS[20]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->model;
-	KNUCKLES_OBJECTS[21]->model = KNUCKLES_OBJECTS[5]->model;
-	KNUCKLES_OBJECTS[22]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->model;
-	KNUCKLES_OBJECTS[58]->model = KNUCKLES_OBJECTS[8]->model;
-
-	KNUCKLES_ACTIONS[0]->object->child = Root->child;
-}
 
 void SetHyperKnuxAnimModel()
 {
-	CopyKnuxOriginalModel();
-	SetHyperKnuxModels();
+	NJS_OBJECT* Root = HyperKnux_Model[root]->getmodel();
+
+	KNUCKLES_ACTIONS[0]->object = Root;
+	KNUCKLES_ACTIONS[1]->object = Root;
+	KNUCKLES_ACTIONS[2]->object = Root;
+	KNUCKLES_ACTIONS[3]->object = Root;
+	KNUCKLES_ACTIONS[4]->object = Root;
+	KNUCKLES_ACTIONS[5]->object = Root;
+	KNUCKLES_ACTIONS[6]->object = Root;
+	KNUCKLES_ACTIONS[7]->object = Root;
+
+	KNUCKLES_ACTIONS[9]->object = Root;
+	KNUCKLES_ACTIONS[10]->object = Root;
+	KNUCKLES_ACTIONS[11]->object = Root;
+	KNUCKLES_ACTIONS[12]->object = Root;
+	KNUCKLES_ACTIONS[13]->object = Root;
+	KNUCKLES_ACTIONS[14]->object = Root;
+	KNUCKLES_ACTIONS[15]->object = Root;
+	KNUCKLES_ACTIONS[16]->object = Root;
+	KNUCKLES_ACTIONS[17]->object = Root;
+	KNUCKLES_ACTIONS[18]->object = Root;
+	KNUCKLES_ACTIONS[19]->object = Root;
+	KNUCKLES_ACTIONS[20]->object = Root;
+	KNUCKLES_ACTIONS[21]->object = Root;
+	KNUCKLES_ACTIONS[22]->object = Root;
+	KNUCKLES_ACTIONS[23]->object = Root;
+	KNUCKLES_ACTIONS[24]->object = Root;
+	KNUCKLES_ACTIONS[25]->object = Root;
+	KNUCKLES_ACTIONS[26]->object = Root;
+	KNUCKLES_ACTIONS[27]->object = Root;
+	KNUCKLES_ACTIONS[28]->object = Root;
+	KNUCKLES_ACTIONS[29]->object = Root;
+	KNUCKLES_ACTIONS[30]->object = Root;
+	KNUCKLES_ACTIONS[31]->object = Root;
+	KNUCKLES_ACTIONS[32]->object = Root;
+	KNUCKLES_ACTIONS[33]->object = Root;
+	KNUCKLES_ACTIONS[34]->object = Root;
+	KNUCKLES_ACTIONS[35]->object = Root;
+	KNUCKLES_ACTIONS[36]->object = Root;
+	KNUCKLES_ACTIONS[37]->object = Root;
+	KNUCKLES_ACTIONS[38]->object = Root;
+	KNUCKLES_ACTIONS[39]->object = Root;
+	KNUCKLES_ACTIONS[40]->object = Root;
+	KNUCKLES_ACTIONS[41]->object = Root;
+	KNUCKLES_ACTIONS[42]->object = Root;
+	KNUCKLES_ACTIONS[43]->object = Root;
+	KNUCKLES_ACTIONS[44]->object = Root;
+	KNUCKLES_ACTIONS[45]->object = Root;
+	KNUCKLES_ACTIONS[46]->object = Root;
+	KNUCKLES_ACTIONS[47]->object = Root;
+	KNUCKLES_ACTIONS[48]->object = Root;
+	KNUCKLES_ACTIONS[49]->object = Root;
+	KNUCKLES_ACTIONS[50]->object = Root;
+	KNUCKLES_ACTIONS[51]->object = Root;
+	KNUCKLES_ACTIONS[52]->object = Root;
+	KNUCKLES_ACTIONS[53]->object = Root;
+	KNUCKLES_ACTIONS[54]->object = Root;
+	KNUCKLES_ACTIONS[55]->object = Root;
+	KNUCKLES_ACTIONS[56]->object = Root;
+	KNUCKLES_ACTIONS[58]->object = Root;
+	KNUCKLES_ACTIONS[59]->object = Root;
+	KNUCKLES_ACTIONS[60]->object = Root;
+
+	KNUCKLES_ACTIONS[61]->object = HyperKnux_Model[curl]->getmodel();
+	KNUCKLES_ACTIONS[62]->object = HyperKnux_Model[ball]->getmodel();
+
+	KNUCKLES_ACTIONS[63]->object = Root;
+	KNUCKLES_ACTIONS[64]->object = Root;
+	KNUCKLES_ACTIONS[65]->object = Root;
+	KNUCKLES_ACTIONS[66]->object = Root;
+	KNUCKLES_ACTIONS[67]->object = Root;
+	KNUCKLES_ACTIONS[68]->object = Root;
+	KNUCKLES_ACTIONS[69]->object = Root;
+	KNUCKLES_ACTIONS[70]->object = Root;
+	KNUCKLES_ACTIONS[71]->object = Root;
+	KNUCKLES_ACTIONS[72]->object = Root;
+	KNUCKLES_ACTIONS[73]->object = Root;
+	KNUCKLES_ACTIONS[74]->object = Root;
+	KNUCKLES_ACTIONS[75]->object = Root;
+	KNUCKLES_ACTIONS[76]->object = Root;
+	KNUCKLES_ACTIONS[77]->object = Root;
+	KNUCKLES_ACTIONS[78]->object = Root;
+	KNUCKLES_ACTIONS[79]->object = Root;
+	KNUCKLES_ACTIONS[80]->object = Root;
+	KNUCKLES_ACTIONS[81]->object = Root;
+	KNUCKLES_ACTIONS[82]->object = Root;
+	KNUCKLES_ACTIONS[83]->object = Root;
+	KNUCKLES_ACTIONS[84]->object = Root;
+	KNUCKLES_ACTIONS[85]->object = Root;
+	KNUCKLES_ACTIONS[86]->object = Root;
+	KNUCKLES_ACTIONS[87]->object = Root;
+	KNUCKLES_ACTIONS[88]->object = Root;
+	KNUCKLES_ACTIONS[89]->object = Root;
 }
 
 void RestoreKnuxAnimModel()
 {
 
-	RestoreKnuxOriginalModel();
+	KNUCKLES_ACTIONS[0]->object = KnuxAnimCopy[0];
+	KNUCKLES_ACTIONS[1]->object = KnuxAnimCopy[1];
+	KNUCKLES_ACTIONS[2]->object = KnuxAnimCopy[2];
+	KNUCKLES_ACTIONS[3]->object = KnuxAnimCopy[3];
+	KNUCKLES_ACTIONS[4]->object = KnuxAnimCopy[4];
+	KNUCKLES_ACTIONS[5]->object = KnuxAnimCopy[5];
+	KNUCKLES_ACTIONS[6]->object = KnuxAnimCopy[6];
+	KNUCKLES_ACTIONS[7]->object = KnuxAnimCopy[7];
 
-	KNUCKLES_OBJECTS[0]->model = KnuxObjCopy[0]->model;
-	KNUCKLES_OBJECTS[1]->model = KnuxObjCopy[1]->model;
-	KNUCKLES_OBJECTS[2]->model = KnuxObjCopy[2]->model;
-	KNUCKLES_OBJECTS[3]->model = KnuxObjCopy[3]->model;
-	KNUCKLES_OBJECTS[4]->model = KnuxObjCopy[4]->model;
-	KNUCKLES_OBJECTS[5]->model = KnuxObjCopy[5]->model;
-	KNUCKLES_OBJECTS[6]->model = KnuxObjCopy[6]->model;
-	KNUCKLES_OBJECTS[7]->model = KnuxObjCopy[7]->model;
-	KNUCKLES_OBJECTS[8]->model = KnuxObjCopy[8]->model;
-	KNUCKLES_OBJECTS[9]->model = KnuxObjCopy[9]->model;
-	KNUCKLES_OBJECTS[10]->model = KnuxObjCopy[10]->model;
-	KNUCKLES_OBJECTS[11]->model = KnuxObjCopy[11]->model;
-	KNUCKLES_OBJECTS[12]->model = KnuxObjCopy[12]->model;
-	KNUCKLES_OBJECTS[13]->model = KnuxObjCopy[13]->model;
-	KNUCKLES_OBJECTS[14]->model = KnuxObjCopy[14]->model;
-	KNUCKLES_OBJECTS[15]->model = KnuxObjCopy[15]->model;
-	KNUCKLES_OBJECTS[16]->model = KnuxObjCopy[16]->model;
+	KNUCKLES_ACTIONS[9]->object = KnuxAnimCopy[9];
+	KNUCKLES_ACTIONS[10]->object = KnuxAnimCopy[10];
+	KNUCKLES_ACTIONS[11]->object = KnuxAnimCopy[11];
+	KNUCKLES_ACTIONS[12]->object = KnuxAnimCopy[12];
+	KNUCKLES_ACTIONS[13]->object = KnuxAnimCopy[13];
+	KNUCKLES_ACTIONS[14]->object = KnuxAnimCopy[14];
+	KNUCKLES_ACTIONS[15]->object = KnuxAnimCopy[15];
+	KNUCKLES_ACTIONS[16]->object = KnuxAnimCopy[16];
+	KNUCKLES_ACTIONS[17]->object = KnuxAnimCopy[17];
+	KNUCKLES_ACTIONS[18]->object = KnuxAnimCopy[18];
+	KNUCKLES_ACTIONS[19]->object = KnuxAnimCopy[19];
+	KNUCKLES_ACTIONS[20]->object = KnuxAnimCopy[20];
+	KNUCKLES_ACTIONS[21]->object = KnuxAnimCopy[21];
+	KNUCKLES_ACTIONS[22]->object = KnuxAnimCopy[22];
+	KNUCKLES_ACTIONS[23]->object = KnuxAnimCopy[23];
+	KNUCKLES_ACTIONS[24]->object = KnuxAnimCopy[24];
+	KNUCKLES_ACTIONS[25]->object = KnuxAnimCopy[25];
+	KNUCKLES_ACTIONS[26]->object = KnuxAnimCopy[26];
+	KNUCKLES_ACTIONS[27]->object = KnuxAnimCopy[27];
+	KNUCKLES_ACTIONS[28]->object = KnuxAnimCopy[28];
+	KNUCKLES_ACTIONS[29]->object = KnuxAnimCopy[29];
+	KNUCKLES_ACTIONS[30]->object = KnuxAnimCopy[30];
+	KNUCKLES_ACTIONS[31]->object = KnuxAnimCopy[31];
+	KNUCKLES_ACTIONS[32]->object = KnuxAnimCopy[32];
+	KNUCKLES_ACTIONS[33]->object = KnuxAnimCopy[33];
+	KNUCKLES_ACTIONS[34]->object = KnuxAnimCopy[34];
+	KNUCKLES_ACTIONS[35]->object = KnuxAnimCopy[35];
+	KNUCKLES_ACTIONS[36]->object = KnuxAnimCopy[36];
+	KNUCKLES_ACTIONS[37]->object = KnuxAnimCopy[37];
+	KNUCKLES_ACTIONS[38]->object = KnuxAnimCopy[38];
+	KNUCKLES_ACTIONS[39]->object = KnuxAnimCopy[39];
+	KNUCKLES_ACTIONS[40]->object = KnuxAnimCopy[40];
+	KNUCKLES_ACTIONS[41]->object = KnuxAnimCopy[41];
+	KNUCKLES_ACTIONS[42]->object = KnuxAnimCopy[42];
+	KNUCKLES_ACTIONS[43]->object = KnuxAnimCopy[43];
+	KNUCKLES_ACTIONS[44]->object = KnuxAnimCopy[44];
+	KNUCKLES_ACTIONS[45]->object = KnuxAnimCopy[45];
+	KNUCKLES_ACTIONS[46]->object = KnuxAnimCopy[46];
+	KNUCKLES_ACTIONS[47]->object = KnuxAnimCopy[47];
+	KNUCKLES_ACTIONS[48]->object = KnuxAnimCopy[48];
+	KNUCKLES_ACTIONS[49]->object = KnuxAnimCopy[49];
+	KNUCKLES_ACTIONS[50]->object = KnuxAnimCopy[50];
+	KNUCKLES_ACTIONS[51]->object = KnuxAnimCopy[51];
+	KNUCKLES_ACTIONS[52]->object = KnuxAnimCopy[52];
+	KNUCKLES_ACTIONS[53]->object = KnuxAnimCopy[53];
+	KNUCKLES_ACTIONS[54]->object = KnuxAnimCopy[54];
+	KNUCKLES_ACTIONS[55]->object = KnuxAnimCopy[55];
+	KNUCKLES_ACTIONS[56]->object = KnuxAnimCopy[56];
+	KNUCKLES_ACTIONS[58]->object = KnuxAnimCopy[58];
+	KNUCKLES_ACTIONS[59]->object = KnuxAnimCopy[59];
+	KNUCKLES_ACTIONS[60]->object = KnuxAnimCopy[60];
+												   ;
+	KNUCKLES_ACTIONS[61]->object = KnuxAnimCopy[61];
+	KNUCKLES_ACTIONS[62]->object = KnuxAnimCopy[62];
+												   ;
+	KNUCKLES_ACTIONS[63]->object = KnuxAnimCopy[63];
+	KNUCKLES_ACTIONS[64]->object = KnuxAnimCopy[64];
+	KNUCKLES_ACTIONS[65]->object = KnuxAnimCopy[65];
+	KNUCKLES_ACTIONS[66]->object = KnuxAnimCopy[66];
+	KNUCKLES_ACTIONS[67]->object = KnuxAnimCopy[67];
+	KNUCKLES_ACTIONS[68]->object = KnuxAnimCopy[68];
+	KNUCKLES_ACTIONS[69]->object = KnuxAnimCopy[69];
+	KNUCKLES_ACTIONS[70]->object = KnuxAnimCopy[70];
+	KNUCKLES_ACTIONS[71]->object = KnuxAnimCopy[71];
+	KNUCKLES_ACTIONS[72]->object = KnuxAnimCopy[72];
+	KNUCKLES_ACTIONS[73]->object = KnuxAnimCopy[73];
+	KNUCKLES_ACTIONS[74]->object = KnuxAnimCopy[74];
+	KNUCKLES_ACTIONS[75]->object = KnuxAnimCopy[75];
+	KNUCKLES_ACTIONS[76]->object = KnuxAnimCopy[76];
+	KNUCKLES_ACTIONS[77]->object = KnuxAnimCopy[77];
+	KNUCKLES_ACTIONS[78]->object = KnuxAnimCopy[78];
+	KNUCKLES_ACTIONS[79]->object = KnuxAnimCopy[79];
+	KNUCKLES_ACTIONS[80]->object = KnuxAnimCopy[80];
+	KNUCKLES_ACTIONS[81]->object = KnuxAnimCopy[81];
+	KNUCKLES_ACTIONS[82]->object = KnuxAnimCopy[82];
+	KNUCKLES_ACTIONS[83]->object = KnuxAnimCopy[83];
+	KNUCKLES_ACTIONS[84]->object = KnuxAnimCopy[84];
+	KNUCKLES_ACTIONS[85]->object = KnuxAnimCopy[85];
+	KNUCKLES_ACTIONS[86]->object = KnuxAnimCopy[86];
+	KNUCKLES_ACTIONS[87]->object = KnuxAnimCopy[87];
+	KNUCKLES_ACTIONS[88]->object = KnuxAnimCopy[88];
+	KNUCKLES_ACTIONS[89]->object = KnuxAnimCopy[89];
 
-	KNUCKLES_OBJECTS[17]->model = KnuxObjCopy[17]->model;
-	KNUCKLES_OBJECTS[18]->model = KnuxObjCopy[18]->model;
-	KNUCKLES_OBJECTS[19]->model = KnuxObjCopy[19]->model;
-	KNUCKLES_OBJECTS[20]->model = KnuxObjCopy[20]->model;
-	KNUCKLES_OBJECTS[21]->model = KnuxObjCopy[21]->model;
-	KNUCKLES_OBJECTS[22]->model = KnuxObjCopy[22]->model;
-
-
-	KNUCKLES_ACTIONS[0]->object = KNUCKLES_OBJECTS[0];
-	KNUCKLES_ACTIONS[0]->object->child = KNUCKLES_OBJECTS[0]->child;
 }
 
 /**void __cdecl InitHyperKnucklesWeldInfo(int ID, ObjectMaster* character)
@@ -139,7 +339,7 @@ void RestoreKnuxAnimModel()
 	KnucklesWeldInfo[0].VertIndexes = Knuckles_UpperArmIndices;
 	KnucklesWeldInfo[1].BaseModel = Root;
 	KnucklesWeldInfo[1].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling; //3
-	KnucklesWeldInfo[1].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling; //4 
+	KnucklesWeldInfo[1].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling; //4
 	KnucklesWeldInfo[1].VertexPairCount = 4;
 	KnucklesWeldInfo[1].WeldType = 2;
 	KnucklesWeldInfo[1].anonymous_5 = 0;

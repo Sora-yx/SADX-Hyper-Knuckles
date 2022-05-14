@@ -3,6 +3,8 @@
 HelperFunctions HelperFunctionsGlobal;
 std::string modpath;
 
+void CopyKnuxOriginalModel();
+bool enabl = false;
 
 extern "C" {
 	__declspec(dllexport) void __cdecl Init(const char* path, const HelperFunctions& helperFunctions)
@@ -29,12 +31,18 @@ extern "C" {
 		init_KnuxEarthquake();
 		init_AuraHack();
 		//init_Chrmodels();
+		CopyKnuxOriginalModel();
 	}
 
 
 	__declspec(dllexport) void __cdecl OnFrame()
 	{
 		CamShakes();	
+
+		if (Controllers[0].PressedButtons & Buttons_Y)
+		{
+
+		}
 	}	
 	
 	__declspec(dllexport) void __cdecl OnExit()

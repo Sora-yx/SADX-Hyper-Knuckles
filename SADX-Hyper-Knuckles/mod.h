@@ -74,3 +74,6 @@ enum hyperKnuxModelE {
 	lw,
 	rw
 };
+
+extern ModelInfo* HyperKnux_Model[5];
+extern NJS_OBJECT* KnuxObjCopy[73];
