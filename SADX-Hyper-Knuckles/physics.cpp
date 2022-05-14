@@ -124,7 +124,6 @@ void SetGlidSPD(bool increase)
 
 
 	WriteData((float**)0x4445da, &glideSPDCAP);
-
 }
 
 void init_PhysicsHack()

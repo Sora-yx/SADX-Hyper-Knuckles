@@ -36,12 +36,11 @@ void animateTextures()
 
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm right 1		
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm right 2		
-	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm right 3		
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[1].attr_texId = texid; //arm right 3		
 
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 1		
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 2		
-	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 3
-
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[1].attr_texId = texid; //arm left 3
 }
 
 static void Knuckles_Display_r(ObjectMaster* tsk)
@@ -103,7 +102,7 @@ void unSuper(unsigned char player) {
 	if (AlwaysHyperKnux)
 		return;
 
-	isHyperKnux = false;
+	RestoreKnuxAnimModel();
 	isQuakeEnabled = false;
 	RestoreOriginalTrailColor();
 
@@ -125,10 +124,13 @@ void unSuper(unsigned char player) {
 			PlayVoice(7002);
 
 		RestoreMusic();
-	}
 
-	co2->Upgrades &= ~Upgrades_SuperSonic;
-	co2->Powerups &= ~Powerups_Invincibility;
+		co2->Upgrades &= ~Upgrades_SuperSonic;
+		co2->Powerups &= ~Powerups_Invincibility;
+	} 
+
+
+	isHyperKnux = false;
 	SetGlidSPD(false);
 	return;
 }
@@ -146,7 +148,6 @@ void Load_SuperAura(taskwk* data1) {
 	}
 }
 
-
 void SetHyperKnux(CharObj2* co2, EntityData1* data1) {
 
 	taskwk* taskw = (taskwk*)data1;
@@ -158,6 +159,7 @@ void SetHyperKnux(CharObj2* co2, EntityData1* data1) {
 	co2->Upgrades |= Upgrades_SuperSonic;
 	co2->Powerups |= Powerups_Invincibility;
 
+	SetHyperKnuxAnimModel();
 	Load_SuperAura(taskw);
 	Load_HyperPhysics(taskw);
 	SetGlidSPD(true);
@@ -219,10 +221,10 @@ bool CheckPlayer_Input(unsigned char playerID) {
 
 void HyperKnuxDelete(ObjectMaster* obj) {
 
-
 	unSuper(obj->Data1->CharIndex);
 	MusicList[MusicIDs_sprsonic].Name = "sprsonic";
 }
+
 
 void HyperKnux_Manager(ObjectMaster* obj) {
 
@@ -276,6 +278,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 		break;
 	case hyperKnuxTransfo:
 
+
 		SetHyperKnux(co2, player);
 
 		if (!isKnuxAI(player)) {
@@ -290,14 +293,17 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 		break;
 	case hyperKnuxOnFrames:
 		SubRings(playerID, data);
+		CheckSuperMusic_Restart(playerID);
+		CheckKnuxAfterImages(player, co2);
+
+		if (KnucklesCheckInput((taskwk*)player, (motionwk2*)EntityData2Ptrs[playerID], (playerwk*)co2))
+			break;
 
 		if (CheckUntransform_Input(playerID)) {
 
 			data->Action = playerInputCheck;
 		}
 
-		CheckSuperMusic_Restart(playerID);
-		CheckKnuxAfterImages(player, co2);
 		Knux_EarthQuake_InputCheck(player, co2);
 		InstantMaxHeat_InputCheck(player, co2);
 		break;
@@ -373,10 +379,9 @@ void __cdecl DrawHyperKnuxModel(NJS_ACTION* action, Float frame)
 		model = HyperKnux_Model[curl]->getmodel();
 	}
 
-	if (isHyperKnux)
-		njAction_QueueObject(model, action->motion, frame);
-	else
-		njAction(action, frame);
+
+	njAction(action, frame);
+
 }
 
 void __cdecl Init_HyperKnuxTextures(const char* path, const HelperFunctions& helperFunctions) {
@@ -440,6 +445,4 @@ void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunct
 
 	//models
 	Load_HyperKnuxModels();
-	WriteCall((void*)0x47258B, DrawHyperKnuxModel);
-	WriteCall((void*)0x472649, DrawHyperKnuxModel);
 }

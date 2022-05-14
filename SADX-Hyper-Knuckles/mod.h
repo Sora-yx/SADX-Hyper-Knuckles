@@ -43,6 +43,7 @@ extern bool superAura;
 extern bool customPhysics;
 extern bool textureChanges;
 extern bool isQuakeEnabled;
+extern bool modelChanges;
 
 extern Buttons TransformButton;
 

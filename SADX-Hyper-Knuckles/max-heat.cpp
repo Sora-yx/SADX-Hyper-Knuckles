@@ -17,7 +17,8 @@ void SetInstantMaxHeat(bool state)
 
 void InstantMaxHeat_InputCheck(EntityData1* data, CharObj2* co2)
 {
-	if (!isHyperKnux || (data->Status & 3) == 0 || ((WhistleButtons & Controllers[data->CharIndex].PressedButtons) == 0))
+	if (!isHyperKnux  || ((co2->Upgrades & Upgrades_FightingGloves) == 0) 
+		|| ((WhistleButtons & Controllers[data->CharIndex].PressedButtons) == 0) || data->Action != jump && data->Action != glide && data->Action > glide)
 	{
 		return;
 	}

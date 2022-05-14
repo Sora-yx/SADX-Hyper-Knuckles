@@ -1,6 +1,5 @@
 #include "pch.h"
 
-
 static void Knuckles_AfterImages(task* tsk)
 {
 	if (MissedFrames || (tsk->twp->wtimer & 2) != 0)
@@ -20,7 +19,7 @@ static void Knuckles_AfterImages(task* tsk)
 		}
 	}
 
-	if (wk->scl.x < 0.9f)
+	if (wk->scl.x < 0.7f)
 	{
 		Direct3D_PerformLighting(4);
 		njSetTexture(getHyperKnuxTex());
@@ -68,7 +67,7 @@ static void LoadKnucklesAfterImages(EntityData1* data, CharObj2* co2)
 	auto wk = tsk->twp;
 
 	wk->value.b[0] = data->CharIndex;
-	wk->scl.x = 1.0f;
+	wk->scl.x = 0.8f;
 	wk->scl.y = co2->AnimationThing.Frame;
 	wk->pos = data->Position;
 	wk->pos.y += 5.0f;

@@ -8,6 +8,7 @@ bool AlwaysHyperKnux = false;
 bool superAura = true;
 bool customPhysics = true;
 bool textureChanges = true;
+bool modelChanges = true;
 
 Buttons TransformButton = Buttons_Y;
 
@@ -23,6 +24,7 @@ void ReadConfig(const char* path, const HelperFunctions& helperFunctions) {
 	const IniFile* config = new IniFile(std::string(path) + "\\config.ini");
 
 	textureChanges = config->getBool("General", "textureChanges", true);
+	modelChanges = config->getBool("General", "modelChanges", true);
 	TransformButton = ButtonsList[config->getInt("General", "TransformButton", 1)];
 	AnimationTransfo = config->getBool("General", "AnimationTransfo", true);
 	RemoveLimitations = config->getBool("General", "RemoveLimitations", false);

@@ -26,6 +26,8 @@ PVMEntry HyperKnux_DCEntry[] = {
 	{"SUPERSONIC", &SUPERSONIC_TEXLIST},
 	{"HYPE_K_AURA", &Knux_SuperAura_TEXLIST},
 	{"EGM2_HAMON", &EGM2_HAMON_TEXLIST},
+	{"EGM2_BAKU", &EGM2_BAKU_TEXLIST},
+	{"car_destroyed", &EGM2_CAR_TEXLIST},
 
 };
 
@@ -33,7 +35,9 @@ PVMEntry HyperKnux_DXEntry[] = {
 	{"HYPERKNUX_DX", &HyperKnuxDX_TEXLIST},
 	{"SUPERSONIC", &SUPERSONIC_TEXLIST},
 	{"HYPE_K_AURA", &Knux_SuperAura_TEXLIST},
-	{"EGM2_HAMON", &EGM2_HAMON_TEXLIST}
+	{"EGM2_HAMON", &EGM2_HAMON_TEXLIST},
+	{"EGM2_BAKU", &EGM2_BAKU_TEXLIST},
+	{"car_destroyed", &EGM2_CAR_TEXLIST},
 };
 
 void Load_HyperPhysics(taskwk* data1);
@@ -46,3 +50,5 @@ void InstantMaxHeat_InputCheck(EntityData1* data, CharObj2* co2);
 void SetInstantMaxHeat(bool state);
 void Set_AuraTextures();
 void RestoreOriginalTrailColor();
+void SetHyperKnuxAnimModel();
+void RestoreKnuxAnimModel();

@@ -167,6 +167,7 @@
     <ClInclude Include="hyper-knux.h" />
     <ClInclude Include="mod.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="sadx-util.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +189,7 @@
     <ClCompile Include="super-aura.cpp" />
     <ClCompile Include="util.cpp" />
     <ClCompile Include="water-hack.cpp" />
+    <ClCompile Include="chrmodels.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

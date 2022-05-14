@@ -3,6 +3,7 @@
 HelperFunctions HelperFunctionsGlobal;
 std::string modpath;
 
+
 extern "C" {
 	__declspec(dllexport) void __cdecl Init(const char* path, const HelperFunctions& helperFunctions)
 	{
@@ -27,6 +28,7 @@ extern "C" {
 		WaterHack_Init();
 		init_KnuxEarthquake();
 		init_AuraHack();
+		//init_Chrmodels();
 	}
 
 
