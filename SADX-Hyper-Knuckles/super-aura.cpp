@@ -4,11 +4,6 @@ extern NJS_TEXLIST Knux_SuperAura_TEXLIST;
 
 Trampoline* SuperAura_Display_t = nullptr;
 
-DataArray(NJS_TEXLIST, texlist_aura, 0x1422160, 8);
-DataArray(NJS_TEXLIST, texlist_aura2, 0x14221A0, 8);
-DataArray(NJS_TEXLIST, texlist_water_wave, 0x14221E0, 8);
-DataPointer(NJS_MODEL_SADX, model_o_cl_grid1_cl_grid1, 0x1427FA4);
-
 static NJS_TEXNAME SADXAuratexid0 = { (char*)"k_aura01", 0, 0 };
 static NJS_TEXNAME SADXAuratexid1 = { (char*)"k_aura02", 0, 0 };
 static NJS_TEXNAME SADXAuratexid2 = { (char*)"k_aura03", 0, 0 };

@@ -1,8 +1,5 @@
 #include "pch.h"
 
-VoidFunc(KnuEffectPutCharge0, 0x4C2210);
-FunctionPointer(void, StopSoundEffect, (EntityData1* data), 0x424240);
-
 void SetInstantMaxHeat(bool state)
 {
 	if (state) {

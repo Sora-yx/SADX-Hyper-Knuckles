@@ -6,7 +6,6 @@ Trampoline* carSS_t = nullptr;
 
 NJS_POINT3 Velo = { 5.0f, 5.0f, 5.0f };
 
-
 bool isQuakeEnabled = false;
 
 void DestroyCar(ObjectMaster* obj)
@@ -37,6 +36,10 @@ void ObjectCarSHRegular_r(ObjectMaster* obj)
 {
     EntityData1* data = obj->Data1;
     int playerID = GetTheNearestPlayerNumber(&data->Position);
+
+    if (data->Index > 1)
+        data->Index = 0;
+
 
     if (isHyperKnux && IsPlayerInsideSphere(&data->Position, 100) && isQuakeEnabled)
     {
@@ -223,5 +226,4 @@ void init_KnuxEarthquake()
     WriteCall((void*)0x478721, Knux_JumpCancel); //prevent jump cancel to happen when using earthquake
     carSH_t = new Trampoline((int)0x611FC0, (int)0x611FC6, ObjectCarSHRegular_r);
     carSS_t = new Trampoline((int)0x633180, (int)0x633188, ObjectCarSS_r);
-
 }
