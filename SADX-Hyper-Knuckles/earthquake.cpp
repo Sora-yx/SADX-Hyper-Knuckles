@@ -3,92 +3,11 @@
 Trampoline* KnuxGrabWall_Check_t = nullptr;
 Trampoline* carSH_t = nullptr;
 Trampoline* carSS_t = nullptr;
+Trampoline* Sweep_Main_t = nullptr;
 
 NJS_POINT3 Velo = { 5.0f, 5.0f, 5.0f };
 
 bool isQuakeEnabled = false;
-
-void DestroyCar(ObjectMaster* obj)
-{
-	EntityData1* data = obj->Data1;
-
-	MID_EXPLOSION_INFO boom;
-
-	boom.pPos = &data->Position;
-	boom.flag = 3;
-	boom.nLightStartTime = 0;
-	boom.nLightEndTime = 0;
-	boom.fLightLength = 0.0;
-	boom.angLightSpd = 0;
-	boom.nExpStartTime = 0;
-	boom.nExpGrowEndTime = 20;
-	boom.nExpEndTime = 40;
-	boom.nExpTailTime = 60;
-	boom.fExpMaxRadius = 25.0;
-	egm2MiDexplosion(&boom);
-	dsPlay_oneshot_Dolby(475, 0, 0, 64, 120, (taskwk*)data);
-	data->Unknown = 30;
-	data->Index++;
-
-}
-
-void ObjectCarSHRegular_r(ObjectMaster* obj)
-{
-	EntityData1* data = obj->Data1;
-	int playerID = GetTheNearestPlayerNumber(&data->Position);
-
-	if (data->Index > 1)
-		data->Index = 0;
-
-
-	if (isHyperKnux && IsPlayerInsideSphere(&data->Position, 100) && isQuakeEnabled)
-	{
-		if (data->Index == 0)
-			DestroyCar(obj);
-	}
-
-	if (data->Index == 1)
-	{
-		egm2_car_broken_main_set(&data->Position);
-		EraseDolbyCtrl(data);
-		CheckThingButThenDeleteObject(obj);
-		return;
-	}
-	else {
-
-		ObjectFunc(origin, carSH_t->Target());
-		origin(obj);
-	}
-}
-
-void ObjectCarSS_r(ObjectMaster* obj)
-{
-EntityData1* data = obj->Data1;
-int playerID = GetTheNearestPlayerNumber(&data->Position);
-
-if (data->Index > 1)
-data->Index = 0;
-
-if (isHyperKnux && IsPlayerInsideSphere(&data->Position, 100) && isQuakeEnabled)
-{
-	if (data->Index == 0)
-		DestroyCar(obj);
-}
-
-if (data->Index == 1)
-{
-	egm2_car_broken_main_set(&data->Position);
-	EraseDolbyCtrl(data);
-	data->Index = 0;
-	CheckThingButThenDeleteObject(obj);
-	return;
-}
-else {
-
-	ObjectFunc(origin, carSS_t->Target());
-	origin(obj);
-}
-}
 
 CollisionData legCol = { 0, 1, 0x0, 0x0, 0x0, {0}, 0.0, 1.0, 0.0, 0.0, 0, 0, 0 };
 //use bomb item to kill enemy, then smoke and egg walker shockwave for the effects
@@ -224,10 +143,116 @@ static void __declspec(naked) Knux_JumpCancel()
 	}
 }
 
+//fix an issue where the game crashes if you use a bomb on those enemy :)
+void Sweep_Main_r(task* obj)
+{
+	taskwk* data = obj->twp;
+	ObjectData2* objdata2 = (ObjectData2*)obj->mwp;
+
+	if (data && objdata2) {
+
+		if (OhNoImDead((EntityData1*)data, objdata2))
+		{
+			data->mode = 3;
+			data->counter.b[1] = 0;
+			data->counter.b[2] = 1;
+			data->wtimer = 0;
+			data->scl.z = 0.34999999;
+			return; 
+		}
+	}
+
+	TaskFunc(origin, Sweep_Main_t->Target());
+	origin(obj);
+}
+
+void DestroyCar(ObjectMaster* obj)
+{
+	EntityData1* data = obj->Data1;
+
+	MID_EXPLOSION_INFO boom;
+
+	boom.pPos = &data->Position;
+	boom.flag = 3;
+	boom.nLightStartTime = 0;
+	boom.nLightEndTime = 0;
+	boom.fLightLength = 0.0;
+	boom.angLightSpd = 0;
+	boom.nExpStartTime = 0;
+	boom.nExpGrowEndTime = 20;
+	boom.nExpEndTime = 40;
+	boom.nExpTailTime = 60;
+	boom.fExpMaxRadius = 25.0;
+	egm2MiDexplosion(&boom);
+	dsPlay_oneshot_Dolby(475, 0, 0, 64, 120, (taskwk*)data);
+	data->Unknown = 30;
+	data->Index++;
+}
+
+void ObjectCarSHRegular_r(ObjectMaster* obj)
+{
+	EntityData1* data = obj->Data1;
+	int playerID = GetTheNearestPlayerNumber(&data->Position);
+
+	if (data->Index > 1)
+		data->Index = 0;
+
+
+	if (isHyperKnux && IsPlayerInsideSphere(&data->Position, 100) && isQuakeEnabled)
+	{
+		if (data->Index == 0)
+			DestroyCar(obj);
+	}
+
+	if (data->Index == 1)
+	{
+		egm2_car_broken_main_set(&data->Position);
+		EraseDolbyCtrl(data);
+		CheckThingButThenDeleteObject(obj);
+		return;
+	}
+	else {
+
+		ObjectFunc(origin, carSH_t->Target());
+		origin(obj);
+	}
+}
+
+void ObjectCarSS_r(ObjectMaster* obj)
+{
+	EntityData1* data = obj->Data1;
+	int playerID = GetTheNearestPlayerNumber(&data->Position);
+
+	if (data->Index > 1)
+		data->Index = 0;
+
+	if (isHyperKnux && IsPlayerInsideSphere(&data->Position, 100) && isQuakeEnabled)
+	{
+		if (data->Index == 0)
+			DestroyCar(obj);
+	}
+
+	if (data->Index == 1)
+	{
+		egm2_car_broken_main_set(&data->Position);
+		EraseDolbyCtrl(data);
+		data->Index = 0;
+		CheckThingButThenDeleteObject(obj);
+		return;
+	}
+	else {
+
+		ObjectFunc(origin, carSS_t->Target());
+		origin(obj);
+	}
+}
+
+
 void init_KnuxEarthquake()
 {
 	KnuxGrabWall_Check_t = new Trampoline((int)0x4757E0, (int)0x4757E6, KnuxGrabWallCheckASM);
 	WriteCall((void*)0x478721, Knux_JumpCancel); //prevent jump cancel to happen when using earthquake
 	carSH_t = new Trampoline((int)0x611FC0, (int)0x611FC6, ObjectCarSHRegular_r);
 	carSS_t = new Trampoline((int)0x633180, (int)0x633188, ObjectCarSS_r);
+	Sweep_Main_t = new Trampoline((int)Sweep_Main, (int)Sweep_Main + 0x5, Sweep_Main_r);
 }

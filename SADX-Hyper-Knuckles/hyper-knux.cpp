@@ -455,7 +455,6 @@ void InvincibilityRestart_r(ObjectMaster* obj)
 }
 
 
-
 void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunctions)
 {
 

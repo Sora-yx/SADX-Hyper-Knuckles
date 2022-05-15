@@ -62,16 +62,19 @@ static void Knuckles_AfterImages(task* tsk)
 static void LoadKnucklesAfterImages(EntityData1* data, CharObj2* co2)
 {
 	auto tsk = CreateElementalTask(LoadObj_Data1, tasklevel::LEV_4, Knuckles_AfterImages);
-	tsk->disp = Knuckles_AfterImages;
 
-	auto wk = tsk->twp;
+	if (tsk) {
+		tsk->disp = Knuckles_AfterImages;
 
-	wk->value.b[0] = data->CharIndex;
-	wk->scl.x = 0.8f;
-	wk->scl.y = co2->AnimationThing.Frame;
-	wk->pos = data->Position;
-	wk->pos.y += 5.0f;
-	wk->ang = *(Angle3*)&data->Rotation;
+		auto wk = tsk->twp;
+
+		wk->value.b[0] = data->CharIndex;
+		wk->scl.x = 0.8f;
+		wk->scl.y = co2->AnimationThing.Frame;
+		wk->pos = data->Position;
+		wk->pos.y += 5.0f;
+		wk->ang = *(Angle3*)&data->Rotation;
+	}
 }
 
 
