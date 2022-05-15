@@ -31,7 +31,14 @@ enum SoundEffect {
 	DBZ_SFX
 };
 
-extern bool isDCCharUsed;
+enum ChangeType
+{
+	none,
+	Dreamcast,
+	DX,
+};
+
+
 extern int CurrentSuperMusic;
 extern bool RemoveLimitations;
 extern int CurrentSFX;
@@ -41,9 +48,9 @@ extern bool isHyperKnux;
 extern bool AlwaysHyperKnux;
 extern bool superAura;
 extern bool customPhysics;
-extern bool textureChanges;
+extern uint8_t charType;
 extern bool isQuakeEnabled;
-extern bool modelChanges;
+
 
 extern Buttons TransformButton;
 
@@ -77,3 +84,4 @@ enum hyperKnuxModelE {
 
 extern ModelInfo* HyperKnux_Model[5];
 extern NJS_OBJECT* KnuxObjCopy[73];
+

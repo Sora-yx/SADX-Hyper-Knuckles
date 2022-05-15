@@ -6,9 +6,8 @@ ModelInfo* LoadBasicModel(const char* name) {
 
 	std::string modelFolder = "DX\\";
 
-	HMODULE SA1Char = GetModuleHandle(L"SA1_Chars");
 
-	if (SA1Char)
+	if (charType == Dreamcast)
 		modelFolder = "DC\\";
 
 	std::string fullPath = "system\\models\\" + modelFolder;

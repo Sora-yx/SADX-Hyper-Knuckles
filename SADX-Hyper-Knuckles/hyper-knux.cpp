@@ -13,15 +13,14 @@ int HKDCAnimTextures[] = { 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 3
 
 const int animSPD = 2;
 
-bool isDCCharUsed = false;
 bool isHyperKnux = false;
 
 void animateTextures()
 {
-	if (!isHyperKnux)
+	if (!isHyperKnux || GameState != 15 || charType == none)
 		return;
 
-	uint16_t texid = isDCCharUsed ? HKDCAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDCAnimTextures))] : HKDXAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDXAnimTextures))];
+	uint16_t texid = charType == Dreamcast ? HKDCAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDCAnimTextures))] : HKDXAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDXAnimTextures))];
 
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->sibling->basicdxmodel->mats[0].attr_texId = texid; //head
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->basicdxmodel->mats[0].attr_texId = texid; //chest
@@ -62,9 +61,9 @@ void HyperKnux_PerformLightingThing() {
 
 NJS_TEXLIST* getHyperKnuxTex()
 {
-	if (isHyperKnux && textureChanges) {
+	if (isHyperKnux && charType != none) {
 
-		if (isDCCharUsed)
+		if (charType == Dreamcast)
 			return &HyperKnuxDC_TEXLIST;
 		else
 			return &HyperKnuxDX_TEXLIST;
@@ -386,27 +385,27 @@ void __cdecl DrawHyperKnuxModel(NJS_ACTION* action, Float frame)
 
 void __cdecl Init_HyperKnuxTextures(const char* path, const HelperFunctions& helperFunctions) {
 
-	HMODULE SA1Char = GetModuleHandle(L"SA1_Chars");
 
-	if (SA1Char)
+	if (charType == Dreamcast)
 	{
 		for (int i = 0; i < LengthOfArray(HyperKnux_DCEntry); i++) {
 			helperFunctions.RegisterCharacterPVM(Characters_Knuckles, HyperKnux_DCEntry[i]);
 		}
-		isDCCharUsed = true;
 	}
 	else
 	{
 		for (int i = 0; i < LengthOfArray(HyperKnux_DXEntry); i++) {
 			helperFunctions.RegisterCharacterPVM(Characters_Knuckles, HyperKnux_DXEntry[i]);
 		}
-		isDCCharUsed = false;
 	}
 }
 
 void Load_HyperKnuxModels()
 {
-	if (isDCCharUsed)
+	if (charType == none)
+		return;
+
+	if (charType == Dreamcast)
 	{
 		HyperKnux_Model[root] = LoadBasicModel("HYPEKNUX_DC");
 		HyperKnux_Model[curl] = LoadBasicModel("HYPECURL_DC");

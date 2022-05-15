@@ -34,6 +34,8 @@ void CopyKnuxOriginalModel()
 	KnuxObjCopy[20]->model = KNUCKLES_OBJECTS[20]->model;
 	KnuxObjCopy[21]->model = KNUCKLES_OBJECTS[21]->model;
 	KnuxObjCopy[22]->model = KNUCKLES_OBJECTS[22]->model;
+	KnuxObjCopy[23]->model = KNUCKLES_OBJECTS[23]->model;
+
 
 	//anim obj
 	KnuxAnimCopy[0] = KNUCKLES_ACTIONS[0]->object;
@@ -129,10 +131,50 @@ void CopyKnuxOriginalModel()
 	KnuxAnimCopy[89] = KNUCKLES_ACTIONS[89]->object;
 }
 
+void SetHyperKnuxModel()
+{
+
+	if (charType == none)
+		return;
+
+	NJS_OBJECT* Root = HyperKnux_Model[root]->getmodel();
+
+
+	KNUCKLES_OBJECTS[0]->model = Root->model;
+	KNUCKLES_OBJECTS[1]->model = Root->model;
+	KNUCKLES_OBJECTS[2]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->sibling->model; //2
+	KNUCKLES_OBJECTS[3]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->model; //3);
+	KNUCKLES_OBJECTS[4]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->model;
+	KNUCKLES_OBJECTS[5]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling->model;
+	KNUCKLES_OBJECTS[6]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->model;
+	KNUCKLES_OBJECTS[7]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->model;
+	KNUCKLES_OBJECTS[8]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->model;
+	KNUCKLES_OBJECTS[9]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->model;
+	KNUCKLES_OBJECTS[10]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->model;
+	KNUCKLES_OBJECTS[11]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->model;
+	KNUCKLES_OBJECTS[12]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->model;
+	KNUCKLES_OBJECTS[13]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->model;
+	KNUCKLES_OBJECTS[14]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->model;
+	KNUCKLES_OBJECTS[15]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->model;
+	KNUCKLES_OBJECTS[16]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->model;
+
+	KNUCKLES_OBJECTS[17]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->model;
+	KNUCKLES_OBJECTS[18]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->model;
+	KNUCKLES_OBJECTS[19]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->model;
+	KNUCKLES_OBJECTS[20]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->model;
+	KNUCKLES_OBJECTS[21]->model = KNUCKLES_OBJECTS[5]->model;
+	KNUCKLES_OBJECTS[22]->model = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->model;
+
+	KNUCKLES_OBJECTS[23]->model = KNUCKLES_OBJECTS[9]->model;
+}
 
 
 void SetHyperKnuxAnimModel()
 {
+
+	if (charType == none)
+		return;
+
 	NJS_OBJECT* Root = HyperKnux_Model[root]->getmodel();
 
 	KNUCKLES_ACTIONS[0]->object = Root;
@@ -143,7 +185,7 @@ void SetHyperKnuxAnimModel()
 	KNUCKLES_ACTIONS[5]->object = Root;
 	KNUCKLES_ACTIONS[6]->object = Root;
 	KNUCKLES_ACTIONS[7]->object = Root;
-
+	//8 is empty
 	KNUCKLES_ACTIONS[9]->object = Root;
 	KNUCKLES_ACTIONS[10]->object = Root;
 	KNUCKLES_ACTIONS[11]->object = Root;
@@ -226,10 +268,14 @@ void SetHyperKnuxAnimModel()
 	KNUCKLES_ACTIONS[87]->object = Root;
 	KNUCKLES_ACTIONS[88]->object = Root;
 	KNUCKLES_ACTIONS[89]->object = Root;
+
+	//SetHyperKnuxModel();
+
 }
 
 void RestoreKnuxAnimModel()
 {
+
 
 	KNUCKLES_ACTIONS[0]->object = KnuxAnimCopy[0];
 	KNUCKLES_ACTIONS[1]->object = KnuxAnimCopy[1];
@@ -291,10 +337,10 @@ void RestoreKnuxAnimModel()
 	KNUCKLES_ACTIONS[58]->object = KnuxAnimCopy[58];
 	KNUCKLES_ACTIONS[59]->object = KnuxAnimCopy[59];
 	KNUCKLES_ACTIONS[60]->object = KnuxAnimCopy[60];
-												   ;
+	
 	KNUCKLES_ACTIONS[61]->object = KnuxAnimCopy[61];
 	KNUCKLES_ACTIONS[62]->object = KnuxAnimCopy[62];
-												   ;
+	
 	KNUCKLES_ACTIONS[63]->object = KnuxAnimCopy[63];
 	KNUCKLES_ACTIONS[64]->object = KnuxAnimCopy[64];
 	KNUCKLES_ACTIONS[65]->object = KnuxAnimCopy[65];
