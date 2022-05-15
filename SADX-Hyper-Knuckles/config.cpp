@@ -28,7 +28,7 @@ void ReadConfig(const char* path, const HelperFunctions& helperFunctions) {
 	TransformButton = ButtonsList[config->getInt("General", "TransformButton", 1)];
 	AnimationTransfo = config->getBool("General", "AnimationTransfo", true);
 	RemoveLimitations = config->getBool("General", "RemoveLimitations", false);
-	AlwaysHyperKnux = config->getBool("General", "AlwaysSuperMiles", false);
+	AlwaysHyperKnux = config->getBool("General", "AlwaysHyperKnux", false);
 
 	customPhysics = config->getBool("General", "customPhysics", true);
 

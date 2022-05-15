@@ -39,10 +39,6 @@ extern "C" {
 	{
 		CamShakes();	
 
-		if (Controllers[0].PressedButtons & Buttons_Y)
-		{
-
-		}
 	}	
 	
 	__declspec(dllexport) void __cdecl OnExit()

@@ -80,7 +80,7 @@ void CheckKnuxAfterImages(EntityData1* data, CharObj2* co2)
 	if (!co2 || !IsIngame() || !isHyperKnux)
 		return;
 
-	if (co2->Speed.x >= 3.0f)
+	if (co2->Speed.x >= 3.0f || co2->Speed.x <= -3.0f || co2->Speed.y >= 5.0f || co2->Speed.y <= -4.0f)
 	{
 		LoadKnucklesAfterImages(data, co2);
 	}

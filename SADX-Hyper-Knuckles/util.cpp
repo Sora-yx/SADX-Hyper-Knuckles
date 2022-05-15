@@ -168,7 +168,7 @@ int pass = 0;
 
 void CamShakes()
 {
-	if (!isQuakeEnabled || !IsIngame())
+	if (!isQuakeEnabled || !IsIngame() || !Camera_Data1)
 		return;
 
 	if (!timerShake) {

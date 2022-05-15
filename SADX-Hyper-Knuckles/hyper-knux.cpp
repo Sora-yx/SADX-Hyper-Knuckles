@@ -6,6 +6,7 @@ int ActualSong = 0;
 
 Trampoline* Knuckles_Main_t = nullptr;
 Trampoline* Knuckles_Display_t = nullptr;
+Trampoline* Invincibility_restart_t = nullptr;
 ModelInfo* HyperKnux_Model[5];
 
 int HKDXAnimTextures[] = { 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 };//Texture IDs for animation
@@ -46,7 +47,11 @@ static void Knuckles_Display_r(ObjectMaster* tsk)
 {
 	EntityData1* data = tsk->Data1;
 
-	isHyperKnux = isPlayerOnHyperForm(data->CharIndex) == true ? 1 : 0;
+	if (!AlwaysHyperKnux)
+		isHyperKnux = isPlayerOnHyperForm(data->CharIndex) == true ? 1 : 0;
+	else
+		isHyperKnux = true;
+
 	animateTextures();
 	TARGET_DYNAMIC(Knuckles_Display)(tsk);
 }
@@ -209,7 +214,7 @@ bool CheckPlayer_Input(unsigned char playerID) {
 
 	if (ControllerPointers[data->CharIndex]->PressedButtons & TransformButton && (Rings >= 50 || RemoveLimitations))
 	{
-		if (data->Action == jump || data->Action == glide) {
+		if (data->Action == jump) {
 
 			return true;
 		}
@@ -258,7 +263,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 		break;
 	case hyperKnuxInit:
 		data->Index = 0;
-		player->Status = 0;
+		player->Status &= ~Status_Ball;
 
 		HyperKnux_PlayTransfoAnimation(player);
 
@@ -271,12 +276,11 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 
 		if (++data->Index == timer)
 		{
-			ForcePlayerAction(player->Index, 24);
+			//ForcePlayerAction(player->Index, 24);
 			data->Action++;
 		}
 		break;
 	case hyperKnuxTransfo:
-
 
 		SetHyperKnux(co2, player);
 
@@ -326,6 +330,7 @@ void Knux_Main_r(ObjectMaster* obj) {
 	CharObj2* co2 = GetCharObj2(playerData->Index);
 	EntityData2* data2 = (EntityData2*)obj->Data2;
 
+
 	switch (playerData->Action)
 	{
 	case 0:
@@ -360,8 +365,11 @@ void Knux_Main_r(ObjectMaster* obj) {
 		break;
 	}
 
+
 	ObjectFunc(origin, Knuckles_Main_t->Target());
 	origin(obj);
+
+
 }
 
 void __cdecl DrawHyperKnuxModel(NJS_ACTION* action, Float frame)
@@ -430,6 +438,24 @@ void Free_HyperKnuxModels()
 	}
 }
 
+//fix character not invincibile in superform after a restart lol
+void InvincibilityRestart_r(ObjectMaster* obj)
+{
+	EntityData1* data = obj->Data1;
+	char pID = data->CharIndex;
+
+	if (CharObj2Ptrs[pID] && CharObj2Ptrs[pID]->Upgrades & Upgrades_SuperSonic)
+	{
+		CheckThingButThenDeleteObject(obj);
+		return;
+	}
+
+	ObjectFunc(origin, Invincibility_restart_t->Target());
+	origin(obj);
+}
+
+
+
 void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunctions)
 {
 
@@ -437,6 +463,7 @@ void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunct
 
 	Knuckles_Main_t = new Trampoline((int)Knuckles_Main, (int)Knuckles_Main + 0x7, Knux_Main_r);
 	Knuckles_Display_t = new Trampoline((int)Knuckles_Display, (int)Knuckles_Display + 0x7, Knuckles_Display_r);
+	Invincibility_restart_t = new Trampoline((int)0x441F80, (int)0x441F85, InvincibilityRestart_r);
 
 	//Textures init
 	WriteCall((void*)0x472255, HyperKnux_PerformLightingThing);
