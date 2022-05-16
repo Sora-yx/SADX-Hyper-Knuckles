@@ -1,10 +1,56 @@
 #include "pch.h"
 
-NJS_OBJECT* KnuxObjCopy[73];
+NJS_OBJECT* KnuxObjCopy[74];
 NJS_OBJECT* KnuxAnimCopy[90];
-
-WeldInfo KnucklesWeldInfo_r[60];
+WeldInfo KnuxWeld_r[60];
 Trampoline* Knux_welds_t = nullptr;
+
+
+uint16_t Knuckles_UpperArmIndices_DC[] = {
+	0, 2,
+	1, 3,
+	4, 6,
+	5, 7,
+};
+
+uint16_t Knuckles_LowerArmIndices_DC[] = {
+	0, 10,
+	1, 11,
+	4, 14,
+	5, 15,
+};
+
+uint16_t Knuckles_LegIndices_DC[] = {
+	0, 2,
+	1, 3,
+	4, 6,
+	5, 7,
+};
+
+uint16_t Knuckles_ShoeIndices_DC[] = {
+	2, 3,
+	12, 8,
+	0, 1,
+	1, 0,
+	17, 13,
+	3, 2,
+};
+
+uint16_t Knuckles_HandIndices_DC[] = {
+	8, 24,
+	0, 11,
+	1, 13,
+	5, 15,
+	4, 10,
+};
+
+uint16_t Knuckles_ShovelClawIndices_DC[] = {
+	8, 14,
+	0, 1,
+	1, 3,
+	5, 5,
+	4, 0,
+};
 
 void CopyKnuxOriginalModel()
 {
@@ -88,6 +134,7 @@ void CopyKnuxOriginalModel()
 	KnuxObjCopy[70] = KNUCKLES_OBJECTS[70];
 	KnuxObjCopy[71] = KNUCKLES_OBJECTS[71];
 	KnuxObjCopy[72] = KNUCKLES_OBJECTS[72];
+	KnuxObjCopy[73] = KNUCKLES_OBJECTS[73];
 }
 
 void CopyKnuxOriginalAnims()
@@ -193,10 +240,13 @@ void Backup_KnuxModelAnims()
 	return;
 }
 
+void __cdecl InitHyperKnucklesWelds();
+
 void SetHyperKnuxModel()
 {
 	if (charType == none)
 		return;
+
 
 	NJS_OBJECT* Root = HyperKnux_Model[root]->getmodel();
 
@@ -220,16 +270,59 @@ void SetHyperKnuxModel()
 	KNUCKLES_OBJECTS[14] = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
 	KNUCKLES_OBJECTS[15] = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
 	KNUCKLES_OBJECTS[16] = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
-						 
+
 	KNUCKLES_OBJECTS[17] = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
 	KNUCKLES_OBJECTS[18] = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
 	KNUCKLES_OBJECTS[19] = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
 	KNUCKLES_OBJECTS[20] = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
 	KNUCKLES_OBJECTS[21] = KNUCKLES_OBJECTS[5];
 	KNUCKLES_OBJECTS[22] = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
-						 
+
 	KNUCKLES_OBJECTS[23] = KNUCKLES_OBJECTS[9];
+
+	KNUCKLES_OBJECTS[24] = KNUCKLES_OBJECTS[2];
+	KNUCKLES_OBJECTS[25] = KNUCKLES_OBJECTS[3];
+	KNUCKLES_OBJECTS[26] = KNUCKLES_OBJECTS[4];
+	KNUCKLES_OBJECTS[27] = KNUCKLES_OBJECTS[5];
+	KNUCKLES_OBJECTS[28] = KNUCKLES_OBJECTS[6];
+	KNUCKLES_OBJECTS[29] = KNUCKLES_OBJECTS[7];
+	KNUCKLES_OBJECTS[30] = KNUCKLES_OBJECTS[8];
+	KNUCKLES_OBJECTS[31] = KNUCKLES_OBJECTS[9];
+	KNUCKLES_OBJECTS[32] = KNUCKLES_OBJECTS[10];
+	KNUCKLES_OBJECTS[33] = KNUCKLES_OBJECTS[11];
+	KNUCKLES_OBJECTS[34] = KNUCKLES_OBJECTS[12];
+	KNUCKLES_OBJECTS[35] = KNUCKLES_OBJECTS[13];
+	KNUCKLES_OBJECTS[36] = KNUCKLES_OBJECTS[14];
+	KNUCKLES_OBJECTS[37] = KNUCKLES_OBJECTS[15];
+	KNUCKLES_OBJECTS[38] = KNUCKLES_OBJECTS[16];
+	KNUCKLES_OBJECTS[39] = KNUCKLES_OBJECTS[17];
+	KNUCKLES_OBJECTS[40] = KNUCKLES_OBJECTS[18];
+	KNUCKLES_OBJECTS[41] = KNUCKLES_OBJECTS[19];
+	KNUCKLES_OBJECTS[42] = KNUCKLES_OBJECTS[20];
+	KNUCKLES_OBJECTS[43] = KNUCKLES_OBJECTS[21];
+	KNUCKLES_OBJECTS[44] = KNUCKLES_OBJECTS[22];
+	KNUCKLES_OBJECTS[45] = KNUCKLES_OBJECTS[23];
+
+
+	/**KNUCKLES_OBJECTS[49] = Root->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->sibling; //head
+
+	KNUCKLES_OBJECTS[50] = KNUCKLES_OBJECTS[49];
+	KNUCKLES_OBJECTS[51] = Root->child->child->sibling->sibling->sibling->sibling; //face root
+	KNUCKLES_OBJECTS[52] = Root->child->child->sibling->sibling->sibling->sibling->child->child->sibling->child->child->sibling; //right eye
+	KNUCKLES_OBJECTS[53] = Root->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->child->child->sibling; //left eye
+	KNUCKLES_OBJECTS[54] = Root->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling; //Left eye root (17 in SAMDL)
+	KNUCKLES_OBJECTS[55] = KNUCKLES_OBJECTS[50];
+	KNUCKLES_OBJECTS[58] = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
+	KNUCKLES_OBJECTS[59] = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
+	KNUCKLES_OBJECTS[60] = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
+	KNUCKLES_OBJECTS[61] = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
+	KNUCKLES_OBJECTS[62] = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
+	KNUCKLES_OBJECTS[63] = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
+	KNUCKLES_OBJECTS[64] = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
+	KNUCKLES_OBJECTS[65] = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;*/
+
 }
+
 
 void SetHyperKnuxAnim()
 {
@@ -518,267 +611,269 @@ void RestoreKnuxAnimModel()
 	KNUCKLES_ACTIONS[89]->object = KnuxAnimCopy[89];
 }
 
-
-void __cdecl InitKnucklesWeldInfo_r(int ID, ObjectMaster* character)
+void __cdecl InitHyperKnucklesWelds()
 {
 
 	NJS_OBJECT* Root = HyperKnux_Model[root]->getmodel();
+	bool isDC = charType == Dreamcast;
 
+	KnuxWeld_r[30].BaseModel = Root;
+	KnuxWeld_r[30].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->sibling;
+	KnuxWeld_r[30].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
+	KnuxWeld_r[30].anonymous_5 = 0;
+	KnuxWeld_r[30].VertexBuffer = 0;
+
+	KnuxWeld_r[30].VertexPairCount = 4;
+	KnuxWeld_r[30].WeldType = 2;
+
+	KnuxWeld_r[30].VertIndexes = isDC ? Knuckles_UpperArmIndices_DC : Knuckles_UpperArmIndices;
+
+	KnuxWeld_r[31].BaseModel = Root;
+	KnuxWeld_r[31].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
+	KnuxWeld_r[31].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
+	KnuxWeld_r[31].VertexPairCount = 4;
+	KnuxWeld_r[31].WeldType = 2;
+	KnuxWeld_r[31].anonymous_5 = 0;
+	KnuxWeld_r[31].VertexBuffer = 0;
+	KnuxWeld_r[31].VertIndexes = isDC ? Knuckles_LowerArmIndices_DC : Knuckles_LowerArmIndices;
+	KnuxWeld_r[32].BaseModel = Root;
+	KnuxWeld_r[32].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling;
+	KnuxWeld_r[32].VertIndexes = isDC ? Knuckles_UpperArmIndices_DC : Knuckles_UpperArmIndices;
+	KnuxWeld_r[32].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
+	KnuxWeld_r[32].VertexPairCount = 4;
+	KnuxWeld_r[32].WeldType = 2;
+	KnuxWeld_r[32].anonymous_5 = 0;
+	KnuxWeld_r[32].VertexBuffer = 0;
+	KnuxWeld_r[33].BaseModel = Root;
+	KnuxWeld_r[33].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
+	KnuxWeld_r[33].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
+	KnuxWeld_r[33].VertexPairCount = 4;
+	KnuxWeld_r[33].WeldType = 2;
+	KnuxWeld_r[33].anonymous_5 = 0;
+	KnuxWeld_r[33].VertexBuffer = 0;
+	KnuxWeld_r[33].VertIndexes = isDC ? Knuckles_LowerArmIndices_DC : Knuckles_LowerArmIndices;
+	KnuxWeld_r[34].BaseModel = Root;
+	KnuxWeld_r[34].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling;
+	KnuxWeld_r[34].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
+	KnuxWeld_r[34].VertexPairCount = 4;
+	KnuxWeld_r[34].WeldType = 2;
+	KnuxWeld_r[34].anonymous_5 = 0;
+	KnuxWeld_r[34].VertexBuffer = 0;
+	KnuxWeld_r[34].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned short*)&Knuckles_LegIndices;
+	KnuxWeld_r[35].BaseModel = Root;
+	KnuxWeld_r[35].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
+	KnuxWeld_r[35].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
+	KnuxWeld_r[35].WeldType = 2;
+	KnuxWeld_r[35].anonymous_5 = 0;
+	KnuxWeld_r[35].VertexBuffer = 0;
+	KnuxWeld_r[35].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned short*)&Knuckles_LegIndices;
+	KnuxWeld_r[36].BaseModel = Root;
+	KnuxWeld_r[36].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling;
+	KnuxWeld_r[36].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
+	KnuxWeld_r[36].VertexPairCount = 4;
+	KnuxWeld_r[36].WeldType = 2;
+	KnuxWeld_r[36].anonymous_5 = 0;
+	KnuxWeld_r[36].VertexBuffer = 0;
+	KnuxWeld_r[36].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned __int16*)&Knuckles_LegIndices;
+	KnuxWeld_r[37].BaseModel = Root;
+	KnuxWeld_r[37].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
+	KnuxWeld_r[37].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
+	KnuxWeld_r[37].VertexPairCount = 4;
+	KnuxWeld_r[37].WeldType = 2;
+	KnuxWeld_r[37].anonymous_5 = 0;
+	KnuxWeld_r[37].VertexBuffer = 0;
+	KnuxWeld_r[37].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned __int16*)&Knuckles_LegIndices;
+	KnuxWeld_r[38].BaseModel = Root;
+	KnuxWeld_r[38].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
+	KnuxWeld_r[38].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
+	KnuxWeld_r[38].VertexPairCount = 9;
+	KnuxWeld_r[38].WeldType = 2;
+	KnuxWeld_r[38].anonymous_5 = 0;
+	KnuxWeld_r[38].VertexBuffer = 0;
+	KnuxWeld_r[38].VertIndexes = isDC ? Knuckles_ShoeIndices_DC : (unsigned __int16*)&Knuckles_ShoeIndices;
+	KnuxWeld_r[39].BaseModel = Root;
+	KnuxWeld_r[39].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
+	KnuxWeld_r[39].VertIndexes = isDC ? Knuckles_ShoeIndices_DC : (unsigned __int16*)&Knuckles_ShoeIndices;
+	KnuxWeld_r[39].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
+	KnuxWeld_r[39].VertexPairCount = 9;
+	KnuxWeld_r[39].WeldType = 2;
+	KnuxWeld_r[39].anonymous_5 = 0;
+	KnuxWeld_r[39].VertexBuffer = 0;
+
+	KnuxWeld_r[40].BaseModel = Root;
+	KnuxWeld_r[40].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
+	KnuxWeld_r[40].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
+	KnuxWeld_r[40].VertexPairCount = 8;
+	KnuxWeld_r[40].WeldType = 2;
+	KnuxWeld_r[40].anonymous_5 = 0;
+	KnuxWeld_r[40].VertexBuffer = 0;
+	KnuxWeld_r[40].VertIndexes = isDC ? Knuckles_HandIndices_DC : Knuckles_HandIndices;
+	KnuxWeld_r[41].BaseModel = Root;
+	KnuxWeld_r[41].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
+	KnuxWeld_r[41].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
+	KnuxWeld_r[41].VertexPairCount = 8;
+	KnuxWeld_r[41].WeldType = 2;
+	KnuxWeld_r[41].anonymous_5 = 0;
+	KnuxWeld_r[41].VertexBuffer = 0;
+	KnuxWeld_r[41].VertIndexes = isDC ? Knuckles_HandIndices_DC : Knuckles_HandIndices;
+	KnuxWeld_r[42].BaseModel = KNUCKLES_OBJECTS[1];
+	KnuxWeld_r[42].ModelA = KNUCKLES_OBJECTS[24];
+	KnuxWeld_r[42].ModelB = KNUCKLES_OBJECTS[25];
+	KnuxWeld_r[42].VertexPairCount = 4;
+	KnuxWeld_r[42].WeldType = 2;
+	KnuxWeld_r[42].anonymous_5 = 0;
+	KnuxWeld_r[42].VertexBuffer = 0;
+	KnuxWeld_r[42].VertIndexes = isDC ? Knuckles_UpperArmIndices_DC : Knuckles_UpperArmIndices;
+	KnuxWeld_r[43].BaseModel = KNUCKLES_OBJECTS[1];
+	KnuxWeld_r[43].ModelA = KNUCKLES_OBJECTS[25];
+	KnuxWeld_r[43].ModelB = KNUCKLES_OBJECTS[26];
+	KnuxWeld_r[43].VertexPairCount = 4;
+	KnuxWeld_r[43].WeldType = 2;
+	KnuxWeld_r[43].anonymous_5 = 0;
+	KnuxWeld_r[43].VertexBuffer = 0;
+	KnuxWeld_r[43].VertIndexes = isDC ? Knuckles_LowerArmIndices_DC : Knuckles_LowerArmIndices;
+	KnuxWeld_r[44].BaseModel = KNUCKLES_OBJECTS[1];
+	KnuxWeld_r[44].ModelA = KNUCKLES_OBJECTS[28];
+	KnuxWeld_r[44].ModelB = KNUCKLES_OBJECTS[29];
+	KnuxWeld_r[44].VertexPairCount = 4;
+	KnuxWeld_r[44].WeldType = 2;
+	KnuxWeld_r[44].anonymous_5 = 0;
+	KnuxWeld_r[44].VertexBuffer = 0;
+	KnuxWeld_r[44].VertIndexes = isDC ? Knuckles_UpperArmIndices_DC : Knuckles_UpperArmIndices;
+	KnuxWeld_r[45].BaseModel = KNUCKLES_OBJECTS[1];
+	KnuxWeld_r[45].ModelA = KNUCKLES_OBJECTS[29];
+	KnuxWeld_r[45].ModelB = KNUCKLES_OBJECTS[30];
+	KnuxWeld_r[45].VertexPairCount = 4;
+	KnuxWeld_r[45].WeldType = 2;
+	KnuxWeld_r[45].anonymous_5 = 0;
+	KnuxWeld_r[45].VertexBuffer = 0;
+	KnuxWeld_r[45].VertIndexes = isDC ? Knuckles_LowerArmIndices_DC : Knuckles_LowerArmIndices;
+	KnuxWeld_r[46].BaseModel = KNUCKLES_OBJECTS[1];
+	KnuxWeld_r[46].ModelA = KNUCKLES_OBJECTS[32];
+	KnuxWeld_r[46].ModelB = KNUCKLES_OBJECTS[33];
+	KnuxWeld_r[46].VertexPairCount = 4;
+	KnuxWeld_r[46].WeldType = 2;
+	KnuxWeld_r[46].anonymous_5 = 0;
+	KnuxWeld_r[46].VertexBuffer = 0;
+	KnuxWeld_r[46].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned __int16*)&Knuckles_LegIndices;
+	KnuxWeld_r[47].BaseModel = KNUCKLES_OBJECTS[1];
+	KnuxWeld_r[47].ModelA = KNUCKLES_OBJECTS[33];
+	KnuxWeld_r[47].ModelB = KNUCKLES_OBJECTS[34];
+	KnuxWeld_r[47].VertexPairCount = 4;
+	KnuxWeld_r[47].WeldType = 2;
+	KnuxWeld_r[47].anonymous_5 = 0;
+	KnuxWeld_r[47].VertexBuffer = 0;
+	KnuxWeld_r[47].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned __int16*)&Knuckles_LegIndices;
+	KnuxWeld_r[48].BaseModel = KNUCKLES_OBJECTS[1];
+	KnuxWeld_r[48].ModelA = KNUCKLES_OBJECTS[35];
+	KnuxWeld_r[48].ModelB = KNUCKLES_OBJECTS[36];
+	KnuxWeld_r[48].VertexPairCount = 4;
+	KnuxWeld_r[48].WeldType = 2;
+	KnuxWeld_r[48].anonymous_5 = 0;
+	KnuxWeld_r[48].VertexBuffer = 0;
+	KnuxWeld_r[48].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned __int16*)&Knuckles_LegIndices;
+	KnuxWeld_r[49].BaseModel = KNUCKLES_OBJECTS[1];
+	KnuxWeld_r[49].ModelA = KNUCKLES_OBJECTS[36];
+	KnuxWeld_r[49].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned __int16*)&Knuckles_LegIndices;
+	KnuxWeld_r[49].ModelB = KNUCKLES_OBJECTS[37];
+	KnuxWeld_r[49].VertexPairCount = 4;
+	KnuxWeld_r[49].WeldType = 2;
+	KnuxWeld_r[49].anonymous_5 = 0;
+	KnuxWeld_r[49].VertexBuffer = 0;
+
+	KnuxWeld_r[50].BaseModel = KNUCKLES_OBJECTS[1];
+	KnuxWeld_r[50].ModelA = KNUCKLES_OBJECTS[38];
+	KnuxWeld_r[50].ModelB = KNUCKLES_OBJECTS[39];
+	KnuxWeld_r[50].VertexPairCount = 9;
+	KnuxWeld_r[50].WeldType = 2;
+	KnuxWeld_r[50].anonymous_5 = 0;
+	KnuxWeld_r[50].VertexBuffer = 0;
+	KnuxWeld_r[50].VertIndexes = isDC ? Knuckles_ShoeIndices_DC : (unsigned __int16*)&Knuckles_ShoeIndices;
+	KnuxWeld_r[51].BaseModel = KNUCKLES_OBJECTS[1];
+	KnuxWeld_r[51].ModelA = KNUCKLES_OBJECTS[40];
+	KnuxWeld_r[51].ModelB = KNUCKLES_OBJECTS[41];
+	KnuxWeld_r[51].VertexPairCount = 9;
+	KnuxWeld_r[51].WeldType = 2;
+	KnuxWeld_r[51].anonymous_5 = 0;
+	KnuxWeld_r[51].VertexBuffer = 0;
+	KnuxWeld_r[51].VertIndexes = isDC ? Knuckles_ShoeIndices_DC : (unsigned __int16*)&Knuckles_ShoeIndices;
+	KnuxWeld_r[52].BaseModel = KNUCKLES_OBJECTS[1];
+	KnuxWeld_r[52].ModelA = KNUCKLES_OBJECTS[42];
+	KnuxWeld_r[52].ModelB = KNUCKLES_OBJECTS[27];
+	KnuxWeld_r[52].VertexPairCount = 8;
+	KnuxWeld_r[52].WeldType = 2;
+	KnuxWeld_r[52].anonymous_5 = 0;
+	KnuxWeld_r[52].VertexBuffer = 0;
+	KnuxWeld_r[52].VertIndexes = isDC ? Knuckles_HandIndices_DC : Knuckles_HandIndices;
+	KnuxWeld_r[53].BaseModel = KNUCKLES_OBJECTS[1];
+	KnuxWeld_r[53].ModelA = KNUCKLES_OBJECTS[44];
+	KnuxWeld_r[53].ModelB = KNUCKLES_OBJECTS[31];
+	KnuxWeld_r[53].VertexPairCount = 8;
+	KnuxWeld_r[53].WeldType = 2;
+	KnuxWeld_r[53].anonymous_5 = 0;
+	KnuxWeld_r[53].VertexBuffer = 0;
+	KnuxWeld_r[53].VertIndexes = isDC ? Knuckles_HandIndices_DC : Knuckles_HandIndices;
+	KnuxWeld_r[54].BaseModel = Root;
+	KnuxWeld_r[54].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
+	KnuxWeld_r[54].ModelB = 0;
+	KnuxWeld_r[54].VertexPairCount = 2;
+	KnuxWeld_r[54].WeldType = 4;
+	KnuxWeld_r[54].anonymous_5 = 0;
+	KnuxWeld_r[54].VertexBuffer = 0;
+	KnuxWeld_r[54].VertIndexes = 0;
+	KnuxWeld_r[55].BaseModel = Root;
+	KnuxWeld_r[55].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
+	KnuxWeld_r[55].ModelB = 0;
+	KnuxWeld_r[55].VertexPairCount = 2;
+	KnuxWeld_r[55].WeldType = 5;
+	KnuxWeld_r[55].anonymous_5 = 0;
+	KnuxWeld_r[55].VertexBuffer = 0;
+	KnuxWeld_r[55].VertIndexes = 0;
+	KnuxWeld_r[56].BaseModel = Root;
+	KnuxWeld_r[56].ModelB = 0;
+	KnuxWeld_r[56].VertexPairCount = 0;
+	KnuxWeld_r[56].anonymous_5 = 0;
+	KnuxWeld_r[56].VertexBuffer = 0;
+	KnuxWeld_r[56].VertIndexes = 0;
+	KnuxWeld_r[56].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
+	KnuxWeld_r[56].WeldType = 6;
+	KnuxWeld_r[57].BaseModel = Root;
+	KnuxWeld_r[57].ModelB = 0;
+	KnuxWeld_r[57].VertexPairCount = 0;
+	KnuxWeld_r[57].anonymous_5 = 0;
+	KnuxWeld_r[57].VertexBuffer = 0;
+	KnuxWeld_r[57].VertIndexes = 0;
+	KnuxWeld_r[57].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
+	KnuxWeld_r[57].WeldType = 7;
+	KnuxWeld_r[58].BaseModel = Root;
+	KnuxWeld_r[58].ModelB = 0;
+	KnuxWeld_r[58].VertexPairCount = 0;
+	KnuxWeld_r[58].anonymous_5 = 0;
+	KnuxWeld_r[58].VertexBuffer = 0;
+	KnuxWeld_r[58].VertIndexes = 0;
+	KnuxWeld_r[59].BaseModel = 0;
+	KnuxWeld_r[59].ModelA = 0;
+	KnuxWeld_r[59].ModelB = 0;
+	KnuxWeld_r[59].VertexPairCount = 0;
+	KnuxWeld_r[59].VertexBuffer = 0;
+	KnuxWeld_r[58].ModelA = KNUCKLES_OBJECTS[54];
+	KnuxWeld_r[58].WeldType = 8;
+	KnuxWeld_r[59].VertIndexes = 0;
+}
+
+void __cdecl InitKnucklesWeldInfo_r(int ID, ObjectMaster* character)
+{
 	FunctionPointer(void, origin, (int ID, ObjectMaster * character), Knux_welds_t->Target());
 	origin(ID, character);
 
-	memcpy(KnucklesWeldInfo_r, KnucklesWeldInfo, sizeof(WeldInfo) * 30);
-
-	KnucklesWeldInfo_r[30].BaseModel = Root;
-	KnucklesWeldInfo_r[30].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->sibling; //2
-	KnucklesWeldInfo_r[30].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling; //3
-	KnucklesWeldInfo_r[30].anonymous_5 = 0;
-	KnucklesWeldInfo_r[30].VertexBuffer = 0;
-	KnucklesWeldInfo_r[30].VertexPairCount = 4;
-	KnucklesWeldInfo_r[30].WeldType = 2;
-	KnucklesWeldInfo_r[30].VertIndexes = Knuckles_UpperArmIndices;
-	KnucklesWeldInfo_r[31].BaseModel = Root;
-	KnucklesWeldInfo_r[31].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling; //3
-	KnucklesWeldInfo_r[31].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling; //4
-	KnucklesWeldInfo_r[31].VertexPairCount = 4;
-	KnucklesWeldInfo_r[31].WeldType = 2;
-	KnucklesWeldInfo_r[31].anonymous_5 = 0;
-	KnucklesWeldInfo_r[31].VertexBuffer = 0;
-	KnucklesWeldInfo_r[31].VertIndexes = Knuckles_LowerArmIndices;
-	KnucklesWeldInfo_r[32].BaseModel = Root;
-	KnucklesWeldInfo_r[32].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling; //6
-	KnucklesWeldInfo_r[32].VertIndexes = Knuckles_UpperArmIndices;
-	KnucklesWeldInfo_r[32].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling; //7
-	KnucklesWeldInfo_r[32].VertexPairCount = 4;
-	KnucklesWeldInfo_r[32].WeldType = 2;
-	KnucklesWeldInfo_r[32].anonymous_5 = 0;
-	KnucklesWeldInfo_r[32].VertexBuffer = 0;
-	KnucklesWeldInfo_r[33].BaseModel = Root;
-	KnucklesWeldInfo_r[33].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;//7
-	KnucklesWeldInfo_r[33].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling; //KNUCKLES_OBJECTS[8];
-	KnucklesWeldInfo_r[33].VertexPairCount = 4;
-	KnucklesWeldInfo_r[33].WeldType = 2;
-	KnucklesWeldInfo_r[33].anonymous_5 = 0;
-	KnucklesWeldInfo_r[33].VertexBuffer = 0;
-	KnucklesWeldInfo_r[33].VertIndexes = Knuckles_LowerArmIndices;
-	KnucklesWeldInfo_r[34].BaseModel = Root;
-	KnucklesWeldInfo_r[34].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling; //10
-	KnucklesWeldInfo_r[34].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;  //11
-	KnucklesWeldInfo_r[34].VertexPairCount = 4;
-	KnucklesWeldInfo_r[34].WeldType = 2;
-	KnucklesWeldInfo_r[34].anonymous_5 = 0;
-	KnucklesWeldInfo_r[34].VertexBuffer = 0;
-	KnucklesWeldInfo_r[34].VertIndexes = (unsigned __int16*)&Knuckles_LegIndices;
-	KnucklesWeldInfo_r[35].BaseModel = Root;
-	KnucklesWeldInfo_r[35].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling; //11
-	KnucklesWeldInfo_r[35].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;//12
-	KnucklesWeldInfo_r[35].VertexPairCount = 4;
-	KnucklesWeldInfo_r[35].WeldType = 2;
-	KnucklesWeldInfo_r[35].anonymous_5 = 0;
-	KnucklesWeldInfo_r[35].VertexBuffer = 0;
-	KnucklesWeldInfo_r[35].VertIndexes = (unsigned __int16*)&Knuckles_LegIndices;
-	KnucklesWeldInfo_r[36].BaseModel = Root;
-	KnucklesWeldInfo_r[36].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling; //13
-	KnucklesWeldInfo_r[36].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling; //14;
-	KnucklesWeldInfo_r[36].VertexPairCount = 4;
-	KnucklesWeldInfo_r[36].WeldType = 2;
-	KnucklesWeldInfo_r[36].anonymous_5 = 0;
-	KnucklesWeldInfo_r[36].VertexBuffer = 0;
-	KnucklesWeldInfo_r[36].VertIndexes = (unsigned __int16*)&Knuckles_LegIndices;
-	KnucklesWeldInfo_r[37].BaseModel = Root;
-	KnucklesWeldInfo_r[37].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling; //14
-	KnucklesWeldInfo_r[37].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling; //15
-	KnucklesWeldInfo_r[37].VertexPairCount = 4;
-	KnucklesWeldInfo_r[37].WeldType = 2;
-	KnucklesWeldInfo_r[37].anonymous_5 = 0;
-	KnucklesWeldInfo_r[37].VertexBuffer = 0;
-	KnucklesWeldInfo_r[37].VertIndexes = (unsigned __int16*)&Knuckles_LegIndices;
-	KnucklesWeldInfo_r[38].BaseModel = Root;
-	KnucklesWeldInfo_r[38].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;//16
-	KnucklesWeldInfo_r[38].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child; //17
-	KnucklesWeldInfo_r[38].VertexPairCount = 9;
-	KnucklesWeldInfo_r[38].WeldType = 2;
-	KnucklesWeldInfo_r[38].anonymous_5 = 0;
-	KnucklesWeldInfo_r[38].VertexBuffer = 0;
-	KnucklesWeldInfo_r[38].VertIndexes = (unsigned __int16*)&Knuckles_ShoeIndices;
-	KnucklesWeldInfo_r[39].BaseModel = Root;
-	KnucklesWeldInfo_r[39].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling; //18
-
-	KnucklesWeldInfo_r[39].VertIndexes = (unsigned __int16*)&Knuckles_ShoeIndices;
-	KnucklesWeldInfo_r[39].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child; //19
-	KnucklesWeldInfo_r[39].VertexPairCount = 9;
-	KnucklesWeldInfo_r[39].WeldType = 2;
-	KnucklesWeldInfo_r[39].anonymous_5 = 0;
-	KnucklesWeldInfo_r[39].VertexBuffer = 0;
-	KnucklesWeldInfo_r[40].BaseModel = Root;
-	KnucklesWeldInfo_r[40].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling; //20
-	KnucklesWeldInfo_r[40].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling; //5
-	KnucklesWeldInfo_r[40].VertexPairCount = 8;
-	KnucklesWeldInfo_r[40].WeldType = 2;
-	KnucklesWeldInfo_r[40].anonymous_5 = 0;
-	KnucklesWeldInfo_r[40].VertexBuffer = 0;
-	KnucklesWeldInfo_r[40].VertIndexes = Knuckles_HandIndices;
-	KnucklesWeldInfo_r[41].BaseModel = Root;
-	KnucklesWeldInfo_r[41].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;//22
-	KnucklesWeldInfo_r[41].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child; //9
-	KnucklesWeldInfo_r[41].VertexPairCount = 8;
-	KnucklesWeldInfo_r[41].WeldType = 2;
-	KnucklesWeldInfo_r[41].anonymous_5 = 0;
-	KnucklesWeldInfo_r[41].VertexBuffer = 0;
-	KnucklesWeldInfo_r[41].VertIndexes = Knuckles_HandIndices;
-
-	KnucklesWeldInfo_r[42].BaseModel = Root;
-	KnucklesWeldInfo_r[42].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->sibling; //24
-	KnucklesWeldInfo_r[42].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling; //25
-	KnucklesWeldInfo_r[42].VertexPairCount = 4;
-	KnucklesWeldInfo_r[42].WeldType = 2;
-	KnucklesWeldInfo_r[42].anonymous_5 = 0;
-	KnucklesWeldInfo_r[42].VertexBuffer = 0;
-	KnucklesWeldInfo_r[42].VertIndexes = Knuckles_UpperArmIndices;
-	KnucklesWeldInfo_r[43].BaseModel = Root;
-	KnucklesWeldInfo_r[43].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
-	KnucklesWeldInfo_r[43].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling; //26
-	KnucklesWeldInfo_r[43].VertexPairCount = 4;
-	KnucklesWeldInfo_r[43].WeldType = 2;
-	KnucklesWeldInfo_r[43].anonymous_5 = 0;
-	KnucklesWeldInfo_r[43].VertexBuffer = 0;
-	KnucklesWeldInfo_r[43].VertIndexes = Knuckles_LowerArmIndices;
-	KnucklesWeldInfo_r[44].BaseModel = Root;
-	KnucklesWeldInfo_r[44].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling; //28
-	KnucklesWeldInfo_r[44].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling; //29
-	KnucklesWeldInfo_r[44].VertexPairCount = 4;
-	KnucklesWeldInfo_r[44].WeldType = 2;
-	KnucklesWeldInfo_r[44].anonymous_5 = 0;
-	KnucklesWeldInfo_r[44].VertexBuffer = 0;
-	KnucklesWeldInfo_r[44].VertIndexes = Knuckles_UpperArmIndices;
-	KnucklesWeldInfo_r[45].BaseModel = Root;
-	KnucklesWeldInfo_r[45].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
-	KnucklesWeldInfo_r[45].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling; //30
-	KnucklesWeldInfo_r[45].VertexPairCount = 4;
-	KnucklesWeldInfo_r[45].WeldType = 2;
-	KnucklesWeldInfo_r[45].anonymous_5 = 0;
-	KnucklesWeldInfo_r[45].VertexBuffer = 0;
-	KnucklesWeldInfo_r[45].VertIndexes = Knuckles_LowerArmIndices;
-	KnucklesWeldInfo_r[46].BaseModel = Root;
-	KnucklesWeldInfo_r[46].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling; //32
-	KnucklesWeldInfo_r[46].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling; //33
-	KnucklesWeldInfo_r[46].VertexPairCount = 4;
-	KnucklesWeldInfo_r[46].WeldType = 2;
-	KnucklesWeldInfo_r[46].anonymous_5 = 0;
-	KnucklesWeldInfo_r[46].VertexBuffer = 0;
-	KnucklesWeldInfo_r[46].VertIndexes = (unsigned __int16*)&Knuckles_LegIndices;
-	KnucklesWeldInfo_r[47].BaseModel = Root;
-	KnucklesWeldInfo_r[47].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
-	KnucklesWeldInfo_r[47].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling; //34
-	KnucklesWeldInfo_r[47].VertexPairCount = 4;
-	KnucklesWeldInfo_r[47].WeldType = 2;
-	KnucklesWeldInfo_r[47].anonymous_5 = 0;
-	KnucklesWeldInfo_r[47].VertexBuffer = 0;
-	KnucklesWeldInfo_r[47].VertIndexes = (unsigned __int16*)&Knuckles_LegIndices;
-	KnucklesWeldInfo_r[48].BaseModel = Root;
-	KnucklesWeldInfo_r[48].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling; //35
-	KnucklesWeldInfo_r[48].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling; //36
-	KnucklesWeldInfo_r[48].VertexPairCount = 4;
-	KnucklesWeldInfo_r[48].WeldType = 2;
-	KnucklesWeldInfo_r[48].anonymous_5 = 0;
-	KnucklesWeldInfo_r[48].VertexBuffer = 0;
-	KnucklesWeldInfo_r[48].VertIndexes = (unsigned __int16*)&Knuckles_LegIndices;
-	KnucklesWeldInfo_r[49].BaseModel = Root;
-	KnucklesWeldInfo_r[49].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
-
-	KnucklesWeldInfo_r[49].VertIndexes = (unsigned __int16*)&Knuckles_LegIndices;
-	KnucklesWeldInfo_r[49].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
-	KnucklesWeldInfo_r[49].VertexPairCount = 4;
-	KnucklesWeldInfo_r[49].WeldType = 2;
-	KnucklesWeldInfo_r[49].anonymous_5 = 0;
-	KnucklesWeldInfo_r[49].VertexBuffer = 0;
-	KnucklesWeldInfo_r[50].BaseModel = Root;
-	KnucklesWeldInfo_r[50].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling; //38
-	KnucklesWeldInfo_r[50].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child; //39
-	KnucklesWeldInfo_r[50].VertexPairCount = 9;
-	KnucklesWeldInfo_r[50].WeldType = 2;
-	KnucklesWeldInfo_r[50].anonymous_5 = 0;
-	KnucklesWeldInfo_r[50].VertexBuffer = 0;
-	KnucklesWeldInfo_r[50].VertIndexes = (unsigned __int16*)&Knuckles_ShoeIndices;
-	KnucklesWeldInfo_r[51].BaseModel = Root;
-	KnucklesWeldInfo_r[51].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling; //40
-	KnucklesWeldInfo_r[51].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child; //41
-	KnucklesWeldInfo_r[51].VertexPairCount = 9;
-	KnucklesWeldInfo_r[51].WeldType = 2;
-	KnucklesWeldInfo_r[51].anonymous_5 = 0;
-	KnucklesWeldInfo_r[51].VertexBuffer = 0;
-	KnucklesWeldInfo_r[51].VertIndexes = (unsigned __int16*)&Knuckles_ShoeIndices;
-	KnucklesWeldInfo_r[52].BaseModel = Root;
-	KnucklesWeldInfo_r[52].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling; //42
-	KnucklesWeldInfo_r[52].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
-	KnucklesWeldInfo_r[52].VertexPairCount = 8;
-	KnucklesWeldInfo_r[52].WeldType = 2;
-	KnucklesWeldInfo_r[52].anonymous_5 = 0;
-	KnucklesWeldInfo_r[52].VertexBuffer = 0;
-	KnucklesWeldInfo_r[52].VertIndexes = Knuckles_HandIndices;
-	KnucklesWeldInfo_r[53].BaseModel = Root;
-	KnucklesWeldInfo_r[53].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling; //44
-	KnucklesWeldInfo_r[53].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
-	KnucklesWeldInfo_r[53].VertexPairCount = 8;
-	KnucklesWeldInfo_r[53].WeldType = 2;
-	KnucklesWeldInfo_r[53].anonymous_5 = 0;
-	KnucklesWeldInfo_r[53].VertexBuffer = 0;
-	KnucklesWeldInfo_r[53].VertIndexes = Knuckles_HandIndices;
-
-	KnucklesWeldInfo_r[54].BaseModel = Root;
-	KnucklesWeldInfo_r[54].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling; //5
-	KnucklesWeldInfo_r[54].ModelB = 0;
-	KnucklesWeldInfo_r[54].VertexPairCount = 2;
-	KnucklesWeldInfo_r[54].WeldType = 4;
-	KnucklesWeldInfo_r[54].anonymous_5 = 0;
-	KnucklesWeldInfo_r[54].VertexBuffer = 0;
-	KnucklesWeldInfo_r[54].VertIndexes = 0;
-	KnucklesWeldInfo_r[55].BaseModel = Root;
-	KnucklesWeldInfo_r[55].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child; //9
-	KnucklesWeldInfo_r[55].ModelB = 0;
-	KnucklesWeldInfo_r[55].VertexPairCount = 2;
-	KnucklesWeldInfo_r[55].WeldType = 5;
-	KnucklesWeldInfo_r[55].anonymous_5 = 0;
-	KnucklesWeldInfo_r[55].VertexBuffer = 0;
-	KnucklesWeldInfo_r[55].VertIndexes = 0;
-	KnucklesWeldInfo_r[56].BaseModel = Root;
-
-	KnucklesWeldInfo_r[56].ModelB = 0;
-	KnucklesWeldInfo_r[56].VertexPairCount = 0;
-	KnucklesWeldInfo_r[56].anonymous_5 = 0;
-	KnucklesWeldInfo_r[56].VertexBuffer = 0;
-	KnucklesWeldInfo_r[56].VertIndexes = 0;
-	KnucklesWeldInfo_r[56].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child; //17
-	KnucklesWeldInfo_r[56].WeldType = 6;
-	KnucklesWeldInfo_r[57].BaseModel = Root;
-
-	KnucklesWeldInfo_r[57].ModelB = 0;
-	KnucklesWeldInfo_r[57].VertexPairCount = 0;
-	KnucklesWeldInfo_r[57].anonymous_5 = 0;
-	KnucklesWeldInfo_r[57].VertexBuffer = 0;
-	KnucklesWeldInfo_r[57].VertIndexes = 0;
-	KnucklesWeldInfo_r[57].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child; //19
-	KnucklesWeldInfo_r[57].WeldType = 7;
-	KnucklesWeldInfo_r[58].BaseModel = Root;
-
-	KnucklesWeldInfo_r[58].ModelB = 0;
-	KnucklesWeldInfo_r[58].VertexPairCount = 0;
-	KnucklesWeldInfo_r[58].anonymous_5 = 0;
-	KnucklesWeldInfo_r[58].VertexBuffer = 0;
-	KnucklesWeldInfo_r[58].VertIndexes = 0;
-	KnucklesWeldInfo_r[59].BaseModel = 0;
-	KnucklesWeldInfo_r[59].ModelA = 0;
-	KnucklesWeldInfo_r[59].ModelB = 0;
-	KnucklesWeldInfo_r[59].VertexPairCount = 0;
-	KnucklesWeldInfo_r[59].VertexBuffer = 0;
-	KnucklesWeldInfo_r[58].ModelA = Root->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling;
-	KnucklesWeldInfo_r[58].WeldType = 8;
-	KnucklesWeldInfo_r[59].VertIndexes = 0;
-
+	memcpy(KnuxWeld_r, KnucklesWeldInfo, sizeof(WeldInfo) * 30);
+	InitHyperKnucklesWelds();
 }
+
 
 void init_WeldsHack()
 {
+
 	Knux_welds_t = new Trampoline((int)InitKnucklesWeldInfo, (int)InitKnucklesWeldInfo + 0x5, InitKnucklesWeldInfo_r);
-	WriteData((WeldInfo**)0x47A89E, KnucklesWeldInfo_r);
+	WriteData((WeldInfo**)0x47A89E, KnuxWeld_r);
 }

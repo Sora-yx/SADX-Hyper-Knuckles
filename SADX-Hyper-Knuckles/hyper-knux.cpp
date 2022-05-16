@@ -322,7 +322,6 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 
 int resetTimer = 0;
 
-
 void Knux_Main_r(ObjectMaster* obj) {
 
 
@@ -372,27 +371,8 @@ void Knux_Main_r(ObjectMaster* obj) {
 
 }
 
-void __cdecl DrawHyperKnuxModel(NJS_ACTION* action, Float frame)
-{
-	NJS_OBJECT* model = HyperKnux_Model[root]->getmodel();
-
-	if (action->object == KNUCKLES_ACTIONS[62]->object)
-	{
-		model = HyperKnux_Model[ball]->getmodel();
-	}
-
-	if (action->object == KNUCKLES_ACTIONS[61]->object)
-	{
-		model = HyperKnux_Model[curl]->getmodel();
-	}
-
-
-	njAction(action, frame);
-
-}
 
 void __cdecl Init_HyperKnuxTextures(const char* path, const HelperFunctions& helperFunctions) {
-
 
 	if (charType == Dreamcast)
 	{
@@ -463,7 +443,6 @@ void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunct
 	Knuckles_Main_t = new Trampoline((int)Knuckles_Main, (int)Knuckles_Main + 0x7, Knux_Main_r);
 	Knuckles_Display_t = new Trampoline((int)Knuckles_Display, (int)Knuckles_Display + 0x7, Knuckles_Display_r);
 	Invincibility_restart_t = new Trampoline((int)0x441F80, (int)0x441F85, InvincibilityRestart_r);
-
 	//Textures init
 	WriteCall((void*)0x472255, HyperKnux_PerformLightingThing);
 	WriteCall((void*)0x47224E, setHyperKnuxTexture);

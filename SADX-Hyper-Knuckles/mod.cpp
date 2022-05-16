@@ -29,7 +29,6 @@ extern "C" {
 		WaterHack_Init();
 		init_KnuxEarthquake();
 		init_AuraHack();
-		//init_Chrmodels();
 		Backup_KnuxModelAnims();
 		init_WeldsHack();
 	}
@@ -37,11 +36,7 @@ extern "C" {
 
 	__declspec(dllexport) void __cdecl OnFrame()
 	{
-		CamShakes();	
-		if (Controllers[0].PressedButtons & Buttons_X)
-		{
-			isHyperKnux = false;
-		}
+		CamShakes();
 
 	}	
 	
