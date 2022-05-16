@@ -4,6 +4,10 @@ NJS_OBJECT* KnuxObjCopy[74];
 NJS_OBJECT* KnuxAnimCopy[90];
 WeldInfo BackupKnuxWeld_r[30];
 
+//This whole page manage the character model and welds swap on frames in real time, it's a giant mess due to how the game works.
+//Main idea is to backup everything on startup, swap model and weld when transform, then restore everything when destransform.
+//No you can't use loop to copy / assign everything, I wish you could.
+
 uint16_t Knuckles_UpperArmIndices_DC[] = {
 	0, 2,
 	1, 3,
@@ -50,7 +54,7 @@ uint16_t Knuckles_ShovelClawIndices_DC[] = {
 	4, 0,
 };
 
-void __cdecl InitKnucklesWeldInfoDC_mod()
+void __cdecl InitHyperKnucklesDC_WeldsInfo()
 {
 	NJS_OBJECT* v0;
 	NJS_OBJECT* v1;
@@ -314,7 +318,6 @@ void __cdecl InitKnucklesWeldInfoDC_mod()
 	KnucklesWeldInfo[29].VertIndexes = 0;
 }
 
-
 void DeleteKnucklesWeld(CharObj2* co2, EntityData1* data1, EntityData2* data2)
 {
 	co2->AnimationThing.field_2 = 2;
@@ -327,10 +330,8 @@ void InitKnucklesWelds(CharObj2* co2, EntityData1* data1, EntityData2* data2)
 	ProcessVertexWelds(data1, data2, co2);
 }
 
-void __cdecl InitHyperKnucklesWeldsInfo()
+void __cdecl InitHyperKnucklesDX_WeldsInfo()
 {
-	bool isDC = charType == Dreamcast;
-
 	KnucklesWeldInfo[0].BaseModel = HyperKnux_Model[root]->getmodel();
 
 	NJS_OBJECT* Root = KnucklesWeldInfo[0].BaseModel;
@@ -341,7 +342,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[0].VertexBuffer = 0;
 	KnucklesWeldInfo[0].VertexPairCount = 4;
 	KnucklesWeldInfo[0].WeldType = 2;
-	KnucklesWeldInfo[0].VertIndexes = isDC ? Knuckles_UpperArmIndices_DC : Knuckles_UpperArmIndices;
+	KnucklesWeldInfo[0].VertIndexes = Knuckles_UpperArmIndices;
 	KnucklesWeldInfo[1].BaseModel = Root;
 	KnucklesWeldInfo[1].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
 	KnucklesWeldInfo[1].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
@@ -349,10 +350,10 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[1].WeldType = 2;
 	KnucklesWeldInfo[1].anonymous_5 = 0;
 	KnucklesWeldInfo[1].VertexBuffer = 0;
-	KnucklesWeldInfo[1].VertIndexes = isDC ? Knuckles_LowerArmIndices_DC : Knuckles_LowerArmIndices;
+	KnucklesWeldInfo[1].VertIndexes = Knuckles_LowerArmIndices;
 	KnucklesWeldInfo[2].BaseModel = Root;
 	KnucklesWeldInfo[2].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling;
-	KnucklesWeldInfo[2].VertIndexes = isDC ? Knuckles_UpperArmIndices_DC : Knuckles_UpperArmIndices;
+	KnucklesWeldInfo[2].VertIndexes =  Knuckles_UpperArmIndices;
 	KnucklesWeldInfo[2].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
 	KnucklesWeldInfo[2].VertexPairCount = 4;
 	KnucklesWeldInfo[2].WeldType = 2;
@@ -365,7 +366,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[3].WeldType = 2;
 	KnucklesWeldInfo[3].anonymous_5 = 0;
 	KnucklesWeldInfo[3].VertexBuffer = 0;
-	KnucklesWeldInfo[3].VertIndexes = isDC ? Knuckles_LowerArmIndices_DC : Knuckles_LowerArmIndices;
+	KnucklesWeldInfo[3].VertIndexes = Knuckles_LowerArmIndices;
 	KnucklesWeldInfo[4].BaseModel = Root;
 	KnucklesWeldInfo[4].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling;
 	KnucklesWeldInfo[4].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
@@ -373,14 +374,14 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[4].WeldType = 2;
 	KnucklesWeldInfo[4].anonymous_5 = 0;
 	KnucklesWeldInfo[4].VertexBuffer = 0;
-	KnucklesWeldInfo[4].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned short*)&Knuckles_LegIndices;
+	KnucklesWeldInfo[4].VertIndexes = (unsigned short*)&Knuckles_LegIndices;
 	KnucklesWeldInfo[5].BaseModel = Root;
 	KnucklesWeldInfo[5].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
 	KnucklesWeldInfo[5].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
 	KnucklesWeldInfo[5].WeldType = 2;
 	KnucklesWeldInfo[5].anonymous_5 = 0;
 	KnucklesWeldInfo[5].VertexBuffer = 0;
-	KnucklesWeldInfo[5].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned short*)&Knuckles_LegIndices;
+	KnucklesWeldInfo[5].VertIndexes = (unsigned short*)&Knuckles_LegIndices;
 	KnucklesWeldInfo[6].BaseModel = Root;
 	KnucklesWeldInfo[6].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling;
 	KnucklesWeldInfo[6].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
@@ -388,7 +389,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[6].WeldType = 2;
 	KnucklesWeldInfo[6].anonymous_5 = 0;
 	KnucklesWeldInfo[6].VertexBuffer = 0;
-	KnucklesWeldInfo[6].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned __int16*)&Knuckles_LegIndices;
+	KnucklesWeldInfo[6].VertIndexes = (unsigned __int16*)&Knuckles_LegIndices;
 	KnucklesWeldInfo[7].BaseModel = Root;
 	KnucklesWeldInfo[7].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
 	KnucklesWeldInfo[7].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
@@ -396,7 +397,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[7].WeldType = 2;
 	KnucklesWeldInfo[7].anonymous_5 = 0;
 	KnucklesWeldInfo[7].VertexBuffer = 0;
-	KnucklesWeldInfo[7].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned __int16*)&Knuckles_LegIndices;
+	KnucklesWeldInfo[7].VertIndexes = (unsigned __int16*)&Knuckles_LegIndices;
 	KnucklesWeldInfo[8].BaseModel = Root;
 	KnucklesWeldInfo[8].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
 	KnucklesWeldInfo[8].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
@@ -404,10 +405,10 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[8].WeldType = 2;
 	KnucklesWeldInfo[8].anonymous_5 = 0;
 	KnucklesWeldInfo[8].VertexBuffer = 0;
-	KnucklesWeldInfo[8].VertIndexes = isDC ? Knuckles_ShoeIndices_DC : (unsigned __int16*)&Knuckles_ShoeIndices;
+	KnucklesWeldInfo[8].VertIndexes = (unsigned __int16*)&Knuckles_ShoeIndices;
 	KnucklesWeldInfo[9].BaseModel = Root;
 	KnucklesWeldInfo[9].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
-	KnucklesWeldInfo[9].VertIndexes = isDC ? Knuckles_ShoeIndices_DC : (unsigned __int16*)&Knuckles_ShoeIndices;
+	KnucklesWeldInfo[9].VertIndexes = (unsigned __int16*)&Knuckles_ShoeIndices;
 	KnucklesWeldInfo[9].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
 	KnucklesWeldInfo[9].VertexPairCount = 9;
 	KnucklesWeldInfo[9].WeldType = 2;
@@ -421,7 +422,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[10].WeldType = 2;
 	KnucklesWeldInfo[10].anonymous_5 = 0;
 	KnucklesWeldInfo[10].VertexBuffer = 0;
-	KnucklesWeldInfo[10].VertIndexes = isDC ? Knuckles_HandIndices_DC : Knuckles_HandIndices;
+	KnucklesWeldInfo[10].VertIndexes = Knuckles_HandIndices;
 	KnucklesWeldInfo[11].BaseModel = Root;
 	KnucklesWeldInfo[11].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
 	KnucklesWeldInfo[11].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
@@ -429,7 +430,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[11].WeldType = 2;
 	KnucklesWeldInfo[11].anonymous_5 = 0;
 	KnucklesWeldInfo[11].VertexBuffer = 0;
-	KnucklesWeldInfo[11].VertIndexes = isDC ? Knuckles_HandIndices_DC : Knuckles_HandIndices;
+	KnucklesWeldInfo[11].VertIndexes = Knuckles_HandIndices;
 	KnucklesWeldInfo[12].BaseModel = KNUCKLES_OBJECTS[1];
 	KnucklesWeldInfo[12].ModelA = KNUCKLES_OBJECTS[24];
 	KnucklesWeldInfo[12].ModelB = KNUCKLES_OBJECTS[25];
@@ -437,7 +438,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[12].WeldType = 2;
 	KnucklesWeldInfo[12].anonymous_5 = 0;
 	KnucklesWeldInfo[12].VertexBuffer = 0;
-	KnucklesWeldInfo[12].VertIndexes = isDC ? Knuckles_UpperArmIndices_DC : Knuckles_UpperArmIndices;
+	KnucklesWeldInfo[12].VertIndexes = Knuckles_UpperArmIndices;
 	KnucklesWeldInfo[13].BaseModel = KNUCKLES_OBJECTS[1];
 	KnucklesWeldInfo[13].ModelA = KNUCKLES_OBJECTS[25];
 	KnucklesWeldInfo[13].ModelB = KNUCKLES_OBJECTS[26];
@@ -445,7 +446,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[13].WeldType = 2;
 	KnucklesWeldInfo[13].anonymous_5 = 0;
 	KnucklesWeldInfo[13].VertexBuffer = 0;
-	KnucklesWeldInfo[13].VertIndexes = isDC ? Knuckles_LowerArmIndices_DC : Knuckles_LowerArmIndices;
+	KnucklesWeldInfo[13].VertIndexes = Knuckles_LowerArmIndices;
 	KnucklesWeldInfo[14].BaseModel = KNUCKLES_OBJECTS[1];
 	KnucklesWeldInfo[14].ModelA = KNUCKLES_OBJECTS[28];
 	KnucklesWeldInfo[14].ModelB = KNUCKLES_OBJECTS[29];
@@ -453,7 +454,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[14].WeldType = 2;
 	KnucklesWeldInfo[14].anonymous_5 = 0;
 	KnucklesWeldInfo[14].VertexBuffer = 0;
-	KnucklesWeldInfo[14].VertIndexes = isDC ? Knuckles_UpperArmIndices_DC : Knuckles_UpperArmIndices;
+	KnucklesWeldInfo[14].VertIndexes = Knuckles_UpperArmIndices;
 	KnucklesWeldInfo[15].BaseModel = KNUCKLES_OBJECTS[1];
 	KnucklesWeldInfo[15].ModelA = KNUCKLES_OBJECTS[29];
 	KnucklesWeldInfo[15].ModelB = KNUCKLES_OBJECTS[30];
@@ -461,7 +462,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[15].WeldType = 2;
 	KnucklesWeldInfo[15].anonymous_5 = 0;
 	KnucklesWeldInfo[15].VertexBuffer = 0;
-	KnucklesWeldInfo[15].VertIndexes = isDC ? Knuckles_LowerArmIndices_DC : Knuckles_LowerArmIndices;
+	KnucklesWeldInfo[15].VertIndexes = Knuckles_LowerArmIndices;
 	KnucklesWeldInfo[16].BaseModel = KNUCKLES_OBJECTS[1];
 	KnucklesWeldInfo[16].ModelA = KNUCKLES_OBJECTS[32];
 	KnucklesWeldInfo[16].ModelB = KNUCKLES_OBJECTS[33];
@@ -469,7 +470,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[16].WeldType = 2;
 	KnucklesWeldInfo[16].anonymous_5 = 0;
 	KnucklesWeldInfo[16].VertexBuffer = 0;
-	KnucklesWeldInfo[16].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned __int16*)&Knuckles_LegIndices;
+	KnucklesWeldInfo[16].VertIndexes = (unsigned __int16*)&Knuckles_LegIndices;
 	KnucklesWeldInfo[17].BaseModel = KNUCKLES_OBJECTS[1];
 	KnucklesWeldInfo[17].ModelA = KNUCKLES_OBJECTS[33];
 	KnucklesWeldInfo[17].ModelB = KNUCKLES_OBJECTS[34];
@@ -477,7 +478,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[17].WeldType = 2;
 	KnucklesWeldInfo[17].anonymous_5 = 0;
 	KnucklesWeldInfo[17].VertexBuffer = 0;
-	KnucklesWeldInfo[17].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned __int16*)&Knuckles_LegIndices;
+	KnucklesWeldInfo[17].VertIndexes =  (unsigned __int16*)&Knuckles_LegIndices;
 	KnucklesWeldInfo[18].BaseModel = KNUCKLES_OBJECTS[1];
 	KnucklesWeldInfo[18].ModelA = KNUCKLES_OBJECTS[35];
 	KnucklesWeldInfo[18].ModelB = KNUCKLES_OBJECTS[36];
@@ -485,10 +486,10 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[18].WeldType = 2;
 	KnucklesWeldInfo[18].anonymous_5 = 0;
 	KnucklesWeldInfo[18].VertexBuffer = 0;
-	KnucklesWeldInfo[18].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned __int16*)&Knuckles_LegIndices;
+	KnucklesWeldInfo[18].VertIndexes =  (unsigned __int16*)&Knuckles_LegIndices;
 	KnucklesWeldInfo[19].BaseModel = KNUCKLES_OBJECTS[1];
 	KnucklesWeldInfo[19].ModelA = KNUCKLES_OBJECTS[36];
-	KnucklesWeldInfo[19].VertIndexes = isDC ? Knuckles_LegIndices_DC : (unsigned __int16*)&Knuckles_LegIndices;
+	KnucklesWeldInfo[19].VertIndexes =  (unsigned __int16*)&Knuckles_LegIndices;
 	KnucklesWeldInfo[19].ModelB = KNUCKLES_OBJECTS[37];
 	KnucklesWeldInfo[19].VertexPairCount = 4;
 	KnucklesWeldInfo[19].WeldType = 2;
@@ -502,7 +503,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[20].WeldType = 2;
 	KnucklesWeldInfo[20].anonymous_5 = 0;
 	KnucklesWeldInfo[20].VertexBuffer = 0;
-	KnucklesWeldInfo[20].VertIndexes = isDC ? Knuckles_ShoeIndices_DC : (unsigned __int16*)&Knuckles_ShoeIndices;
+	KnucklesWeldInfo[20].VertIndexes = (unsigned __int16*)&Knuckles_ShoeIndices;
 	KnucklesWeldInfo[21].BaseModel = KNUCKLES_OBJECTS[1];
 	KnucklesWeldInfo[21].ModelA = KNUCKLES_OBJECTS[40];
 	KnucklesWeldInfo[21].ModelB = KNUCKLES_OBJECTS[41];
@@ -510,7 +511,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[21].WeldType = 2;
 	KnucklesWeldInfo[21].anonymous_5 = 0;
 	KnucklesWeldInfo[21].VertexBuffer = 0;
-	KnucklesWeldInfo[21].VertIndexes = isDC ? Knuckles_ShoeIndices_DC : (unsigned __int16*)&Knuckles_ShoeIndices;
+	KnucklesWeldInfo[21].VertIndexes = (unsigned __int16*)&Knuckles_ShoeIndices;
 	KnucklesWeldInfo[22].BaseModel = KNUCKLES_OBJECTS[1];
 	KnucklesWeldInfo[22].ModelA = KNUCKLES_OBJECTS[42];
 	KnucklesWeldInfo[22].ModelB = KNUCKLES_OBJECTS[27];
@@ -518,7 +519,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[22].WeldType = 2;
 	KnucklesWeldInfo[22].anonymous_5 = 0;
 	KnucklesWeldInfo[22].VertexBuffer = 0;
-	KnucklesWeldInfo[22].VertIndexes = isDC ? Knuckles_HandIndices_DC : Knuckles_HandIndices;
+	KnucklesWeldInfo[22].VertIndexes = Knuckles_HandIndices;
 	KnucklesWeldInfo[23].BaseModel = KNUCKLES_OBJECTS[1];
 	KnucklesWeldInfo[23].ModelA = KNUCKLES_OBJECTS[44];
 	KnucklesWeldInfo[23].ModelB = KNUCKLES_OBJECTS[31];
@@ -526,7 +527,7 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[23].WeldType = 2;
 	KnucklesWeldInfo[23].anonymous_5 = 0;
 	KnucklesWeldInfo[23].VertexBuffer = 0;
-	KnucklesWeldInfo[23].VertIndexes = isDC ? Knuckles_HandIndices_DC : Knuckles_HandIndices;
+	KnucklesWeldInfo[23].VertIndexes =  Knuckles_HandIndices;
 	KnucklesWeldInfo[24].BaseModel = Root;
 	KnucklesWeldInfo[24].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
 	KnucklesWeldInfo[24].ModelB = 0;
@@ -574,7 +575,6 @@ void __cdecl InitHyperKnucklesWeldsInfo()
 	KnucklesWeldInfo[28].WeldType = 8;
 	KnucklesWeldInfo[29].VertIndexes = 0;
 }
-
 
 void CopyKnuxOriginalModel()
 {
@@ -822,13 +822,13 @@ void SetHyperKnuxModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
 	KNUCKLES_OBJECTS[44] = KNUCKLES_OBJECTS[22];
 	KNUCKLES_OBJECTS[45] = KNUCKLES_OBJECTS[23];
 
-	memcpy(BackupKnuxWeld_r, KnucklesWeldInfo, sizeof(WeldInfo) * 30);
+	memcpy(BackupKnuxWeld_r, KnucklesWeldInfo, sizeof(WeldInfo) * 30); //save current welds of the character
 	DeleteKnucklesWeld(co2, data, data2);
 
 	if (charType == Dreamcast)
-		InitKnucklesWeldInfoDC_mod();
+		InitHyperKnucklesDC_WeldsInfo();
 	else
-		InitHyperKnucklesWeldsInfo();
+		InitHyperKnucklesDX_WeldsInfo();
 
 	InitKnucklesWelds(co2, data, data2);
 }
