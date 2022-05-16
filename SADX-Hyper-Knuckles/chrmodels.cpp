@@ -4,7 +4,7 @@ NJS_OBJECT* KnuxObjCopy[74];
 NJS_OBJECT* KnuxAnimCopy[90];
 WeldInfo BackupKnuxWeld_r[30];
 
-//This whole page manage the character model and welds swap on frames in real time, it's a giant mess due to how the game works.
+//This whole page manage the character model and welds swap in real time, it's a giant mess due to how the game works.
 //Main idea is to backup everything on startup, swap model and weld when transform, then restore everything when destransform.
 //No you can't use loop to copy / assign everything, I wish you could.
 
@@ -123,7 +123,6 @@ void __cdecl InitHyperKnucklesDC_WeldsInfo()
 	KnucklesWeldInfo[6].anonymous_5 = 0;
 	KnucklesWeldInfo[6].VertexBuffer = 0;
 	KnucklesWeldInfo[6].VertIndexes = Knuckles_LegIndices_DC;
-
 
 	KnucklesWeldInfo[7].BaseModel = Root;
 	KnucklesWeldInfo[7].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
@@ -318,17 +317,6 @@ void __cdecl InitHyperKnucklesDC_WeldsInfo()
 	KnucklesWeldInfo[29].VertIndexes = 0;
 }
 
-void DeleteKnucklesWeld(CharObj2* co2, EntityData1* data1, EntityData2* data2)
-{
-	co2->AnimationThing.field_2 = 2;
-	ProcessVertexWelds(data1, data2, co2);
-}
-
-void InitKnucklesWelds(CharObj2* co2, EntityData1* data1, EntityData2* data2)
-{
-	co2->AnimationThing.field_2 = 0;
-	ProcessVertexWelds(data1, data2, co2);
-}
 
 void __cdecl InitHyperKnucklesDX_WeldsInfo()
 {
@@ -576,6 +564,18 @@ void __cdecl InitHyperKnucklesDX_WeldsInfo()
 	KnucklesWeldInfo[29].VertIndexes = 0;
 }
 
+void DeleteKnucklesWeld(CharObj2* co2, EntityData1* data1, EntityData2* data2)
+{
+	co2->AnimationThing.field_2 = 2;
+	ProcessVertexWelds(data1, data2, co2);
+}
+
+void InitKnucklesWelds(CharObj2* co2, EntityData1* data1, EntityData2* data2)
+{
+	co2->AnimationThing.field_2 = 0;
+	ProcessVertexWelds(data1, data2, co2);
+}
+
 void CopyKnuxOriginalModel()
 {
 	KnuxObjCopy[0] = KNUCKLES_OBJECTS[0];
@@ -756,13 +756,6 @@ void CopyKnuxOriginalAnims()
 	KnuxAnimCopy[89] = KNUCKLES_ACTIONS[89]->object;
 }
 
-void Backup_KnuxModelAnims()
-{
-	CopyKnuxOriginalModel();
-	CopyKnuxOriginalAnims();
-	return;
-}
-
 
 void SetHyperKnuxModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
 {
@@ -929,14 +922,6 @@ void SetHyperKnuxAnim()
 	KNUCKLES_ACTIONS[89]->object = KNUCKLES_ACTIONS[0]->object;
 }
 
-void SetHyperKnuxAnimModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
-{
-	if (charType == none)
-		return;
-
-	SetHyperKnuxModel(data, co2, data2);
-	SetHyperKnuxAnim();
-}
 
 void RestoreKnuxModels(EntityData1* data, CharObj2* co2, EntityData2* data2)
 {
@@ -1121,8 +1106,31 @@ void RestoreKnuxAnim()
 	KNUCKLES_ACTIONS[89]->object = KnuxAnimCopy[89];
 }
 
+void SetHyperKnuxAnimModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
+{
+	if (charType == none)
+		return;
+
+	SetHyperKnuxModel(data, co2, data2);
+	SetHyperKnuxAnim();
+}
+
+void Backup_KnuxModelAnims()
+{
+	if (charType == none)
+		return;
+
+	CopyKnuxOriginalModel();
+	CopyKnuxOriginalAnims();
+	return;
+}
+
+
 void RestoreKnuxAnimModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
 {
+	if (charType == none)
+		return;
+
 	RestoreKnuxModels(data, co2, data2);
 	RestoreKnuxAnim();
 }
