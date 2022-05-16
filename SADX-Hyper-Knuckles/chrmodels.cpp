@@ -70,7 +70,6 @@ void __cdecl InitKnucklesWeldInfoDC_mod()
 	KnucklesWeldInfo[0].WeldType = 2;
 	KnucklesWeldInfo[0].VertIndexes = Knuckles_UpperArmIndices_DC;
 
-
 	KnucklesWeldInfo[1].BaseModel = Root;
 	KnucklesWeldInfo[1].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
 	KnucklesWeldInfo[1].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
@@ -138,8 +137,6 @@ void __cdecl InitKnucklesWeldInfoDC_mod()
 	KnucklesWeldInfo[8].anonymous_5 = 0;
 	KnucklesWeldInfo[8].VertexBuffer = 0;
 	KnucklesWeldInfo[8].VertIndexes = Knuckles_ShoeIndices_DC;
-
-
 	KnucklesWeldInfo[9].BaseModel = Root;
 	KnucklesWeldInfo[9].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
 	v1 = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
@@ -159,7 +156,6 @@ void __cdecl InitKnucklesWeldInfoDC_mod()
 	KnucklesWeldInfo[10].anonymous_5 = 0;
 	KnucklesWeldInfo[10].VertexBuffer = 0;
 	KnucklesWeldInfo[10].VertIndexes = Knuckles_HandIndices_DC;
-
 	KnucklesWeldInfo[11].BaseModel = Root;
 	KnucklesWeldInfo[11].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
 	KnucklesWeldInfo[11].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
@@ -233,7 +229,6 @@ void __cdecl InitKnucklesWeldInfoDC_mod()
 	KnucklesWeldInfo[19].WeldType = 2;
 	KnucklesWeldInfo[19].anonymous_5 = 0;
 	KnucklesWeldInfo[19].VertexBuffer = 0;
-
 	KnucklesWeldInfo[20].BaseModel = KNUCKLES_OBJECTS[1];
 	KnucklesWeldInfo[20].ModelA = KNUCKLES_OBJECTS[38];
 	KnucklesWeldInfo[20].ModelB = KNUCKLES_OBJECTS[39];
@@ -251,7 +246,7 @@ void __cdecl InitKnucklesWeldInfoDC_mod()
 	KnucklesWeldInfo[21].VertexBuffer = 0;
 	KnucklesWeldInfo[21].VertIndexes = Knuckles_ShoeIndices_DC;
 
-	//22 HAND RIGHT HIERARCHY IS DIFFERENT WITH DC MODEL
+	//22 RIGHT HAND  HIERARCHY IS DIFFERENT WITH DC MODEL
 	KnucklesWeldInfo[22].BaseModel = KNUCKLES_OBJECTS[1];
 	KnucklesWeldInfo[22].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
 	KnucklesWeldInfo[22].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
@@ -260,7 +255,6 @@ void __cdecl InitKnucklesWeldInfoDC_mod()
 	KnucklesWeldInfo[22].anonymous_5 = 0;
 	KnucklesWeldInfo[22].VertexBuffer = 0;
 	KnucklesWeldInfo[22].VertIndexes = Knuckles_HandIndices_DC;
-
 	KnucklesWeldInfo[23].BaseModel = KNUCKLES_OBJECTS[1];
 	KnucklesWeldInfo[23].ModelA = KNUCKLES_OBJECTS[44];
 	KnucklesWeldInfo[23].ModelB = KNUCKLES_OBJECTS[31];
@@ -269,7 +263,6 @@ void __cdecl InitKnucklesWeldInfoDC_mod()
 	KnucklesWeldInfo[23].anonymous_5 = 0;
 	KnucklesWeldInfo[23].VertexBuffer = 0;
 	KnucklesWeldInfo[23].VertIndexes = Knuckles_HandIndices_DC;
-
 	KnucklesWeldInfo[24].BaseModel = Root;
 	KnucklesWeldInfo[24].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
 	KnucklesWeldInfo[24].ModelB = 0;
@@ -336,7 +329,6 @@ void InitKnucklesWelds(CharObj2* co2, EntityData1* data1, EntityData2* data2)
 
 void __cdecl InitHyperKnucklesWeldsInfo()
 {
-
 	bool isDC = charType == Dreamcast;
 
 	KnucklesWeldInfo[0].BaseModel = HyperKnux_Model[root]->getmodel();
@@ -729,13 +721,12 @@ void CopyKnuxOriginalAnims()
 	KnuxAnimCopy[54] = KNUCKLES_ACTIONS[54]->object;
 	KnuxAnimCopy[55] = KNUCKLES_ACTIONS[55]->object;
 	KnuxAnimCopy[56] = KNUCKLES_ACTIONS[56]->object;
+	KnuxAnimCopy[57] = KNUCKLES_ACTIONS[57]->object;
 	KnuxAnimCopy[58] = KNUCKLES_ACTIONS[58]->object;
 	KnuxAnimCopy[59] = KNUCKLES_ACTIONS[59]->object;
 	KnuxAnimCopy[60] = KNUCKLES_ACTIONS[60]->object;
-
 	KnuxAnimCopy[61] = KNUCKLES_ACTIONS[61]->object;
 	KnuxAnimCopy[62] = KNUCKLES_ACTIONS[62]->object;
-
 	KnuxAnimCopy[63] = KNUCKLES_ACTIONS[63]->object;
 	KnuxAnimCopy[64] = KNUCKLES_ACTIONS[64]->object;
 	KnuxAnimCopy[65] = KNUCKLES_ACTIONS[65]->object;
@@ -1094,13 +1085,13 @@ void RestoreKnuxAnim()
 	KNUCKLES_ACTIONS[54]->object = KnuxAnimCopy[54];
 	KNUCKLES_ACTIONS[55]->object = KnuxAnimCopy[55];
 	KNUCKLES_ACTIONS[56]->object = KnuxAnimCopy[56];
+	KNUCKLES_ACTIONS[57]->object = KnuxAnimCopy[57];
 	KNUCKLES_ACTIONS[58]->object = KnuxAnimCopy[58];
 	KNUCKLES_ACTIONS[59]->object = KnuxAnimCopy[59];
 	KNUCKLES_ACTIONS[60]->object = KnuxAnimCopy[60];
 
 	KNUCKLES_ACTIONS[61]->object = KnuxAnimCopy[61];
 	KNUCKLES_ACTIONS[62]->object = KnuxAnimCopy[62];
-
 	KNUCKLES_ACTIONS[63]->object = KnuxAnimCopy[63];
 	KNUCKLES_ACTIONS[64]->object = KnuxAnimCopy[64];
 	KNUCKLES_ACTIONS[65]->object = KnuxAnimCopy[65];
