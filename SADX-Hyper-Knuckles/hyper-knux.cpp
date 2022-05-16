@@ -106,12 +106,14 @@ void unSuper(unsigned char player) {
 	if (AlwaysHyperKnux)
 		return;
 
-	RestoreKnuxAnimModel();
+	EntityData1* data = EntityData1Ptrs[player];
+	EntityData2* data2 = EntityData2Ptrs[player];
+	CharObj2* co2 = CharObj2Ptrs[player];
+
+	RestoreKnuxAnimModel(data, co2, data2);
 	isQuakeEnabled = false;
 	RestoreOriginalTrailColor();
 
-	EntityData1* data = EntityData1Ptrs[player];
-	CharObj2* co2 = CharObj2Ptrs[player];
 
 	if (!data)
 		return;
@@ -133,7 +135,6 @@ void unSuper(unsigned char player) {
 		co2->Powerups &= ~Powerups_Invincibility;
 	} 
 
-
 	isHyperKnux = false;
 	SetGlidSPD(false);
 	return;
@@ -152,18 +153,17 @@ void Load_SuperAura(taskwk* data1) {
 	}
 }
 
-void SetHyperKnux(CharObj2* co2, EntityData1* data1) {
+void SetHyperKnux(CharObj2* co2, EntityData1* data1, EntityData2* data2) {
 
 	taskwk* taskw = (taskwk*)data1;
 
 	if (IsIngame() && CurrentSFX != None)
 		PlayVoice(7001);
 
-
 	co2->Upgrades |= Upgrades_SuperSonic;
 	co2->Powerups |= Powerups_Invincibility;
 
-	SetHyperKnuxAnimModel();
+	SetHyperKnuxAnimModel(data1, co2, data2);
 	Load_SuperAura(taskw);
 	Load_HyperPhysics(taskw);
 	SetGlidSPD(true);
@@ -234,6 +234,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 
 	EntityData1* data = obj->Data1;
 	EntityData1* player = EntityData1Ptrs[obj->Data1->CharIndex];
+	EntityData2* playerData2 = EntityData2Ptrs[obj->Data1->CharIndex];
 
 	if (!player || !IsIngame() || EV_MainThread_ptr)
 		return;
@@ -282,7 +283,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 		break;
 	case hyperKnuxTransfo:
 
-		SetHyperKnux(co2, player);
+		SetHyperKnux(co2, player, playerData2);
 
 		if (!isKnuxAI(player)) {
 			if (CurrentSuperMusic != None && CurrentSong != MusicIDs_sprsonic)
@@ -299,7 +300,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 		CheckSuperMusic_Restart(playerID);
 		CheckKnuxAfterImages(player, co2);
 
-		if (KnucklesCheckInput((taskwk*)player, (motionwk2*)EntityData2Ptrs[playerID], (playerwk*)co2))
+		if (KnucklesCheckInput((taskwk*)player, (motionwk2*)playerData2, (playerwk*)co2))
 			break;
 
 		if (CheckUntransform_Input(playerID)) {
@@ -324,11 +325,9 @@ int resetTimer = 0;
 
 void Knux_Main_r(ObjectMaster* obj) {
 
-
 	EntityData1* playerData = obj->Data1;
 	CharObj2* co2 = GetCharObj2(playerData->Index);
 	EntityData2* data2 = (EntityData2*)obj->Data2;
-
 
 	switch (playerData->Action)
 	{
@@ -364,11 +363,8 @@ void Knux_Main_r(ObjectMaster* obj) {
 		break;
 	}
 
-
 	ObjectFunc(origin, Knuckles_Main_t->Target());
 	origin(obj);
-
-
 }
 
 
@@ -437,7 +433,6 @@ void InvincibilityRestart_r(ObjectMaster* obj)
 
 void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunctions)
 {
-
 	Init_HyperKnuxTextures(path, helperFunctions);
 
 	Knuckles_Main_t = new Trampoline((int)Knuckles_Main, (int)Knuckles_Main + 0x7, Knux_Main_r);

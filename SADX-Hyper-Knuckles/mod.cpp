@@ -3,7 +3,6 @@
 HelperFunctions HelperFunctionsGlobal;
 std::string modpath;
 
-void init_WeldsHack();
 
 extern "C" {
 	__declspec(dllexport) void __cdecl Init(const char* path, const HelperFunctions& helperFunctions)
@@ -29,8 +28,11 @@ extern "C" {
 		WaterHack_Init();
 		init_KnuxEarthquake();
 		init_AuraHack();
+	}
+
+	__declspec(dllexport) void __cdecl OnInitEnd()
+	{
 		Backup_KnuxModelAnims();
-		init_WeldsHack();
 	}
 
 
