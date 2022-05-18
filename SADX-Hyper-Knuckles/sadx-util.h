@@ -42,3 +42,5 @@ static inline void egm2_car_broken_main_set(NJS_VECTOR* a1)
 FunctionPointer(void, EraseDolbyCtrl, (EntityData1* a1), 0x424840);
 VoidFunc(KnuEffectPutCharge0, 0x4C2210);
 FunctionPointer(void, StopSoundEffect, (EntityData1* data), 0x424240);
+
+DataArray(AnimData, KnucklesAnimData, 0x3C532A0, 115);

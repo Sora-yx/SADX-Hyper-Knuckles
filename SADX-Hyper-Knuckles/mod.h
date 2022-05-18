@@ -78,11 +78,12 @@ enum hyperKnuxModelE {
 	root,
 	curl,
 	ball,
-	lw,
-	rw
+	lw, //upgrade stuff
+	rw,
 };
 
 extern ModelInfo* HyperKnux_Model[5];
 extern NJS_OBJECT* KnuxObjCopy[74];
 
 void Backup_KnuxModelAnims();
+void init_HudHack();

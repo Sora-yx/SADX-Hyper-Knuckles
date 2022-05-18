@@ -176,6 +176,7 @@
     <ClCompile Include="config.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="earthquake.cpp" />
+    <ClCompile Include="hud.cpp" />
     <ClCompile Include="hyper-knux.cpp" />
     <ClCompile Include="max-heat.cpp" />
     <ClCompile Include="mod.cpp" />

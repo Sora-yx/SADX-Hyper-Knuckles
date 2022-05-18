@@ -41,6 +41,8 @@ void animateTextures()
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 1		
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 2		
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[1].attr_texId = texid; //arm left 3
+
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 3
 }
 
 static void Knuckles_Display_r(ObjectMaster* tsk)
@@ -177,7 +179,7 @@ void HyperKnux_PlayTransfoAnimation(EntityData1* player) {
 		return;
 
 	player->Action = 75;
-	CharObj2Ptrs[player->CharIndex]->AnimationThing.Index = 33;
+	CharObj2Ptrs[player->CharIndex]->AnimationThing.Index = 38;
 }
 
 bool CheckUntransform_Input(unsigned char playerID) {
@@ -248,6 +250,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 	switch (data->Action) {
 
 	case hyperKnuxSetTask:
+		SaveWeldsInfo();
 		Set_AuraTextures();
 		obj->DeleteSub = HyperKnuxDelete;
 		data->Action++;
@@ -383,35 +386,7 @@ void __cdecl Init_HyperKnuxTextures(const char* path, const HelperFunctions& hel
 	}
 }
 
-void Load_HyperKnuxModels()
-{
-	if (charType == none)
-		return;
 
-	if (charType == Dreamcast)
-	{
-		HyperKnux_Model[root] = LoadBasicModel("HYPEKNUX_DC");
-		HyperKnux_Model[curl] = LoadBasicModel("HYPECURL_DC");
-		HyperKnux_Model[ball] = LoadBasicModel("HYPEBALL_DC");
-		HyperKnux_Model[lw] = LoadBasicModel("HYPE_LW_DC");
-		HyperKnux_Model[rw] = LoadBasicModel("HYPE_RW_DC");
-	}
-	else
-	{
-		HyperKnux_Model[root] = LoadBasicModel("HYPEKNUX_DX");
-		HyperKnux_Model[curl] = LoadBasicModel("HYPECURL_DX");
-		HyperKnux_Model[ball] = LoadBasicModel("HYPEBALL_DX");
-		HyperKnux_Model[lw] = LoadBasicModel("HYPE_LW_DX");
-		HyperKnux_Model[rw] = LoadBasicModel("HYPE_RW_DX");
-	}
-}
-
-void Free_HyperKnuxModels()
-{
-	for (uint8_t i = 0; i < LengthOfArray(HyperKnux_Model); i++) {
-		FreeMDL(HyperKnux_Model[i]);
-	}
-}
 
 //fix character not invincibile in superform after a restart lol
 void InvincibilityRestart_r(ObjectMaster* obj)

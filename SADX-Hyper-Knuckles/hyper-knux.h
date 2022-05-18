@@ -14,11 +14,14 @@ enum HyperKnuxM {
 NJS_TEXNAME HYPERKNUX_DC[39];
 NJS_TEXNAME HYPERKNUX_DX[31];
 NJS_TEXNAME Knux_SuperAura[16];
+NJS_TEXNAME Knux_LifeIconTex[1];
 
 NJS_TEXLIST HyperKnuxDC_TEXLIST = { arrayptrandlength(HYPERKNUX_DC) };
 NJS_TEXLIST HyperKnuxDX_TEXLIST = { arrayptrandlength(HYPERKNUX_DX) };
 
 NJS_TEXLIST Knux_SuperAura_TEXLIST = { arrayptrandlength(Knux_SuperAura) };
+
+NJS_TEXLIST KnuxLifeIcon_Texlist = { arrayptrandlength(Knux_LifeIconTex) };
 
 
 PVMEntry HyperKnux_DCEntry[] = {
@@ -28,6 +31,7 @@ PVMEntry HyperKnux_DCEntry[] = {
 	{"EGM2_HAMON", &EGM2_HAMON_TEXLIST},
 	{"EGM2_BAKU", &EGM2_BAKU_TEXLIST},
 	{"car_destroyed", &EGM2_CAR_TEXLIST},
+	{"KnuxLifeIcon", &KnuxLifeIcon_Texlist}
 
 };
 
@@ -38,6 +42,7 @@ PVMEntry HyperKnux_DXEntry[] = {
 	{"EGM2_HAMON", &EGM2_HAMON_TEXLIST},
 	{"EGM2_BAKU", &EGM2_BAKU_TEXLIST},
 	{"car_destroyed", &EGM2_CAR_TEXLIST},
+	{"KnuxLifeIcon", &KnuxLifeIcon_Texlist}
 };
 
 void Load_HyperPhysics(taskwk* data1);
@@ -52,3 +57,5 @@ void Set_AuraTextures();
 void RestoreOriginalTrailColor();
 void SetHyperKnuxAnimModel(EntityData1* data, CharObj2* co2, EntityData2* data2);
 void RestoreKnuxAnimModel(EntityData1* data, CharObj2* co2, EntityData2* data2);
+void SaveWeldsInfo();
+void Load_HyperKnuxModels();
