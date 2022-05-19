@@ -8,7 +8,8 @@ bool AlwaysHyperKnux = false;
 bool superAura = true;
 bool customPhysics = true;
 uint8_t charType = Dreamcast;
-
+bool redAura = false;
+std::string auraPVM = "HYPE_K_AURA";
 Buttons TransformButton = Buttons_B;
 
 static const Buttons ButtonsList[]
@@ -24,6 +25,7 @@ void ReadConfig(const char* path, const HelperFunctions& helperFunctions) {
 
 	charType = config->getInt("appearance", "charType", Dreamcast);
 	superAura = config->getBool("appearance", "superAura", true);
+	redAura = config->getBool("appearance", "redAura", false);
 
 	TransformButton = ButtonsList[config->getInt("General", "TransformButton", 0)];
 	AnimationTransfo = config->getBool("General", "AnimationTransfo", true);
@@ -35,5 +37,9 @@ void ReadConfig(const char* path, const HelperFunctions& helperFunctions) {
 	CurrentSuperMusic = config->getInt("Audio", "CurrentSuperMusic", Random);
 	CurrentSFX = config->getInt("Audio", "GetVoice", SADX_SFX);
 	delete config;
+
+	if (redAura)
+		auraPVM = "HYPE_K_AURA_RED";
+
 	return;
 }

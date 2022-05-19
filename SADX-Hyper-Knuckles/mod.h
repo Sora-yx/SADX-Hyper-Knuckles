@@ -50,6 +50,7 @@ extern bool superAura;
 extern bool customPhysics;
 extern uint8_t charType;
 extern bool isQuakeEnabled;
+extern bool redAura;
 
 
 extern Buttons TransformButton;
@@ -82,7 +83,7 @@ enum hyperKnuxModelE {
 	rw,
 };
 
-extern ModelInfo* HyperKnux_Model[5];
+extern ModelInfo* HyperKnux_Model[11];
 extern NJS_OBJECT* KnuxObjCopy[74];
 
 void Backup_KnuxModelAnims();

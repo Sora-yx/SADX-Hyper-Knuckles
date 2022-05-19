@@ -8,7 +8,7 @@ Trampoline* Knuckles_Main_t = nullptr;
 Trampoline* Knuckles_Display_t = nullptr;
 Trampoline* Invincibility_restart_t = nullptr;
 Trampoline* Init_CharSel_LoadA_t = nullptr;
-ModelInfo* HyperKnux_Model[5];
+ModelInfo* HyperKnux_Model[11];
 
 int HKDXAnimTextures[] = { 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 };//Texture IDs for animation
 int HKDCAnimTextures[] = { 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38 };//Texture IDs for animation
@@ -18,30 +18,12 @@ const int animSPD = 2;
 bool isHyperKnux = false;
 
 bool decrease = false;
-float red = 0.02f;
+float green = 0.0f;
 
 void animateTextures()
 {
 	if (!isHyperKnux || GameState != 15 || charType == none)
 		return;
-
-	if (!decrease) {
-		if (red < 1.0f)
-			red += 0.02f;
-		else {
-			decrease = true;
-
-			return;
-		}
-	}
-	else {
-		if (red > 0.0f)
-			red -= 0.02f;
-		else {
-			decrease = false;
-			return;
-		}
-	}
 
 	uint16_t texid = charType == Dreamcast ? HKDCAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDCAnimTextures))] : HKDXAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDXAnimTextures))];
 
@@ -57,11 +39,12 @@ void animateTextures()
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg left 3
 
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm right 1		
-	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm right 2		
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm right 2	
+	
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[1].attr_texId = texid; //arm right 3		
 
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 1		
-	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 2		
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 2	
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[1].attr_texId = texid; //arm left 3
 
 
@@ -445,12 +428,6 @@ void InvincibilityRestart_r(ObjectMaster* obj)
 }
 
 
-void SetMaterialColor_r(float a, float r, float g, float b)
-{
-	SetMaterialAndSpriteColor_Float(a, red, 0, 0);
-}
-
-
 void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunctions)
 {
 	Init_HyperKnuxTextures(path, helperFunctions);
@@ -468,7 +445,5 @@ void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunct
 		Init_CharSel_LoadA_t = new Trampoline((int)CharSel_LoadA, (int)CharSel_LoadA + 0x6, InitKnuxCharSelAnim_r);
 	}
 
-	//make Knuckles able to use material color
-	WriteData<5>((int*)0x472261, 0x90);
-	WriteCall((void*)0x47227A, SetMaterialColor_r);
+
 }

@@ -72,7 +72,7 @@ static void LoadKnucklesAfterImages(EntityData1* data, CharObj2* co2)
 		wk->scl.x = 0.8f;
 		wk->scl.y = co2->AnimationThing.Frame;
 		wk->pos = data->Position;
-		wk->pos.y += 5.0f;
+		wk->pos.y += 5.5f;
 		wk->ang = *(Angle3*)&data->Rotation;
 	}
 }

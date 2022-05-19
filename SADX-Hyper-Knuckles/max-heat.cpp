@@ -20,6 +20,7 @@ void InstantMaxHeat_InputCheck(EntityData1* data, CharObj2* co2)
 		return;
 	}
 
+	data->Status &= ~Status_Ball;
 	PlaySound2(792, data, 1, 0);
 	KnuEffectPutCharge0();
 	StopSoundEffect(data);

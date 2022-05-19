@@ -22,12 +22,12 @@ NJS_TEXLIST HyperKnuxDX_TEXLIST = { arrayptrandlength(HYPERKNUX_DX) };
 NJS_TEXLIST Knux_SuperAura_TEXLIST = { arrayptrandlength(Knux_SuperAura) };
 
 NJS_TEXLIST KnuxLifeIcon_Texlist = { arrayptrandlength(Knux_LifeIconTex) };
-
+extern std::string auraPVM;
 
 PVMEntry HyperKnux_DCEntry[] = {
 	{"HYPERKNUX_DC", &HyperKnuxDC_TEXLIST},
 	{"SUPERSONIC", &SUPERSONIC_TEXLIST},
-	{"HYPE_K_AURA", &Knux_SuperAura_TEXLIST},
+	{ auraPVM.c_str(), &Knux_SuperAura_TEXLIST},
 	{"EGM2_HAMON", &EGM2_HAMON_TEXLIST},
 	{"EGM2_BAKU", &EGM2_BAKU_TEXLIST},
 	{"car_destroyed", &EGM2_CAR_TEXLIST},
@@ -37,7 +37,7 @@ PVMEntry HyperKnux_DCEntry[] = {
 PVMEntry HyperKnux_DXEntry[] = {
 	{"HYPERKNUX_DX", &HyperKnuxDX_TEXLIST},
 	{"SUPERSONIC", &SUPERSONIC_TEXLIST},
-	{"HYPE_K_AURA", &Knux_SuperAura_TEXLIST},
+	{ auraPVM.c_str(), &Knux_SuperAura_TEXLIST},
 	{"EGM2_HAMON", &EGM2_HAMON_TEXLIST},
 	{"EGM2_BAKU", &EGM2_BAKU_TEXLIST},
 	{"car_destroyed", &EGM2_CAR_TEXLIST},
