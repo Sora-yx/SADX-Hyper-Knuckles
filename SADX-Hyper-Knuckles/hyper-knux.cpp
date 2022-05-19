@@ -7,6 +7,7 @@ int ActualSong = 0;
 Trampoline* Knuckles_Main_t = nullptr;
 Trampoline* Knuckles_Display_t = nullptr;
 Trampoline* Invincibility_restart_t = nullptr;
+Trampoline* Init_CharSel_LoadA_t = nullptr;
 ModelInfo* HyperKnux_Model[5];
 
 int HKDXAnimTextures[] = { 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 };//Texture IDs for animation
@@ -16,10 +17,31 @@ const int animSPD = 2;
 
 bool isHyperKnux = false;
 
+bool decrease = false;
+float red = 0.02f;
+
 void animateTextures()
 {
 	if (!isHyperKnux || GameState != 15 || charType == none)
 		return;
+
+	if (!decrease) {
+		if (red < 1.0f)
+			red += 0.02f;
+		else {
+			decrease = true;
+
+			return;
+		}
+	}
+	else {
+		if (red > 0.0f)
+			red -= 0.02f;
+		else {
+			decrease = false;
+			return;
+		}
+	}
 
 	uint16_t texid = charType == Dreamcast ? HKDCAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDCAnimTextures))] : HKDXAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDXAnimTextures))];
 
@@ -42,7 +64,8 @@ void animateTextures()
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 2		
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[1].attr_texId = texid; //arm left 3
 
-	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 3
+
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //tail
 }
 
 static void Knuckles_Display_r(ObjectMaster* tsk)
@@ -131,7 +154,7 @@ void unSuper(unsigned char player) {
 			PlayVoice(7002);
 
 		RestoreMusic();
-	} 
+	}
 
 	co2->Upgrades &= ~Upgrades_SuperSonic;
 	co2->Powerups &= ~Powerups_Invincibility;
@@ -386,7 +409,24 @@ void __cdecl Init_HyperKnuxTextures(const char* path, const HelperFunctions& hel
 	}
 }
 
+void InitKnuxCharSelAnim_r()
+{
+	VoidFunc(origin, Init_CharSel_LoadA_t->Target());
+	origin();
 
+	CharSelDataList[2].anonymous_1[0]->object = HyperKnux_Model[root]->getmodel();
+	CharSelDataList[2].anonymous_1[1]->object = HyperKnux_Model[root]->getmodel();
+	CharSelDataList[2].anonymous_1[2]->object = HyperKnux_Model[root]->getmodel();
+
+	if (charType == Dreamcast) {
+		LoadPVM("HYPERKNUX_DC", &HyperKnuxDC_TEXLIST);
+		CharSelDataList[2].TextureList = &HyperKnuxDC_TEXLIST;
+	}
+	else {
+		LoadPVM("HYPERKNUX_DX", &HyperKnuxDX_TEXLIST);
+		CharSelDataList[2].TextureList = &HyperKnuxDX_TEXLIST;
+	}
+}
 
 //fix character not invincibile in superform after a restart lol
 void InvincibilityRestart_r(ObjectMaster* obj)
@@ -405,6 +445,12 @@ void InvincibilityRestart_r(ObjectMaster* obj)
 }
 
 
+void SetMaterialColor_r(float a, float r, float g, float b)
+{
+	SetMaterialAndSpriteColor_Float(a, red, 0, 0);
+}
+
+
 void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunctions)
 {
 	Init_HyperKnuxTextures(path, helperFunctions);
@@ -418,4 +464,11 @@ void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunct
 
 	//models
 	Load_HyperKnuxModels();
+	if (AlwaysHyperKnux && charType != none) {
+		Init_CharSel_LoadA_t = new Trampoline((int)CharSel_LoadA, (int)CharSel_LoadA + 0x6, InitKnuxCharSelAnim_r);
+	}
+
+	//make Knuckles able to use material color
+	WriteData<5>((int*)0x472261, 0x90);
+	WriteCall((void*)0x47227A, SetMaterialColor_r);
 }

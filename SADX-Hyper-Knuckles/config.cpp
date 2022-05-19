@@ -9,7 +9,7 @@ bool superAura = true;
 bool customPhysics = true;
 uint8_t charType = Dreamcast;
 
-Buttons TransformButton = Buttons_Y;
+Buttons TransformButton = Buttons_B;
 
 static const Buttons ButtonsList[]
 {
@@ -25,7 +25,7 @@ void ReadConfig(const char* path, const HelperFunctions& helperFunctions) {
 	charType = config->getInt("appearance", "charType", Dreamcast);
 	superAura = config->getBool("appearance", "superAura", true);
 
-	TransformButton = ButtonsList[config->getInt("General", "TransformButton", 1)];
+	TransformButton = ButtonsList[config->getInt("General", "TransformButton", 0)];
 	AnimationTransfo = config->getBool("General", "AnimationTransfo", true);
 	RemoveLimitations = config->getBool("General", "RemoveLimitations", false);
 	AlwaysHyperKnux = config->getBool("General", "AlwaysHyperKnux", false);

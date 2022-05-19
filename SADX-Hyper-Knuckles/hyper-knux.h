@@ -32,7 +32,6 @@ PVMEntry HyperKnux_DCEntry[] = {
 	{"EGM2_BAKU", &EGM2_BAKU_TEXLIST},
 	{"car_destroyed", &EGM2_CAR_TEXLIST},
 	{"KnuxLifeIcon", &KnuxLifeIcon_Texlist}
-
 };
 
 PVMEntry HyperKnux_DXEntry[] = {

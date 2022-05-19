@@ -3,6 +3,7 @@
 NJS_OBJECT* KnuxObjCopy[74];
 NJS_OBJECT* KnuxAnimCopy[90];
 WeldInfo BackupKnuxWeld_r[30];
+NJS_MODEL_SADX* KnuxModelCopy[4];
 
 //This whole page manage the character model and welds swap in real time, it's a giant mess due to how the game works.
 //Main idea is to backup everything on startup, swap model and weld when transform, then restore everything when destransform.
@@ -664,6 +665,11 @@ void CopyKnuxOriginalModel()
 	KnuxObjCopy[72] = KNUCKLES_OBJECTS[72];
 	KnuxObjCopy[73] = KNUCKLES_OBJECTS[73];
 
+	//head and wrist upgrade stuff
+	KnuxModelCopy[0] = KNUCKLES_MODELS[4];
+	KnuxModelCopy[1] = KNUCKLES_MODELS[5];
+	KnuxModelCopy[2] = KNUCKLES_MODELS[15];
+	KnuxModelCopy[3] = KNUCKLES_MODELS[19];
 }
 
 void RestoreKnuxModels(EntityData1* data, CharObj2* co2, EntityData2* data2)
@@ -749,6 +755,11 @@ void RestoreKnuxModels(EntityData1* data, CharObj2* co2, EntityData2* data2)
 	KNUCKLES_OBJECTS[71] = KnuxObjCopy[71];
 	KNUCKLES_OBJECTS[72] = KnuxObjCopy[72];
 
+	KNUCKLES_MODELS[4] = KnuxModelCopy[0];
+	KNUCKLES_MODELS[5] = KnuxModelCopy[1];
+	KNUCKLES_MODELS[15] = KnuxModelCopy[2];
+	KNUCKLES_MODELS[19] = KnuxModelCopy[3];
+
 	DeleteKnucklesWeld(co2, data, data2);
 	memcpy(KnucklesWeldInfo, BackupKnuxWeld_r, sizeof(WeldInfo) * 30);
 	InitKnucklesWelds(co2, data, data2);
@@ -772,7 +783,7 @@ void SetHyperKnuxModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
 		KNUCKLES_OBJECTS[5] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
 	else
 		KNUCKLES_OBJECTS[5] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
-	
+
 	KNUCKLES_OBJECTS[6] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling;
 	KNUCKLES_OBJECTS[7] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
 	KNUCKLES_OBJECTS[8] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
@@ -819,19 +830,33 @@ void SetHyperKnuxModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
 	KNUCKLES_OBJECTS[45] = KNUCKLES_OBJECTS[23];
 
 	//upgrades stuff
-	KNUCKLES_OBJECTS[58] = HyperKnux_Model[lw]->getmodel();
+	KNUCKLES_MODELS[4] = HyperKnux_Model[root]->getmodel()->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->sibling->basicdxmodel;
+	KNUCKLES_MODELS[5] = KNUCKLES_MODELS[4];
+	KNUCKLES_MODELS[15] = HyperKnux_Model[lw]->getmodel()->basicdxmodel;
+	KNUCKLES_MODELS[19] = HyperKnux_Model[rw]->getmodel()->basicdxmodel;
+
+	KNUCKLES_OBJECTS[58] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
 	KNUCKLES_OBJECTS[59] = KNUCKLES_OBJECTS[22];
 	KNUCKLES_OBJECTS[60] = KNUCKLES_OBJECTS[9];
 	KNUCKLES_OBJECTS[61] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
-	KNUCKLES_OBJECTS[62] = HyperKnux_Model[rw]->getmodel();
+	KNUCKLES_OBJECTS[62] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
 	KNUCKLES_OBJECTS[63] = KNUCKLES_OBJECTS[20];
 	KNUCKLES_OBJECTS[64] = KNUCKLES_OBJECTS[5];
-				
+
 	//Thumb model hiearchy is also different with DC Glide Model.
 	if (charType == Dreamcast)
 		KNUCKLES_OBJECTS[65] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
 	else
 		KNUCKLES_OBJECTS[65] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
+
+	KNUCKLES_OBJECTS[66] = KNUCKLES_OBJECTS[58];
+	KNUCKLES_OBJECTS[67] = KNUCKLES_OBJECTS[22];
+	KNUCKLES_OBJECTS[68] = KNUCKLES_OBJECTS[9];
+	KNUCKLES_OBJECTS[69] = KNUCKLES_OBJECTS[61];
+	KNUCKLES_OBJECTS[70] = KNUCKLES_OBJECTS[62];
+	KNUCKLES_OBJECTS[71] = KNUCKLES_OBJECTS[63];
+	KNUCKLES_OBJECTS[72] = KNUCKLES_OBJECTS[64];
+	KNUCKLES_OBJECTS[73] = KNUCKLES_OBJECTS[65];
 
 
 	SaveWeldsInfo();
@@ -1162,7 +1187,6 @@ void RestoreKnuxAnimModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
 	RestoreKnuxModels(data, co2, data2);
 	RestoreKnuxAnim();
 }
-
 
 void Load_HyperKnuxModels()
 {
