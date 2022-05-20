@@ -192,27 +192,34 @@ void DestroyCar(ObjectMaster* obj)
 void ObjectCarSHRegular_r(ObjectMaster* obj)
 {
 	EntityData1* data = obj->Data1;
-	int playerID = GetTheNearestPlayerNumber(&data->Position);
 
-	if (data->Index > 1)
-		data->Index = 0;
+	if (isHyperKnux) {
 
+		if (data->Index > 1)
+			data->Index = 0;
 
-	if (isHyperKnux && IsPlayerInsideSphere(&data->Position, 100) && isQuakeEnabled)
-	{
-		if (data->Index == 0)
-			DestroyCar(obj);
+		NJS_VECTOR pos = data->Position;
+		if (IsPlayerInSphere(pos, 100) && isQuakeEnabled)
+		{
+			if (data->Index == 0)
+				DestroyCar(obj);
+		}
+
+		if (data->Index == 1)
+		{
+			egm2_car_broken_main_set(&data->Position);
+			EraseDolbyCtrl(data);
+			CheckThingButThenDeleteObject(obj);
+			return;
+		}
+		else {
+
+			ObjectFunc(origin, carSH_t->Target());
+			origin(obj);
+		}
 	}
-
-	if (data->Index == 1)
+	else
 	{
-		egm2_car_broken_main_set(&data->Position);
-		EraseDolbyCtrl(data);
-		CheckThingButThenDeleteObject(obj);
-		return;
-	}
-	else {
-
 		ObjectFunc(origin, carSH_t->Target());
 		origin(obj);
 	}
@@ -221,27 +228,34 @@ void ObjectCarSHRegular_r(ObjectMaster* obj)
 void ObjectCarSS_r(ObjectMaster* obj)
 {
 	EntityData1* data = obj->Data1;
-	int playerID = GetTheNearestPlayerNumber(&data->Position);
 
-	if (data->Index > 1)
-		data->Index = 0;
+	if (isHyperKnux) {
 
-	if (isHyperKnux && IsPlayerInsideSphere(&data->Position, 100) && isQuakeEnabled)
-	{
-		if (data->Index == 0)
-			DestroyCar(obj);
+		if (data->Index > 1)
+			data->Index = 0;
+
+		NJS_VECTOR pos = data->Position;
+		if (IsPlayerInSphere(pos, 100) && isQuakeEnabled)
+		{
+			if (data->Index == 0)
+				DestroyCar(obj);
+		}
+
+		if (data->Index == 1)
+		{
+			egm2_car_broken_main_set(&data->Position);
+			EraseDolbyCtrl(data);
+			CheckThingButThenDeleteObject(obj);
+			return;
+		}
+		else {
+
+			ObjectFunc(origin, carSS_t->Target());
+			origin(obj);
+		}
 	}
-
-	if (data->Index == 1)
+	else
 	{
-		egm2_car_broken_main_set(&data->Position);
-		EraseDolbyCtrl(data);
-		data->Index = 0;
-		CheckThingButThenDeleteObject(obj);
-		return;
-	}
-	else {
-
 		ObjectFunc(origin, carSS_t->Target());
 		origin(obj);
 	}
@@ -250,6 +264,7 @@ void ObjectCarSS_r(ObjectMaster* obj)
 
 void init_KnuxEarthquake()
 {
+
 	KnuxGrabWall_Check_t = new Trampoline((int)0x4757E0, (int)0x4757E6, KnuxGrabWallCheckASM);
 	WriteCall((void*)0x478721, Knux_JumpCancel); //prevent jump cancel to happen when using earthquake
 	carSH_t = new Trampoline((int)0x611FC0, (int)0x611FC6, ObjectCarSHRegular_r);

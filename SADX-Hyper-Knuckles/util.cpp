@@ -198,3 +198,33 @@ bool isNewTricks()
 {
 	return GetModuleHandle(L"sadx-new-tricks") != NULL;
 }
+
+
+float GetDistance(NJS_VECTOR* v1, NJS_VECTOR* v2)
+{
+	return sqrtf((v2->x - v1->x) * (v2->x - v1->x) +
+		(v2->y - v1->y) * (v2->y - v1->y) +
+		(v2->z - v1->z) * (v2->z - v1->z));
+}
+
+int IsPlayerInSphere(NJS_POINT3* p, float r)
+{
+	for (int i = 0; i < 8; ++i)
+	{
+		if (playertwp[i])
+		{
+			if (GetDistance(&playertwp[i]->pos, p) < r)
+			{
+				return i + 1;
+			}
+		}
+	}
+
+	return 0;
+}
+
+int IsPlayerInSphere(NJS_VECTOR pos, float r)
+{
+
+	return IsPlayerInSphere(&pos, r);
+}

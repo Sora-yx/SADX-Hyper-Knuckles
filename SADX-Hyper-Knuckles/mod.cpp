@@ -38,8 +38,8 @@ extern "C" {
 	__declspec(dllexport) void __cdecl OnFrame()
 	{
 		CamShakes();
-	}	
-	
+	}
+
 	__declspec(dllexport) void __cdecl OnExit()
 	{
 		Free_HyperKnuxModels();

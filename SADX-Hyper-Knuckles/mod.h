@@ -3,10 +3,9 @@
 void ReadConfig(const char* path, const HelperFunctions& helperFunctions);
 
 extern HelperFunctions HelperFunctionsGlobal;
-
+extern std::string modpath;
 
 #define TARGET_DYNAMIC(name) ((decltype(name##_r)*)name##_t->Target())
-
 
 enum HyperKnuxMusic {
 

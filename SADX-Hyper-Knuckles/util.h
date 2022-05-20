@@ -21,3 +21,5 @@ void njRotateY_(Angle y);
 void njRotateZ_(Angle z);
 void CamShakes();
 bool isNewTricks();
+
+int IsPlayerInSphere(NJS_VECTOR pos, float r);

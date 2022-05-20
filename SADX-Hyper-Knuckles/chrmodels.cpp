@@ -803,11 +803,8 @@ void RestoreKnuxModels(EntityData1* data, CharObj2* co2, EntityData2* data2)
 	InitKnucklesWelds(co2, data, data2);
 }
 
-
-void SetHyperKnuxModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
+void SetHyperKnuxModel_()
 {
-	if (charType == none)
-		return;
 
 	KNUCKLES_OBJECTS[0] = HyperKnux_Model[root]->getmodel();
 	KNUCKLES_OBJECTS[1] = HyperKnux_Model[root]->getmodel();
@@ -922,7 +919,14 @@ void SetHyperKnuxModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
 	KNUCKLES_MODELS[20] = HyperKnux_Model[8]->getmodel()->basicdxmodel;
 	KNUCKLES_MODELS[21] = HyperKnux_Model[9]->getmodel()->basicdxmodel;
 	KNUCKLES_MODELS[22] = HyperKnux_Model[10]->getmodel()->basicdxmodel;
+}
 
+void SetHyperKnuxModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
+{
+	if (charType == none)
+		return;
+
+	SetHyperKnuxModel_();
 	SaveWeldsInfo();
 	DeleteKnucklesWeld(co2, data, data2);
 
@@ -1224,7 +1228,7 @@ void SetHyperKnuxAnim()
 
 void SetHyperKnuxAnimModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
 {
-	if (charType == none)
+	if (charType == none || AlwaysHyperKnux)
 		return;
 
 	SetHyperKnuxModel(data, co2, data2);
@@ -1236,8 +1240,24 @@ void Backup_KnuxModelAnims()
 	if (charType == none)
 		return;
 
-	CopyKnuxOriginalModel();
-	CopyKnuxOriginalAnims();
+	if (!AlwaysHyperKnux) {
+		CopyKnuxOriginalModel();
+		CopyKnuxOriginalAnims();
+	}
+	else
+	{
+		SetHyperKnuxModel_();
+		SetHyperKnuxAnim();
+
+		if (charType == Dreamcast)
+		{
+			WriteJump(InitKnucklesWeldInfo, InitHyperKnucklesDC_WeldsInfo);
+		}
+		else
+		{
+			WriteJump(InitKnucklesWeldInfo, InitHyperKnucklesDX_WeldsInfo);
+		}
+	}
 
 	return;
 }

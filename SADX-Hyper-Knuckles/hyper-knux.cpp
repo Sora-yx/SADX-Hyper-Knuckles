@@ -40,7 +40,7 @@ void animateTextures()
 
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm right 1		
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm right 2	
-	
+
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[1].attr_texId = texid; //arm right 3		
 
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 1		
@@ -378,19 +378,19 @@ void Knux_Main_r(ObjectMaster* obj) {
 
 void __cdecl Init_HyperKnuxTextures(const char* path, const HelperFunctions& helperFunctions) {
 
-	if (charType == Dreamcast)
-	{
-		for (int i = 0; i < LengthOfArray(HyperKnux_DCEntry); i++) {
-			helperFunctions.RegisterCharacterPVM(Characters_Knuckles, HyperKnux_DCEntry[i]);
-		}
+	for (uint8_t i = 0; i < LengthOfArray(HyperKnux_DCEntry); i++) {
+		helperFunctions.RegisterCharacterPVM(Characters_Knuckles, charType == Dreamcast ? HyperKnux_DCEntry[i] : HyperKnux_DXEntry[i]);
 	}
-	else
-	{
-		for (int i = 0; i < LengthOfArray(HyperKnux_DXEntry); i++) {
-			helperFunctions.RegisterCharacterPVM(Characters_Knuckles, HyperKnux_DXEntry[i]);
-		}
+
+	if (AlwaysHyperKnux) {
+		KNUCKLES_TEXLIST = charType == Dreamcast ? HyperKnuxDC_TEXLIST : HyperKnuxDX_TEXLIST;
+		std::string texPath = modpath + "\\textures\\";
+		texPath += charType == Dreamcast ? "HYPERKNUX_DC" : "HYPERKNUX_DX";
+		texPath += ".pvmx";
+		helperFunctions.ReplaceFile("system\\KNUCKLES.PVM", texPath.c_str());
 	}
 }
+
 
 void InitKnuxCharSelAnim_r()
 {
@@ -402,11 +402,9 @@ void InitKnuxCharSelAnim_r()
 	CharSelDataList[2].anonymous_1[2]->object = HyperKnux_Model[root]->getmodel();
 
 	if (charType == Dreamcast) {
-		LoadPVM("HYPERKNUX_DC", &HyperKnuxDC_TEXLIST);
 		CharSelDataList[2].TextureList = &HyperKnuxDC_TEXLIST;
 	}
 	else {
-		LoadPVM("HYPERKNUX_DX", &HyperKnuxDX_TEXLIST);
 		CharSelDataList[2].TextureList = &HyperKnuxDX_TEXLIST;
 	}
 }
