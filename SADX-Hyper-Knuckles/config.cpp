@@ -11,6 +11,7 @@ uint8_t charType = Dreamcast;
 bool redAura = false;
 std::string auraPVM = "HYPE_K_AURA";
 Buttons TransformButton = Buttons_B;
+bool lifeIcon = false;
 
 static const Buttons ButtonsList[]
 {
@@ -26,6 +27,7 @@ void ReadConfig(const char* path, const HelperFunctions& helperFunctions) {
 	charType = config->getInt("appearance", "charType", Dreamcast);
 	superAura = config->getBool("appearance", "superAura", true);
 	redAura = config->getBool("appearance", "redAura", false);
+	lifeIcon = config->getBool("appearance", "lifeIcon", true);
 
 	TransformButton = ButtonsList[config->getInt("General", "TransformButton", 0)];
 	AnimationTransfo = config->getBool("General", "AnimationTransfo", true);

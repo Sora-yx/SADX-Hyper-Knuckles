@@ -46,5 +46,8 @@ void __cdecl DisplayHyperKnux_Icon()
 
 void init_HudHack()
 {
+	if (!lifeIcon)
+		return;
+
 	HudDisplayLife_t = new Trampoline((int)HudDisplayRingTimeLife, (int)HudDisplayRingTimeLife + 0x6, DisplayHyperKnux_Icon);
 }

@@ -50,7 +50,7 @@ extern bool customPhysics;
 extern uint8_t charType;
 extern bool isQuakeEnabled;
 extern bool redAura;
-
+extern bool lifeIcon;
 
 extern Buttons TransformButton;
 
