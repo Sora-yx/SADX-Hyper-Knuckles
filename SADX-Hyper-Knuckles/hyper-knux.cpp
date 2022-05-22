@@ -164,7 +164,7 @@ void SetHyperKnux(CharObj2* co2, EntityData1* data1, EntityData2* data2) {
 
 	taskwk* taskw = (taskwk*)data1;
 
-	if (IsIngame() && CurrentSFX != None)
+	if (IsIngame() && CurrentSFX != None && !isPerfectChasoLevel())
 		PlayVoice(7001);
 
 	co2->Upgrades |= Upgrades_SuperSonic;
@@ -200,7 +200,7 @@ bool CheckUntransform_Input(unsigned char playerID) {
 		return true;
 	}
 
-	if (ControllerPointers[playerID]->PressedButtons & TransformButton)
+	if (ControllerPointers[playerID]->PressedButtons & TransformButton && !isPerfectChasoLevel())
 	{
 		if (player->Action == glide || player->Action == jump) {
 			unSuper(player->CharIndex);
@@ -266,7 +266,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 		if (!AlwaysHyperKnux && !ControlEnabled)
 			return;
 
-		if (CheckPlayer_Input(playerID) || AlwaysHyperKnux)
+		if (CheckPlayer_Input(playerID) || AlwaysHyperKnux || isPerfectChasoLevel())
 			data->Action++;
 
 		break;
@@ -293,7 +293,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 
 		SetHyperKnux(co2, player, playerData2);
 
-		if (!isKnuxAI(player)) {
+		if (!isKnuxAI(player) && !isPerfectChasoLevel()) {
 			if (CurrentSuperMusic != None && CurrentSong != MusicIDs_sprsonic)
 			{
 				ActualSong = LastSong;
@@ -304,8 +304,12 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 		data->Action++;
 		break;
 	case hyperKnuxOnFrames:
-		SubRings(playerID, data);
-		CheckSuperMusic_Restart(playerID);
+
+		if (!isPerfectChasoLevel()) {
+			SubRings(playerID, data);
+			CheckSuperMusic_Restart(playerID);
+		}
+
 		CheckKnuxAfterImages(player, co2);
 
 		if (KnucklesCheckInput((taskwk*)player, (motionwk2*)playerData2, (playerwk*)co2))

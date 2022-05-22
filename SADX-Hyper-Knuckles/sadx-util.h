@@ -4,7 +4,7 @@ FunctionPointer(void, PResetPosition, (EntityData1* data, EntityData2* mwp, Char
 
 DataArray(NJS_TEXLIST, texlist_aura, 0x1422160, 8);
 DataArray(NJS_TEXLIST, texlist_aura2, 0x14221A0, 8);
-DataArray(NJS_TEXLIST, texlist_water_wave, 0x14221E0, 8);
+DataArray(NJS_TEXLIST, texlist_water_wave, 0x1422160, 16);
 DataPointer(NJS_MODEL_SADX, model_o_cl_grid1_cl_grid1, 0x1427FA4);
 
 DataPointer(NJS_VECTOR, stru_3C5AB24, 0x3C5AB24);
@@ -44,3 +44,5 @@ VoidFunc(KnuEffectPutCharge0, 0x4C2210);
 FunctionPointer(void, StopSoundEffect, (EntityData1* data), 0x424240);
 
 DataArray(AnimData, KnucklesAnimData, 0x3C532A0, 115);
+ObjectFunc(sub_576A90, 0x576A90);
+ObjectFunc(sub_5768E0, 0x576A90);

@@ -9,6 +9,50 @@ NJS_POINT3 Velo = { 5.0f, 5.0f, 5.0f };
 
 bool isQuakeEnabled = false;
 
+void __cdecl Exe_leg_shock_r(ObjectMaster* obj)
+{
+	EntityData1* data; 
+	ObjectMaster* SWColor;
+	EntityData1* swColorData;
+	EntityData1* swData;
+	ObjectMaster* SW;
+
+	data = obj->Data1;
+	if (data->Action)
+	{
+		if (data->Action != 1)
+		{
+			goto LABEL_11;
+		}
+	}
+	else
+	{
+		data->Unknown = 30;
+		data->Action = 1;
+	}
+	SWColor = LoadObject(LoadObj_Data1, 6, (void(__cdecl*)(ObjectMaster*))sub_576A90);
+	if (SWColor)
+	{
+		swColorData = SWColor->Data1;
+		swColorData->Position = data->Position;
+		swColorData->Rotation = data->Rotation;
+	}
+	SW = LoadObject(LoadObj_Data1, 6, (void(__cdecl*)(ObjectMaster*))sub_5768E0);
+	if (SW)
+	{
+		swData = SW->Data1;
+		swData->Position = data->Position;
+		swData->Rotation = data->Rotation;
+	}
+	if ((int)--data->Unknown < 0)
+	{
+		CheckThingButThenDeleteObject(obj);
+	}
+LABEL_11:
+	data->CollisionInfo->CollisionArray->a = (30.0 - (double)(int)data->Unknown) * 2.4666667;
+	AddToCollisionList(data);
+}
+
 CollisionData legCol = { 0, 1, 0x0, 0x0, 0x0, {0}, 0.0, 1.0, 0.0, 0.0, 0, 0, 0 };
 //use bomb item to kill enemy, then smoke and egg walker shockwave for the effects
 void CreateBombQuake(EntityData1* player, CharObj2* co2)
@@ -20,11 +64,15 @@ void CreateBombQuake(EntityData1* player, CharObj2* co2)
 	RumbleA(player->CharIndex, 0);
 
 	CreateSmoke(&player->Position, &Velo, 8.0f);
-	ObjectMaster* shockwave = LoadObject(LoadObj_Data1, 6, Exe_leg_shock);
-	shockwave->Data1->Position = player->Position;
-	shockwave->Data1->Rotation = player->Rotation;
-	shockwave->Data1->Position.y += 2.5f;
-	Collision_Init(shockwave, &legCol, 1, 4u);
+	ObjectMaster* shockwave = LoadObject(LoadObj_Data1, 6, Exe_leg_shock_r);
+	if (shockwave) {
+		if (shockwave->Data1) {
+			shockwave->Data1->Position = player->Position;
+			shockwave->Data1->Rotation = player->Rotation;
+			shockwave->Data1->Position.y += 2.5f;
+			Collision_Init(shockwave, &legCol, 1, 4u);
+		}
+	}
 }
 
 static void Knux_GrabWallCheck_Origin(EntityData1* a1, CharObj2* a2)

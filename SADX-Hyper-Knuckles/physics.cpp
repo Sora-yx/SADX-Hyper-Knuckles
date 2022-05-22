@@ -20,7 +20,7 @@ void __cdecl Knux_SuperPhysics_Load(ObjectMaster* obj)
 	{
 		memcpy(&knuxPhysicsCopy, &PhysicsArray[Characters_Knuckles], sizeof(PhysicsData_t));
 
-		if (!customPhysics) { //use vanilla broken super sonic physics
+		if (!customPhysics || isPerfectChasoLevel()) { //use vanilla broken super sonic physics
 			v2->PhysicsData.RollDecel = -0.001f;
 			v2->PhysicsData.AirDecel = -0.0020000001f;
 			v2->PhysicsData.AirAccel = 0.050000001f;
@@ -56,7 +56,7 @@ void Load_HyperPhysics(taskwk* data1) {
 //fix spring issue, only run if Super Sonic mod is disabled.
 static void __cdecl ResetAngle_r(EntityData1* data, EntityData2* data2, CharObj2* co2)
 {
-	if (CurrentLevel != LevelIDs_PerfectChaos && co2->Upgrades & Upgrades_SuperSonic)
+	if (!isPerfectChasoLevel() && co2->Upgrades & Upgrades_SuperSonic)
 	{
 		float v4; // ecx
 		float v5; // eax

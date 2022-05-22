@@ -22,6 +22,7 @@ void __cdecl DisplayHyperKnux_Icon()
 	if (!EntityData1Ptrs[0] || EntityData1Ptrs[0]->CharID != Characters_Knuckles || !isHyperKnux || !isInActionStage())
 		return;
 
+	HelperFunctionsGlobal.PushScaleUI(uiscale::Align_Automatic, false, 1.0f, 1.0f);
 	njColorBlendingMode(NJD_SOURCE_COLOR, NJD_COLOR_BLENDING_SRCALPHA);
 	njColorBlendingMode(NJD_DESTINATION_COLOR, NJD_COLOR_BLENDING_INVSRCALPHA);
 
@@ -29,12 +30,18 @@ void __cdecl DisplayHyperKnux_Icon()
 
 	if (HideLives >= 0)
 	{
-		HYPERKNUX_EXTRA_SPRITE.p.x = 16.0;
-		HYPERKNUX_EXTRA_SPRITE.p.y = VerticalStretch * 480.0 - 80.0f;
+		HYPERKNUX_EXTRA_SPRITE.p.x = 16.0f;
 
+		if (isDCConversion())
+			HYPERKNUX_EXTRA_SPRITE.p.y = VerticalStretch * 480.0f - 80.0f;
+		else
+			HYPERKNUX_EXTRA_SPRITE.p.y = VerticalStretch * 480.0f - 64.0f;
+	
 		njDrawSprite2D_ForcePriority(&HYPERKNUX_EXTRA_SPRITE, 0, -1.501, NJD_SPRITE_ALPHA);
 		ClampGlobalColorThing_Thing();
 	}
+
+	HelperFunctionsGlobal.PopScaleUI();
 }
 
 void init_HudHack()

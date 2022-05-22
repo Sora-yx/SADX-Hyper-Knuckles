@@ -23,3 +23,5 @@ void CamShakes();
 bool isNewTricks();
 
 int IsPlayerInSphere(NJS_VECTOR pos, float r);
+bool isDCConversion();
+bool isPerfectChasoLevel();

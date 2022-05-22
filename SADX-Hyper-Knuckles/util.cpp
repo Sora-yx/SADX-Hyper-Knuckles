@@ -199,6 +199,11 @@ bool isNewTricks()
 	return GetModuleHandle(L"sadx-new-tricks") != NULL;
 }
 
+bool isDCConversion()
+{
+	return GetModuleHandle(L"DCMods_Main") != NULL;
+}
+
 
 float GetDistance(NJS_VECTOR* v1, NJS_VECTOR* v2)
 {
@@ -227,4 +232,9 @@ int IsPlayerInSphere(NJS_VECTOR pos, float r)
 {
 
 	return IsPlayerInSphere(&pos, r);
+}
+
+bool isPerfectChasoLevel()
+{
+	return CurrentLevel == LevelIDs_PerfectChaos && CurrentAct == 0;
 }
