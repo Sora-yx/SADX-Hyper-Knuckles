@@ -246,7 +246,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 	if (!player || !IsIngame() || EV_MainThread_ptr)
 		return;
 
-	if (player->CharID != Characters_Knuckles) //charsel fix
+	if (player->CharID != Characters_Knuckles || player->CharIndex == 1 && CharacterBossActive) //charsel fix
 		CheckThingButThenDeleteObject(obj);
 
 	unsigned char playerID = data->CharIndex;

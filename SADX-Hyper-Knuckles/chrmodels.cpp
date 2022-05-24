@@ -571,14 +571,18 @@ void __cdecl InitHyperKnucklesDX_WeldsInfo()
 
 void DeleteKnucklesWeld(CharObj2* co2, EntityData1* data1, EntityData2* data2)
 {
-	co2->AnimationThing.field_2 = 2;
-	ProcessVertexWelds(data1, data2, co2);
+	if (co2 && data1 && data2) {
+		co2->AnimationThing.field_2 = 2;
+		ProcessVertexWelds(data1, data2, co2);
+	}
 }
 
 void InitKnucklesWelds(CharObj2* co2, EntityData1* data1, EntityData2* data2)
 {
-	co2->AnimationThing.field_2 = 0;
-	ProcessVertexWelds(data1, data2, co2);
+	if (co2 && data1 && data2) {
+		co2->AnimationThing.field_2 = 0;
+		ProcessVertexWelds(data1, data2, co2);
+	}
 }
 
 void CopyKnuxOriginalModel()
