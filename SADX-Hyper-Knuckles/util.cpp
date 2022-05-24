@@ -131,7 +131,7 @@ bool isKnuxAI(EntityData1* data1) {
 
 bool isPlayerOnHyperForm(int player) {
 
-	if (CharObj2Ptrs[player]->Upgrades & Upgrades_SuperSonic)
+	if (CharObj2Ptrs[player] && CharObj2Ptrs[player]->Upgrades & Upgrades_SuperSonic)
 		return true;
 
 	return false;
