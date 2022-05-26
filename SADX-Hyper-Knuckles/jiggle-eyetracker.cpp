@@ -17,7 +17,6 @@ void __cdecl KnucklesHeadSpikeShake_r(ObjectMaster* arg0)
 
 void __cdecl HyperKnucklesHeadSpikesShake(ObjectMaster* _this)
 {
-
 	NJS_POINT3* headlist_Point;
 	NJS_OBJECT* knuxObj;
 	NJS_MODEL_SADX* knuxHead; // eax
@@ -138,10 +137,6 @@ void __cdecl HyperKnucklesHeadSpikesShake(ObjectMaster* _this)
 
 		while (1)
 		{
-			if (headPoints->z > 0.2f)
-			{
-				break;
-			}
 
 			if (headPoints->x < -2.0f)
 			{
@@ -170,9 +165,7 @@ void __cdecl HyperKnucklesHeadSpikesShake(ObjectMaster* _this)
 				return;
 			}
 		}
-		a2.z = headPoints->z;
-		v20 = &stru_3C52C08;
-		goto LABEL_37;
+
 	}
 	else {
 
