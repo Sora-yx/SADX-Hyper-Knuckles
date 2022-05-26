@@ -31,10 +31,10 @@ void __cdecl HyperKnucklesHeadSpikesShake(ObjectMaster* _this)
 	int v15; // ebp
 	char v19; // c0
 	D3DMATRIX* v20; // ecx
-	float spd; // [esp+0h] [ebp-28h]
-	Sint32 nbPointTimer; // [esp+14h] [ebp-14h]
-	motionwk2* playerData2; // [esp+18h] [ebp-10h]
-	NJS_VECTOR a2; // [esp+1Ch] [ebp-Ch] BYREF
+	float spd; 
+	Sint32 nbPointTimer; 
+	motionwk2* playerData2; 
+	NJS_VECTOR a2; 
 
 	motionwk2* data2 = (motionwk2*)_this->Data2;
 	EntityData1* data = _this->Data1;

@@ -11,7 +11,7 @@ bool isQuakeEnabled = false;
 
 void __cdecl Exe_leg_shock_r(ObjectMaster* obj)
 {
-	EntityData1* data; 
+	EntityData1* data;
 	ObjectMaster* SWColor;
 	EntityData1* swColorData;
 	EntityData1* swData;
@@ -199,14 +199,18 @@ void Sweep_Main_r(task* obj)
 
 	if (data && objdata2) {
 
-		if (OhNoImDead((EntityData1*)data, objdata2))
-		{
-			data->mode = 3;
-			data->counter.b[1] = 0;
-			data->counter.b[2] = 1;
-			data->wtimer = 0;
-			data->scl.z = 0.34999999;
-			return; 
+		if (data->mode < 3) {
+
+			if (OhNoImDead((EntityData1*)data, objdata2))
+			{
+				data->mode = 3;
+				data->counter.b[1] = 0;
+				data->counter.b[2] = 1;
+				data->wtimer = 0;
+				data->scl.z = 0.34999999;
+				return;
+			}
+
 		}
 	}
 
