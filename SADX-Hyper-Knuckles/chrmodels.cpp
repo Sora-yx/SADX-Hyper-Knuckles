@@ -802,14 +802,16 @@ void RestoreKnuxModels(EntityData1* data, CharObj2* co2, EntityData2* data2)
 	KNUCKLES_MODELS[21] = KnuxModelCopy[21];
 	KNUCKLES_MODELS[22] = KnuxModelCopy[22];
 
-	DeleteKnucklesWeld(co2, data, data2);
-	memcpy(KnucklesWeldInfo, BackupKnuxWeld_r, sizeof(WeldInfo) * 30);
-	InitKnucklesWelds(co2, data, data2);
+	if (co2) {
+		DeleteKnucklesWeld(co2, data, data2);
+		memcpy(KnucklesWeldInfo, BackupKnuxWeld_r, sizeof(WeldInfo) * 30);
+		InitKnucklesWelds(co2, data, data2);
+		LoadRegularKnuxJiggle(data->CharIndex);
+	}
 }
 
 void SetHyperKnuxModel_()
 {
-
 	KNUCKLES_OBJECTS[0] = HyperKnux_Model[root]->getmodel();
 	KNUCKLES_OBJECTS[1] = HyperKnux_Model[root]->getmodel();
 
@@ -867,6 +869,15 @@ void SetHyperKnuxModel_()
 	KNUCKLES_OBJECTS[43] = KNUCKLES_OBJECTS[21];
 	KNUCKLES_OBJECTS[44] = KNUCKLES_OBJECTS[22];
 	KNUCKLES_OBJECTS[45] = KNUCKLES_OBJECTS[23];
+	
+	KNUCKLES_OBJECTS[49] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->sibling; //head
+	KNUCKLES_OBJECTS[50] = KNUCKLES_OBJECTS[49];
+	KNUCKLES_OBJECTS[51] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling; // FACE ROOT
+	KNUCKLES_OBJECTS[52] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->child->child->sibling->child->child->sibling; // right eye
+	KNUCKLES_OBJECTS[53] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->child->child->sibling; // left eye
+
+	KNUCKLES_OBJECTS[54] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling; //left eye ROOT
+	KNUCKLES_OBJECTS[55] = KNUCKLES_OBJECTS[49];
 
 
 	KNUCKLES_OBJECTS[58] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
@@ -893,16 +904,18 @@ void SetHyperKnuxModel_()
 	KNUCKLES_OBJECTS[73] = KNUCKLES_OBJECTS[65];
 
 	//upgrades stuff
+	KNUCKLES_MODELS[0] = HyperKnux_Model[11]->getmodel()->basicdxmodel;
+	KNUCKLES_MODELS[1] = HyperKnux_Model[12]->getmodel()->basicdxmodel;
+	KNUCKLES_MODELS[2] = HyperKnux_Model[13]->getmodel()->basicdxmodel;
+	KNUCKLES_MODELS[3] = HyperKnux_Model[14]->getmodel()->basicdxmodel;
+
 	KNUCKLES_MODELS[4] = HyperKnux_Model[root]->getmodel()->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->sibling->basicdxmodel;
 	KNUCKLES_MODELS[5] = KNUCKLES_MODELS[4];
-	KNUCKLES_MODELS[15] = HyperKnux_Model[lw]->getmodel()->basicdxmodel;
-	KNUCKLES_MODELS[19] = HyperKnux_Model[rw]->getmodel()->basicdxmodel;
+	KNUCKLES_MODELS[6] = HyperKnux_Model[15]->getmodel()->basicdxmodel; //morph head
 
-	//6 is morph head so we skip it
 	KNUCKLES_MODELS[7] = KNUCKLES_OBJECTS[8]->getbasicdxmodel();
 	KNUCKLES_MODELS[8] = KNUCKLES_OBJECTS[22]->getbasicdxmodel();
 	KNUCKLES_MODELS[9] = KNUCKLES_OBJECTS[23]->getbasicdxmodel();
-
 
 	KNUCKLES_MODELS[10] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling->getbasicdxmodel();
 
@@ -915,14 +928,18 @@ void SetHyperKnuxModel_()
 	else
 		KNUCKLES_MODELS[14] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->getbasicdxmodel();
 
+	KNUCKLES_MODELS[15] = HyperKnux_Model[lw]->getmodel()->basicdxmodel;
 
 	KNUCKLES_MODELS[16] = HyperKnux_Model[5]->getmodel()->basicdxmodel;
 	KNUCKLES_MODELS[17] = HyperKnux_Model[6]->getmodel()->basicdxmodel;
+
 	KNUCKLES_MODELS[18] = HyperKnux_Model[7]->getmodel()->basicdxmodel;
+	KNUCKLES_MODELS[19] = HyperKnux_Model[rw]->getmodel()->basicdxmodel;
 
 	KNUCKLES_MODELS[20] = HyperKnux_Model[8]->getmodel()->basicdxmodel;
 	KNUCKLES_MODELS[21] = HyperKnux_Model[9]->getmodel()->basicdxmodel;
 	KNUCKLES_MODELS[22] = HyperKnux_Model[10]->getmodel()->basicdxmodel;
+
 }
 
 void SetHyperKnuxModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
@@ -1237,6 +1254,7 @@ void SetHyperKnuxAnimModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
 
 	SetHyperKnuxModel(data, co2, data2);
 	SetHyperKnuxAnim();
+
 }
 
 void Backup_KnuxModelAnims()
@@ -1276,6 +1294,7 @@ void RestoreKnuxAnimModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
 	RestoreKnuxAnim();
 }
 
+
 void Load_HyperKnuxModels()
 {
 	if (charType == none)
@@ -1305,6 +1324,12 @@ void Load_HyperKnuxModels()
 	HyperKnux_Model[8] = LoadBasicModel("20");
 	HyperKnux_Model[9] = LoadBasicModel("21");
 	HyperKnux_Model[10] = LoadBasicModel("22");
+	//shovel claw stuff
+	HyperKnux_Model[11] = LoadBasicModel("0");
+	HyperKnux_Model[12] = LoadBasicModel("1");
+	HyperKnux_Model[13] = LoadBasicModel("2");
+	HyperKnux_Model[14] = LoadBasicModel("3");
+	HyperKnux_Model[15] = LoadBasicModel("6");
 }
 
 void Free_HyperKnuxModels()

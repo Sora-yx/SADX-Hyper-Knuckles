@@ -16,6 +16,9 @@
     <Filter Include="Source Files\abilities">
       <UniqueIdentifier>{c9d8505a-47ca-438f-bb6d-f33b863c1eee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\hyperknux">
+      <UniqueIdentifier>{14c1d7d7-1760-4041-913d-c3bf3bee8122}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -56,15 +59,6 @@
     <ClCompile Include="util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hyper-knux.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="physics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="water-hack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -80,11 +74,23 @@
     <ClCompile Include="super-aura.cpp">
       <Filter>Source Files\abilities</Filter>
     </ClCompile>
-    <ClCompile Include="chrmodels.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="hud.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jiggle-eyetracker.cpp">
+      <Filter>Source Files\hyperknux</Filter>
+    </ClCompile>
+    <ClCompile Include="chrmodels.cpp">
+      <Filter>Source Files\hyperknux</Filter>
+    </ClCompile>
+    <ClCompile Include="hyper-knux.cpp">
+      <Filter>Source Files\hyperknux</Filter>
+    </ClCompile>
+    <ClCompile Include="physics.cpp">
+      <Filter>Source Files\hyperknux</Filter>
+    </ClCompile>
+    <ClCompile Include="water-hack.cpp">
+      <Filter>Source Files\abilities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

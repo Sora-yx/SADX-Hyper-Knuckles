@@ -27,6 +27,7 @@ extern "C" {
 		init_KnuxEarthquake();
 		init_AuraHack();
 		init_HudHack();
+		init_Jiggle_EyeTracker();
 	}
 
 	__declspec(dllexport) void __cdecl OnInitEnd()

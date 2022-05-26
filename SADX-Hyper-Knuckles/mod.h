@@ -82,8 +82,11 @@ enum hyperKnuxModelE {
 	rw,
 };
 
-extern ModelInfo* HyperKnux_Model[11];
+extern ModelInfo* HyperKnux_Model[16];
 extern NJS_OBJECT* KnuxObjCopy[74];
 
 void Backup_KnuxModelAnims();
 void init_HudHack();
+void init_Jiggle_EyeTracker();
+void LoadHyperKnux_Jiggle(uint8_t pnum);
+void LoadRegularKnuxJiggle(uint8_t pnum);

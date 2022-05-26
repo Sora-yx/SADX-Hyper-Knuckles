@@ -46,3 +46,28 @@ FunctionPointer(void, StopSoundEffect, (EntityData1* data), 0x424240);
 DataArray(AnimData, KnucklesAnimData, 0x3C532A0, 115);
 ObjectFunc(sub_576A90, 0x576A90);
 ObjectFunc(sub_5768E0, 0x576A90);
+
+DataArray(NJS_MODEL_SADX*, knuckles_headlist, 0x3C53290, 3);
+DataArray(NJS_OBJECT*, knuckles_headEyelist, 0x3C52D58, 3);
+
+static const void* const InitKnuxEyeTracker_ptr = (void*)0x477D30;
+static inline signed int InitKnuxEyeTracker(NJS_OBJECT* a1, char a2)
+{
+	int result;
+	__asm
+	{
+		push[a2]
+		mov edi, [a1]
+		call InitKnuxEyeTracker_ptr
+		add esp, 4
+		mov result, eax
+	}
+
+	return result;
+}
+
+DataPointer(D3DMATRIX, stru_3C52AE0, 0x3C52AE0);
+DataPointer(D3DMATRIX, stru_3C52B98, 0x3C52B98);
+DataPointer(D3DMATRIX, stru_3C52C08, 0x3C52C08);
+ObjectFunc(KnuxJiggle_Delete, 0x473CB0);
+ObjectFunc(KnucklesHeadSpikesShake, 0x473CE0);

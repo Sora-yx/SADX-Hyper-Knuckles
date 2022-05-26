@@ -8,7 +8,7 @@ Trampoline* Knuckles_Main_t = nullptr;
 Trampoline* Knuckles_Display_t = nullptr;
 Trampoline* Invincibility_restart_t = nullptr;
 Trampoline* Init_CharSel_LoadA_t = nullptr;
-ModelInfo* HyperKnux_Model[11];
+ModelInfo* HyperKnux_Model[16];
 
 int HKDXAnimTextures[] = { 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 };//Texture IDs for animation
 int HKDCAnimTextures[] = { 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38 };//Texture IDs for animation
@@ -16,7 +16,6 @@ int HKDCAnimTextures[] = { 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 3
 const int animSPD = 2;
 
 bool isHyperKnux = false;
-
 bool decrease = false;
 float green = 0.0f;
 
@@ -118,12 +117,12 @@ void unSuper(unsigned char player) {
 	EntityData2* data2 = EntityData2Ptrs[player];
 	CharObj2* co2 = CharObj2Ptrs[player];
 
-	RestoreKnuxAnimModel(data, co2, data2);
 	isQuakeEnabled = false;
 	RestoreOriginalTrailColor();
 
 	if (!data)
 		return;
+
 
 	if (data->CharID == Characters_Knuckles) //fix an issue with charsel
 		co2->PhysicsData = PhysicsArray[Characters_Knuckles];
@@ -141,8 +140,9 @@ void unSuper(unsigned char player) {
 
 	co2->Upgrades &= ~Upgrades_SuperSonic;
 	co2->Powerups &= ~Powerups_Invincibility;
-
 	isHyperKnux = false;
+
+	RestoreKnuxAnimModel(data, co2, data2);
 	SetGlidSPD(false);
 	return;
 }
@@ -174,6 +174,7 @@ void SetHyperKnux(CharObj2* co2, EntityData1* data1, EntityData2* data2) {
 	Load_SuperAura(taskw);
 	Load_HyperPhysics(taskw);
 	SetGlidSPD(true);
+	LoadHyperKnux_Jiggle(data1->CharIndex);
 	data1->Action = 1;
 
 	return;
@@ -222,7 +223,6 @@ bool CheckPlayer_Input(unsigned char playerID) {
 	if (ControllerPointers[data->CharIndex]->PressedButtons & TransformButton && (Rings >= 50 || RemoveLimitations))
 	{
 		if (data->Action == jump) {
-
 			return true;
 		}
 	}
@@ -300,7 +300,6 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 				Play_HyperKnuxMusic();
 			}
 		}
-
 		data->Action++;
 		break;
 	case hyperKnuxOnFrames:
@@ -344,7 +343,8 @@ void Knux_Main_r(ObjectMaster* obj) {
 	switch (playerData->Action)
 	{
 	case 0:
-	{
+	{	
+		Load_EyeTracker(playerData->CharIndex);
 		ObjectMaster* HyperKnux_ObjManager = LoadObject((LoadObj)2, 0, HyperKnux_Manager);
 		HyperKnux_ObjManager->Data1->CharIndex = playerData->CharIndex;
 	}
