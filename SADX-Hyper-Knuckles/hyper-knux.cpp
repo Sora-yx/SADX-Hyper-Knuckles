@@ -343,7 +343,7 @@ void Knux_Main_r(ObjectMaster* obj) {
 	switch (playerData->Action)
 	{
 	case 0:
-	{	
+	{
 		Load_EyeTracker(playerData->CharIndex);
 		ObjectMaster* HyperKnux_ObjManager = LoadObject((LoadObj)2, 0, HyperKnux_Manager);
 		HyperKnux_ObjManager->Data1->CharIndex = playerData->CharIndex;
@@ -352,17 +352,16 @@ void Knux_Main_r(ObjectMaster* obj) {
 	case 18:
 		SetInstantMaxHeat(false);
 		break;
-	case 60:
+	case earthQuake:
 		Knux_DoEarthQuakeGround(playerData, co2);
-		if (!isNewTricks())
-		{
-			PResetAngle((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
-			PGetRotation((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
-			PGetAcceleration((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
-			PGetSpeed((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
-			PSetPosition((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
-			PResetPosition(playerData, data2, co2);
-		}
+
+		PResetAngle((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
+		PGetRotation((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
+		PGetAcceleration((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
+		PGetSpeed((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
+		PSetPosition((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
+		PResetPosition(playerData, data2, co2);
+
 		break;
 	case 61:
 

@@ -21,7 +21,8 @@ enum HyperKnuxMusic {
 
 enum knuxAction {
 	jump = 6,
-	glide = 11
+	glide = 11,
+	earthQuake = 65
 };
 
 enum SoundEffect {
@@ -80,6 +81,14 @@ enum hyperKnuxModelE {
 	ball,
 	lw, //upgrade stuff
 	rw,
+};
+
+enum knuxAnim {
+	Anm_Knuckles_Dig = 42,
+	//new trick custom
+	Anm_Knuckles_CustomDrillClaw = 57,
+	Anm_Knuckles_CustomDrillDig,
+	Anm_Knuckles_Drill
 };
 
 extern ModelInfo* HyperKnux_Model[16];

@@ -942,7 +942,8 @@ void SetHyperKnuxModel_()
 
 	if (IsIngame()) //new trick Drill Claw support
 	{
-		KnucklesAnimData[57].Animation->object = HyperKnux_Model[root]->getmodel();
+		KnucklesAnimData[Anm_Knuckles_CustomDrillClaw].Animation->object = HyperKnux_Model[root]->getmodel();
+		KnucklesAnimData[Anm_Knuckles_CustomDrillDig].Animation->object = HyperKnux_Model[root]->getmodel();
 	}
 }
 
@@ -1157,7 +1158,8 @@ void RestoreKnuxAnim()
 
 	if (IsIngame()) //new trick Drill Claw support
 	{
-		KnucklesAnimData[57].Animation->object = KnuxAnimCopy[0];
+		KnucklesAnimData[Anm_Knuckles_CustomDrillClaw].Animation->object = KnuxAnimCopy[57];
+		KnucklesAnimData[Anm_Knuckles_CustomDrillDig].Animation->object = KnuxAnimCopy[58];
 	}
 }
 
