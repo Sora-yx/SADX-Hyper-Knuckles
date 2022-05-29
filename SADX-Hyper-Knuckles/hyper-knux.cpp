@@ -236,21 +236,29 @@ void HyperKnuxDelete(ObjectMaster* obj) {
 	MusicList[MusicIDs_sprsonic].Name = "sprsonic";
 }
 
-
 void HyperKnux_Manager(ObjectMaster* obj) {
 
 	EntityData1* data = obj->Data1;
 	EntityData1* player = EntityData1Ptrs[obj->Data1->CharIndex];
 	EntityData2* playerData2 = EntityData2Ptrs[obj->Data1->CharIndex];
 
-	if (!player || !IsIngame() || EV_MainThread_ptr)
+	if (!player || !IsIngame())
 		return;
+
+	unsigned char playerID = data->CharIndex;
+	CharObj2* co2 = CharObj2Ptrs[player->CharIndex];
+
+	if (EV_MainThread_ptr)
+	{
+		if (co2 && isPlayerOnHyperForm(playerID))
+			unSuper(playerID);
+
+		return;
+	}
 
 	if (player->CharID != Characters_Knuckles || player->CharIndex == 1 && CharacterBossActive) //charsel fix
 		CheckThingButThenDeleteObject(obj);
 
-	unsigned char playerID = data->CharIndex;
-	CharObj2* co2 = CharObj2Ptrs[player->CharIndex];
 	int timer = 30;
 
 	switch (data->Action) {
