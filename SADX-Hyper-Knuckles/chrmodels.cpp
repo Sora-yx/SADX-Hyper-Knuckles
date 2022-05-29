@@ -940,6 +940,10 @@ void SetHyperKnuxModel_()
 	KNUCKLES_MODELS[21] = HyperKnux_Model[9]->getmodel()->basicdxmodel;
 	KNUCKLES_MODELS[22] = HyperKnux_Model[10]->getmodel()->basicdxmodel;
 
+	if (IsIngame()) //new trick Drill Claw support
+	{
+		KnucklesAnimData[57].Animation->object = HyperKnux_Model[root]->getmodel();
+	}
 }
 
 void SetHyperKnuxModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
@@ -1149,6 +1153,12 @@ void RestoreKnuxAnim()
 	KNUCKLES_ACTIONS[87]->object = KnuxAnimCopy[87];
 	KNUCKLES_ACTIONS[88]->object = KnuxAnimCopy[88];
 	KNUCKLES_ACTIONS[89]->object = KnuxAnimCopy[89];
+
+
+	if (IsIngame()) //new trick Drill Claw support
+	{
+		KnucklesAnimData[57].Animation->object = KnuxAnimCopy[0];
+	}
 }
 
 void SetHyperKnuxAnim()

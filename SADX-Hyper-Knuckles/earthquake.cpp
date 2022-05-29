@@ -141,13 +141,13 @@ void Knux_DoEarthQuakeGround(EntityData1* data, CharObj2* co2)
 
 		CreateBombQuake(data, co2);
 
+		co2->Speed.y = 0.0f;
+
 		if (co2->SurfaceFlags & (ColFlags_Dig)) {
 
 			if (co2->Upgrades & (Upgrades_ShovelClaw))
 			{
-				co2->Speed.x = 0.0;
-				co2->Speed.y = 0.0;
-				co2->Speed.z = 0.0;
+				co2->Speed = { 0.0f, 0.0f, 0.0f };
 				data->Unknown = 0;
 				data->Action = 19;
 				co2->AnimationThing.Index = 41;
