@@ -175,6 +175,9 @@ void __cdecl HyperKnucklesHeadSpikesShake(ObjectMaster* _this)
 
 void LoadHyperKnux_Jiggle(uint8_t pnum)
 {
+	if (charType == none)
+		return;
+
 	ObjectMaster* jiggle = LoadObject((LoadObj)(LoadObj_Data1 | LoadObj_Data2), 3, HyperKnucklesHeadSpikesShake);
 	if (jiggle)
 	{
@@ -193,12 +196,18 @@ void LoadRegularKnuxJiggle(uint8_t pnum)
 
 void Load_EyeTracker(uint8_t pnum)
 {
+	if (charType == none)
+		return;
+
 	InitKnuxEyeTracker((NJS_OBJECT*)HyperKnuxEyeList, pnum);
 }
 
 
 void init_Jiggle_EyeTracker()
 {
+	if (charType == none)
+		return;
+
 	HyperKnuxEyeList[0] = HyperKnux_Model[root]->getmodel()->child->child->sibling->sibling->sibling->sibling;
 	HyperKnuxEyeList[1] = HyperKnux_Model[root]->getmodel()->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->child->child->sibling;
 	HyperKnuxEyeList[2] = HyperKnux_Model[root]->getmodel()->child->child->sibling->sibling->sibling->sibling->child->child->sibling->child->child->sibling;
