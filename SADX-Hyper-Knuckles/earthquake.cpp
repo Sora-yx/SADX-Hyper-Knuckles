@@ -122,9 +122,10 @@ void Knux_EarthQuake_InputCheck(EntityData1* data, CharObj2* co2)
 		if (!isNewTricks() || Controllers[data->Index].HeldButtons & Buttons_X) {
 			data->Action = earthQuake;
 			co2->AnimationThing.Index = 14;
+	
+			co2->Speed.y -= 6.0f;
 		}
 		data->Status &= ~Status_Ball;
-		co2->Speed.y -= 6.0f;
 		return;
 	}
 }

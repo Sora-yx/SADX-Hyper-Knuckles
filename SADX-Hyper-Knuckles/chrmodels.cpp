@@ -939,12 +939,6 @@ void SetHyperKnuxModel_()
 	KNUCKLES_MODELS[20] = HyperKnux_Model[8]->getmodel()->basicdxmodel;
 	KNUCKLES_MODELS[21] = HyperKnux_Model[9]->getmodel()->basicdxmodel;
 	KNUCKLES_MODELS[22] = HyperKnux_Model[10]->getmodel()->basicdxmodel;
-
-	if (IsIngame()) //new trick Drill Claw support
-	{
-		KnucklesAnimData[Anm_Knuckles_CustomDrillClaw].Animation->object = HyperKnux_Model[root]->getmodel();
-		KnucklesAnimData[Anm_Knuckles_CustomDrillDig].Animation->object = HyperKnux_Model[root]->getmodel();
-	}
 }
 
 void SetHyperKnuxModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
@@ -952,8 +946,10 @@ void SetHyperKnuxModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
 	if (charType == none)
 		return;
 
+
 	SetHyperKnuxModel_();
 	SaveWeldsInfo();
+
 	DeleteKnucklesWeld(co2, data, data2);
 
 	if (charType == Dreamcast)
@@ -1154,13 +1150,6 @@ void RestoreKnuxAnim()
 	KNUCKLES_ACTIONS[87]->object = KnuxAnimCopy[87];
 	KNUCKLES_ACTIONS[88]->object = KnuxAnimCopy[88];
 	KNUCKLES_ACTIONS[89]->object = KnuxAnimCopy[89];
-
-
-	if (IsIngame()) //new trick Drill Claw support
-	{
-		KnucklesAnimData[Anm_Knuckles_CustomDrillClaw].Animation->object = KnuxAnimCopy[57];
-		KnucklesAnimData[Anm_Knuckles_CustomDrillDig].Animation->object = KnuxAnimCopy[58];
-	}
 }
 
 void SetHyperKnuxAnim()

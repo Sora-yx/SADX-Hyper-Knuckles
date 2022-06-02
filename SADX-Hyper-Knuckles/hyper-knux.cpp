@@ -138,12 +138,11 @@ void unSuper(unsigned char player) {
 		RestoreMusic();
 	}
 
-	co2->Upgrades &= ~Upgrades_SuperSonic;
-	co2->Powerups &= ~Powerups_Invincibility;
-	isHyperKnux = false;
 
 	RestoreKnuxAnimModel(data, co2, data2);
 	SetGlidSPD(false);
+	co2->Powerups &= ~Powerups_Invincibility;
+	co2->Upgrades &= ~Upgrades_SuperSonic;
 	return;
 }
 
@@ -185,7 +184,6 @@ void HyperKnux_PlayTransfoAnimation(EntityData1* player) {
 	if (AlwaysHyperKnux || !AnimationTransfo)
 		return;
 
-	player->Action = 75;
 	CharObj2Ptrs[player->CharIndex]->AnimationThing.Index = 38;
 }
 
@@ -203,7 +201,9 @@ bool CheckUntransform_Input(unsigned char playerID) {
 
 	if (ControllerPointers[playerID]->PressedButtons & TransformButton && !isPerfectChasoLevel())
 	{
-		if (player->Action == glide || player->Action == jump) {
+		if (player->Action == jump) {
+			player->NextAction = 12;
+			player->Action = 16;
 			unSuper(player->CharIndex);
 			return true;
 		}
@@ -223,6 +223,8 @@ bool CheckPlayer_Input(unsigned char playerID) {
 	if (ControllerPointers[data->CharIndex]->PressedButtons & TransformButton && (Rings >= 50 || RemoveLimitations))
 	{
 		if (data->Action == jump) {
+			data->NextAction = 12;
+			data->Action = 16;
 			return true;
 		}
 	}
