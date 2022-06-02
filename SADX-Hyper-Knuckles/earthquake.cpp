@@ -248,7 +248,8 @@ void ObjectCarSHRegular_r(ObjectMaster* obj)
 {
 	EntityData1* data = obj->Data1;
 
-	if (isHyperKnux) {
+	if (isHyperKnux && isKnucklesPlayer())
+	{
 
 		if (data->Index > 1)
 			data->Index = 0;
@@ -284,7 +285,7 @@ void ObjectCarSS_r(ObjectMaster* obj)
 {
 	EntityData1* data = obj->Data1;
 
-	if (isHyperKnux) {
+	if (isHyperKnux && isKnucklesPlayer()) {
 
 		if (data->Index > 1)
 			data->Index = 0;
@@ -319,7 +320,6 @@ void ObjectCarSS_r(ObjectMaster* obj)
 
 void init_KnuxEarthquake()
 {
-
 	KnuxGrabWall_Check_t = new Trampoline((int)0x4757E0, (int)0x4757E6, KnuxGrabWallCheckASM);
 	WriteCall((void*)0x478721, Knux_JumpCancel); //prevent jump cancel to happen when using earthquake
 	carSH_t = new Trampoline((int)0x611FC0, (int)0x611FC6, ObjectCarSHRegular_r);
