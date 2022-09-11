@@ -266,7 +266,6 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 	switch (data->Action) {
 
 	case hyperKnuxSetTask:
-		SaveWeldsInfo();
 		Set_AuraTextures();
 		obj->DeleteSub = HyperKnuxDelete;
 		data->Action++;

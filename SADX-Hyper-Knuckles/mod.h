@@ -6,6 +6,7 @@ extern HelperFunctions HelperFunctionsGlobal;
 extern std::string modpath;
 
 #define TARGET_DYNAMIC(name) ((decltype(name##_r)*)name##_t->Target())
+#define TaskHook static FunctionHook<void, task*>
 
 enum HyperKnuxMusic {
 

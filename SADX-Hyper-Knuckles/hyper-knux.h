@@ -56,6 +56,5 @@ void Set_AuraTextures();
 void RestoreOriginalTrailColor();
 void SetHyperKnuxAnimModel(EntityData1* data, CharObj2* co2, EntityData2* data2);
 void RestoreKnuxAnimModel(EntityData1* data, CharObj2* co2, EntityData2* data2);
-void SaveWeldsInfo();
 void Load_HyperKnuxModels();
 void Load_EyeTracker(uint8_t pnum);

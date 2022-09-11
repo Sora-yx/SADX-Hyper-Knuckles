@@ -19,5 +19,6 @@
 #include "sadx-util.h"
 #include "mod.h"
 #include "util.h"
+#include "FunctionHook.h"
 
 #endif //PCH_H
