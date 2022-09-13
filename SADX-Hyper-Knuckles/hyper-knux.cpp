@@ -8,7 +8,7 @@ Trampoline* Knuckles_Main_t = nullptr;
 Trampoline* Knuckles_Display_t = nullptr;
 Trampoline* Invincibility_restart_t = nullptr;
 Trampoline* Init_CharSel_LoadA_t = nullptr;
-ModelInfo* HyperKnux_Model[16];
+ModelInfo* HyperKnux_Model[16] = { 0 };
 
 int HKDXAnimTextures[] = { 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 };//Texture IDs for animation
 int HKDCAnimTextures[] = { 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38 };//Texture IDs for animation
@@ -63,13 +63,6 @@ static void Knuckles_Display_r(ObjectMaster* tsk)
 	TARGET_DYNAMIC(Knuckles_Display)(tsk);
 }
 
-void HyperKnux_PerformLightingThing() {
-
-	if (isHyperKnux)
-		Direct3D_PerformLighting(4);
-	else
-		Direct3D_PerformLighting(2);
-}
 
 NJS_TEXLIST* getHyperKnuxTex()
 {
@@ -189,7 +182,7 @@ void HyperKnux_PlayTransfoAnimation(EntityData1* player) {
 
 bool CheckUntransform_Input(unsigned char playerID) {
 
-	EntityData1* player = EntityData1Ptrs[playerID];
+	auto player = EntityData1Ptrs[playerID];
 
 	if (AlwaysHyperKnux)
 		return false;
@@ -214,7 +207,7 @@ bool CheckUntransform_Input(unsigned char playerID) {
 
 bool CheckPlayer_Input(unsigned char playerID) {
 
-	EntityData1* data = EntityData1Ptrs[playerID];
+	auto data = EntityData1Ptrs[playerID];
 
 	if (isKnuxAI(data) && isPlayerOnHyperForm(0)) {
 		return true;
@@ -240,9 +233,9 @@ void HyperKnuxDelete(ObjectMaster* obj) {
 
 void HyperKnux_Manager(ObjectMaster* obj) {
 
-	EntityData1* data = obj->Data1;
-	EntityData1* player = EntityData1Ptrs[obj->Data1->CharIndex];
-	EntityData2* playerData2 = EntityData2Ptrs[obj->Data1->CharIndex];
+	auto data = obj->Data1;
+	auto player = EntityData1Ptrs[obj->Data1->CharIndex];
+	auto playerData2 = EntityData2Ptrs[obj->Data1->CharIndex];
 
 	if (!player || !IsIngame())
 		return;
@@ -445,8 +438,8 @@ void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunct
 	Knuckles_Main_t = new Trampoline((int)Knuckles_Main, (int)Knuckles_Main + 0x7, Knux_Main_r);
 	Knuckles_Display_t = new Trampoline((int)Knuckles_Display, (int)Knuckles_Display + 0x7, Knuckles_Display_r);
 	Invincibility_restart_t = new Trampoline((int)0x441F80, (int)0x441F85, InvincibilityRestart_r);
+
 	//Textures init
-	WriteCall((void*)0x472255, HyperKnux_PerformLightingThing);
 	WriteCall((void*)0x47224E, setHyperKnuxTexture);
 
 	//models
