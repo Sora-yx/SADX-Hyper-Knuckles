@@ -132,7 +132,7 @@ void unSuper(unsigned char player) {
 	}
 
 
-	RestoreKnuxAnimModel(data, co2, data2);
+	RestoreKnuxAnimModel(data, co2);
 	SetGlidSPD(false);
 	co2->Powerups &= ~Powerups_Invincibility;
 	co2->Upgrades &= ~Upgrades_SuperSonic;
