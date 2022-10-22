@@ -21,7 +21,6 @@ static void Knuckles_AfterImages(task* tsk)
 
 	if (wk->scl.x < 0.7f)
 	{
-		Direct3D_PerformLighting(4);
 		njSetTexture(getHyperKnuxTex());
 		BackupConstantAttr();
 
@@ -50,7 +49,6 @@ static void Knuckles_AfterImages(task* tsk)
 		njColorBlendingMode(NJD_DESTINATION_COLOR, NJD_COLOR_BLENDING_INVSRCALPHA);
 		ClampGlobalColorThing_Thing();
 		RestoreConstantAttr();
-		Direct3D_PerformLighting(0);
 
 		if (tsk->twp->wtimer < USHRT_MAX)
 			tsk->twp->wtimer++;
