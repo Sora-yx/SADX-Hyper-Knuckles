@@ -1,6 +1,7 @@
 #include "pch.h"
+#include "Trampoline.h"
 
-static UsercallFuncVoid(KnuxGrabWall_Check_t, (taskwk* a1, playerwk* a2), (a1, a2), 0x4757E0, rEAX, rECX);
+Trampoline* KnuxGrabWall_Check_t = nullptr;
 TaskHook carSH_t(0x611FC0);
 TaskHook carSS_t(0x633180);
 TaskHook Sweep_Main_t((intptr_t)Sweep_Main);
@@ -12,7 +13,6 @@ bool isQuakeEnabled = false;
 void __cdecl Exe_leg_shock_r(task* obj)
 {
 	ObjectMaster* SWColor;
-
 	ObjectMaster* SW;
 
 	auto data = obj->twp;
@@ -74,14 +74,27 @@ void CreateBombQuake(taskwk* player)
 }
 
 
+static void Knux_GrabWallCheck_Origin(taskwk* a1, playerwk* a2)
+{
+	auto target = KnuxGrabWall_Check_t->Target();
+
+	__asm
+	{
+		mov ecx, [a2]
+		mov eax, [a1]
+		call target
+	}
+}
+
+
 void KnuxGrabWallCheck_r(taskwk* a1, playerwk* a2)
 {
-	if (a2->spd.x > 2.0f && isHyperKnux) {
+	if (a1 && a2 && a2->spd.x > 2.0f && isHyperKnux) {
 
 		CreateBombQuake(a1);
 	}
 
-	KnuxGrabWall_Check_t.Original(a1, a2);
+	Knux_GrabWallCheck_Origin(a1, a2);
 }
 
 static void __declspec(naked) KnuxGrabWallCheckASM()
@@ -301,7 +314,7 @@ void ObjectCarSS_r(ObjectMaster* obj)
 
 void init_KnuxEarthquake()
 {
-	KnuxGrabWall_Check_t.Hook(KnuxGrabWallCheck_r);
+	KnuxGrabWall_Check_t = new Trampoline((int)0x4757E0, (int)0x4757E6, KnuxGrabWallCheckASM);
 	WriteCall((void*)0x478721, Knux_JumpCancel); //prevent jump cancel to happen when using earthquake
 	carSH_t.Hook((TaskFuncPtr)ObjectCarSHRegular_r);
 	carSS_t.Hook((TaskFuncPtr)ObjectCarSS_r);
