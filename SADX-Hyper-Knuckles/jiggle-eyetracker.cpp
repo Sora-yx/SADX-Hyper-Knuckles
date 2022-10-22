@@ -29,10 +29,10 @@ void __cdecl HyperKnucklesHeadSpikesShake(ObjectMaster* _this)
 	int v15; // ebp
 	char v19; // c0
 	D3DMATRIX* v20; // ecx
-	float spd; 
-	Sint32 nbPointTimer; 
-	motionwk2* playerData2; 
-	NJS_VECTOR a2; 
+	float spd;
+	Sint32 nbPointTimer;
+	motionwk2* playerData2;
+	NJS_VECTOR a2;
 
 	motionwk2* data2 = (motionwk2*)_this->Data2;
 	EntityData1* data = _this->Data1;
@@ -136,7 +136,6 @@ void __cdecl HyperKnucklesHeadSpikesShake(ObjectMaster* _this)
 
 		while (1)
 		{
-
 			if (headPoints->x < -2.0f)
 			{
 				a2.z = headPoints->z;
@@ -164,10 +163,8 @@ void __cdecl HyperKnucklesHeadSpikesShake(ObjectMaster* _this)
 				return;
 			}
 		}
-
 	}
 	else {
-
 		DeleteObjectMaster(_this);
 	}
 }
@@ -200,7 +197,6 @@ void Load_EyeTracker(uint8_t pnum)
 
 	InitKnuxEyeTracker((NJS_OBJECT*)HyperKnuxEyeList, pnum);
 }
-
 
 void init_Jiggle_EyeTracker()
 {

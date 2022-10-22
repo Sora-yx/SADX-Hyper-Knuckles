@@ -4,10 +4,8 @@ PhysicsData_t knuxPhysicsCopy;
 FunctionHook<void, taskwk*, motionwk2*, playerwk*> PResetAngle_t(0x443AD0);
 
 void __cdecl Knux_SuperPhysics_Delete(ObjectMaster* obj) {
-
 	memcpy(&PhysicsArray[Characters_Knuckles], &knuxPhysicsCopy, sizeof(PhysicsData_t));
 }
-
 
 void __cdecl Knux_SuperPhysics_Load(ObjectMaster* obj)
 {
@@ -42,9 +40,7 @@ void __cdecl Knux_SuperPhysics_Load(ObjectMaster* obj)
 	}
 }
 
-
 void Load_HyperPhysics(taskwk* data1) {
-
 	task* v11 = (task*)LoadObject(LoadObj_UnknownB, 2, Knux_SuperPhysics_Load);
 	if (v11)
 	{
@@ -52,14 +48,13 @@ void Load_HyperPhysics(taskwk* data1) {
 	}
 }
 
-
 //fix spring issue, only run if Super Sonic mod is disabled.
 static void __cdecl ResetAngle_r(taskwk* data, motionwk2* data2, playerwk* co2_)
 {
 	auto co2 = (CharObj2*)co2_;
 
 	if (!isPerfectChasoLevel() && co2->Upgrades & Upgrades_SuperSonic)
-	{		
+	{
 		taskwk* twk = (taskwk*)data;
 		auto a2a = co2->Speed;
 
@@ -98,7 +93,6 @@ void Increase_ClimbSPD(taskwk* a1, NJS_POINT3* a2)
 			a2->z += 0.5f;
 		else if (a2->z < -0.10f)
 			a2->z -= 0.5f;
-
 	}
 
 	PConvertVector_P2G(a1, a2);
@@ -113,13 +107,11 @@ void SetGlidSPD(bool increase)
 	else
 		glideSPDCAP = 3.5f;
 
-
 	WriteData((float**)0x4445da, &glideSPDCAP);
 }
 
 void init_PhysicsHack()
 {
-
 	bool bSS = GetModuleHandle(L"Better-Super-Sonic");
 
 	if (!bSS) {
@@ -127,5 +119,4 @@ void init_PhysicsHack()
 	}
 
 	WriteCall((void*)0x44453F, Increase_ClimbSPD);
-
 }

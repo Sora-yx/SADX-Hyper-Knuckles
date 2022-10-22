@@ -2,7 +2,6 @@
 
 ModelInfo* LoadBasicModel(const char* name);
 
-
 void LoadModelListFuncPtr(const char** names, int count, ModelInfo** mdls, ModelInfo* (*func)(const char*));
 
 void FreeMDL(ModelInfo* pointer);

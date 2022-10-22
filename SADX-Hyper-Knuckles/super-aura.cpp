@@ -61,9 +61,7 @@ void njTexlistSetSuperAura2(NJS_TEXLIST* texlist)
 }
 
 void Set_AuraTextures() {
-
 	for (uint8_t i = 0; i < LengthOfArray(KnuxSuperAuraTexListArray); i++) {
-
 		KnuxSuperAuraTexListArray[i].textures[0] = Knux_SuperAura_TEXLIST.textures[i];
 		KnuxSuperAuraTexListArray2[i].textures[0] = Knux_SuperAura_TEXLIST.textures[i + 8];
 	}
@@ -131,7 +129,6 @@ void SuperAuraKnux_Display(task* obj)
 		}
 		else
 		{
-
 			njSetTexture(&KnuxSuperAuraTexListArray[((unsigned __int8)data->btimer >> 1) & 7]);
 			ProcessModelNode_A_WrapperB(SONIC_OBJECTS[75], QueuedModelFlagsB_SomeTextureThing);
 		}

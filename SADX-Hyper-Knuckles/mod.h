@@ -9,7 +9,6 @@ extern std::string modpath;
 #define TaskHook static FunctionHook<void, task*>
 
 enum HyperKnuxMusic {
-
 	None,
 	Sonic2,
 	Sonic3,
@@ -27,7 +26,6 @@ enum knuxAction {
 };
 
 enum SoundEffect {
-
 	SADX_SFX = 1,
 	DBZ_SFX
 };
@@ -38,7 +36,6 @@ enum ChangeType
 	Dreamcast,
 	DX,
 };
-
 
 extern int CurrentSuperMusic;
 extern bool RemoveLimitations;
@@ -55,7 +52,6 @@ extern bool redAura;
 extern bool lifeIcon;
 
 extern Buttons TransformButton;
-
 
 #pragma pack(push, 1)
 struct ObjUnknownB

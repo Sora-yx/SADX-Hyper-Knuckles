@@ -41,7 +41,7 @@ static void Knuckles_AfterImages(task* tsk)
 
 		if (co2->AnimationThing.State != 2)
 			njAction_Queue(co2->AnimationThing.AnimData[co2->AnimationThing.Index].Animation, co2->AnimationThing.Frame, QueuedModelFlagsB_EnableZWrite);
-		
+
 		njPopMatrixEx();
 
 		njControl3D_Restore();
@@ -74,7 +74,6 @@ static void LoadKnucklesAfterImages(EntityData1* data, CharObj2* co2)
 		wk->ang = *(Angle3*)&data->Rotation;
 	}
 }
-
 
 void CheckKnuxAfterImages(EntityData1* data, CharObj2* co2)
 {

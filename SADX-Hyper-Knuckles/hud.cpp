@@ -15,8 +15,7 @@ bool isInActionStage()
 
 void __cdecl DisplayHyperKnux_Icon()
 {
-
-	 HudDisplayLife_t.Original();
+	HudDisplayLife_t.Original();
 
 	if (!EntityData1Ptrs[0] || EntityData1Ptrs[0]->CharID != Characters_Knuckles || !isHyperKnux || !isInActionStage())
 		return;
@@ -35,7 +34,7 @@ void __cdecl DisplayHyperKnux_Icon()
 			HYPERKNUX_EXTRA_SPRITE.p.y = VerticalStretch * 480.0f - 80.0f;
 		else
 			HYPERKNUX_EXTRA_SPRITE.p.y = VerticalStretch * 480.0f - 64.0f;
-	
+
 		njDrawSprite2D_ForcePriority(&HYPERKNUX_EXTRA_SPRITE, 0, -1.501, NJD_SPRITE_ALPHA);
 		ClampGlobalColorThing_Thing();
 	}

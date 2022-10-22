@@ -10,7 +10,6 @@ enum HyperKnuxM {
 	hyperKnuxUntransfo,
 };
 
-
 NJS_TEXNAME HYPERKNUX_DC[39];
 NJS_TEXNAME HYPERKNUX_DX[31];
 NJS_TEXNAME Knux_SuperAura[16];

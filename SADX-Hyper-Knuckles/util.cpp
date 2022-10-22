@@ -1,11 +1,9 @@
 #include "pch.h"
 
 ModelInfo* LoadBasicModel(const char* name) {
-
 	PrintDebug("[Hyper Knux Mod] Loading basic model: %s... ", name);
 
 	std::string modelFolder = "DX\\";
-
 
 	if (charType == Dreamcast)
 		modelFolder = "DC\\";
@@ -24,7 +22,6 @@ ModelInfo* LoadBasicModel(const char* name) {
 	PrintDebug("Done.\n");
 	return mdl;
 }
-
 
 void LoadModelListFuncPtr(const char** names, int count, ModelInfo** mdls, ModelInfo* (*func)(const char*)) {
 	for (int i = 0; i < count; ++i) {
@@ -74,7 +71,6 @@ inline AnimationFile* LoadANM(const char* type, const char* name) {
 	}
 }
 
-
 void LookAt(NJS_VECTOR* unit, Angle* outx, Angle* outy) {
 	if (outy) {
 		*outy = static_cast<Angle>(atan2f(unit->x, unit->z) * 65536.0f * 0.1591549762031479f);
@@ -122,7 +118,6 @@ void PlayerLookAt(NJS_VECTOR* from, NJS_VECTOR* to, Angle* outx, Angle* outy) {
 }
 
 bool isKnuxAI(EntityData1* data1) {
-
 	if (TailsAI_ptr != nullptr && data1->CharIndex == 1 && data1->CharID == Characters_Knuckles)
 		return true;
 
@@ -130,13 +125,11 @@ bool isKnuxAI(EntityData1* data1) {
 }
 
 bool isPlayerOnHyperForm(int player) {
-
 	if (CharObj2Ptrs[player] && CharObj2Ptrs[player]->Upgrades & Upgrades_SuperSonic)
 		return true;
 
 	return false;
 }
-
 
 void njRotateX_(Angle x)
 {
@@ -161,7 +154,6 @@ void njRotateZ_(Angle z)
 		njRotateZ(_nj_current_matrix_ptr_, z);
 	}
 }
-
 
 int timerShake = 0;
 int pass = 0;
@@ -204,7 +196,6 @@ bool isDCConversion()
 	return GetModuleHandle(L"DCMods_Main") != NULL;
 }
 
-
 float GetDistance(NJS_VECTOR* v1, NJS_VECTOR* v2)
 {
 	return sqrtf((v2->x - v1->x) * (v2->x - v1->x) +
@@ -230,7 +221,6 @@ int IsPlayerInSphere(NJS_POINT3* p, float r)
 
 int IsPlayerInSphere(NJS_VECTOR pos, float r)
 {
-
 	return IsPlayerInSphere(&pos, r);
 }
 

@@ -3,7 +3,6 @@
 HelperFunctions HelperFunctionsGlobal;
 std::string modpath;
 
-
 extern "C" {
 	__declspec(dllexport) void __cdecl Init(const char* path, const HelperFunctions& helperFunctions)
 	{
@@ -13,7 +12,6 @@ extern "C" {
 				L"Error, your version of the mod loader does not support API version 11. Some functionality will not be available.\nPlease exit the game and update the mod loader for the best experience.",
 				L"Hyper Knuckles: Mod Loader out of date", MB_OK | MB_ICONERROR);
 		}
-
 
 		HelperFunctionsGlobal = helperFunctions; // Save the helper pointer for external use
 
@@ -34,7 +32,6 @@ extern "C" {
 	{
 		Backup_KnuxModelAnims();
 	}
-
 
 	__declspec(dllexport) void __cdecl OnFrame()
 	{

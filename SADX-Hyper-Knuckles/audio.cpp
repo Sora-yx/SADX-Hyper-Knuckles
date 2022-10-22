@@ -9,7 +9,6 @@ const char* HyperKnuxMusic_Array[7] = {
 };
 
 const char* GetHyperKnux_Music() {
-
 	if (CurrentSuperMusic == Random)
 		return HyperKnuxMusic_Array[rand() % 6 + 1];
 
@@ -17,7 +16,6 @@ const char* GetHyperKnux_Music() {
 }
 
 void Play_HyperKnuxMusic() {
-
 	MusicList[MusicIDs_sprsonic].Name = GetHyperKnux_Music();
 	PlayMusic(MusicIDs_sprsonic);
 	return;
@@ -36,7 +34,6 @@ void CheckSuperMusic_Restart(int playerID) {
 }
 
 void RestoreMusic() {
-
 	if (CurrentSuperMusic == None)
 		return;
 
@@ -51,7 +48,6 @@ void RestoreMusic() {
 
 void __cdecl Audio_Init(const HelperFunctions& helperFunctions)
 {
-
 	if (CurrentSFX == None)
 		return;
 
@@ -70,7 +66,6 @@ void __cdecl Audio_Init(const HelperFunctions& helperFunctions)
 
 	AddSound1("7003", "quake");
 	AddSound2("7003", "quake");
-
 
 	return;
 }

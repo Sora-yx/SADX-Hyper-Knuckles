@@ -58,7 +58,7 @@ void CreateBombQuake(taskwk* player)
 	isQuakeEnabled = true;
 	stru_3C5AB24 = player->pos;
 	bombRadius = 6.0f;
-	PlayVoice(7003); //S3k SFX 
+	PlayVoice(7003); //S3k SFX
 	RumbleA(player->counter.b[0], 0);
 
 	CreateSmoke(&player->pos, &Velo, 8.0f);
@@ -73,7 +73,6 @@ void CreateBombQuake(taskwk* player)
 	}
 }
 
-
 static void Knux_GrabWallCheck_Origin(taskwk* a1, playerwk* a2)
 {
 	auto target = KnuxGrabWall_Check_t->Target();
@@ -86,11 +85,9 @@ static void Knux_GrabWallCheck_Origin(taskwk* a1, playerwk* a2)
 	}
 }
 
-
 void KnuxGrabWallCheck_r(taskwk* a1, playerwk* a2)
 {
 	if (a1 && a2 && a2->spd.x > 2.0f && isHyperKnux) {
-
 		CreateBombQuake(a1);
 	}
 
@@ -115,13 +112,12 @@ void Knux_EarthQuake_InputCheck(EntityData1* data, CharObj2* co2)
 	if (!data || data->Action != jump && data->Action != glide)
 		return;
 
-
 	if ((Controllers[data->Index].HeldButtons & (Buttons_X | Buttons_B)) != 0 && (Controllers[data->Index].HeldButtons & TransformButton) == 0)
 	{
 		if (!isNewTricks() || Controllers[data->Index].HeldButtons & Buttons_X) {
 			data->Action = earthQuake;
 			co2->AnimationThing.Index = 14;
-	
+
 			co2->Speed.y -= 6.0f;
 		}
 		data->Status &= ~Status_Ball;
@@ -133,20 +129,18 @@ void Knux_DoEarthQuakeGround(taskwk* data, playerwk* co2)
 {
 	if ((Controllers[data->counter.b[0]].PressedButtons & JumpButtons) != 0)
 	{
-		data->mode= glide;
+		data->mode = glide;
 		co2->mj.reqaction = 51;
 		co2->spd.y = 0.0f;
 		return;
 	}
 
 	if ((isHyperKnux && data->flag & (Status_Ground | Status_OnColli)) != 0) {
-
 		CreateBombQuake(data);
 
 		co2->spd.y = 0.0f;
 
 		if (co2->attr & (ColFlags_Dig)) {
-
 			if (co2->equipment & (Upgrades_ShovelClaw))
 			{
 				co2->spd = { 0.0f, 0.0f, 0.0f };
@@ -200,9 +194,7 @@ void Sweep_Main_r(task* obj)
 	ObjectData2* objdata2 = (ObjectData2*)obj->mwp;
 
 	if (data && objdata2) {
-
 		if (data->mode < 3) {
-
 			if (OhNoImDead((EntityData1*)data, objdata2))
 			{
 				data->mode = 3;
@@ -212,7 +204,6 @@ void Sweep_Main_r(task* obj)
 				data->scl.z = 0.34999999;
 				return;
 			}
-
 		}
 	}
 
@@ -248,7 +239,6 @@ void ObjectCarSHRegular_r(ObjectMaster* obj)
 
 	if (isHyperKnux && isKnucklesPlayer())
 	{
-
 		if (data->Index > 1)
 			data->Index = 0;
 
@@ -267,8 +257,7 @@ void ObjectCarSHRegular_r(ObjectMaster* obj)
 			return;
 		}
 		else {
-
-			return carSH_t.Original((task*)obj);		
+			return carSH_t.Original((task*)obj);
 		}
 	}
 	else
@@ -282,7 +271,6 @@ void ObjectCarSS_r(ObjectMaster* obj)
 	EntityData1* data = obj->Data1;
 
 	if (isHyperKnux && isKnucklesPlayer()) {
-
 		if (data->Index > 1)
 			data->Index = 0;
 
@@ -301,7 +289,6 @@ void ObjectCarSS_r(ObjectMaster* obj)
 			return;
 		}
 		else {
-
 			return carSS_t.Original((task*)obj);
 		}
 	}
@@ -310,7 +297,6 @@ void ObjectCarSS_r(ObjectMaster* obj)
 		return carSS_t.Original((task*)obj);
 	}
 }
-
 
 void init_KnuxEarthquake()
 {

@@ -29,23 +29,22 @@ void animateTextures()
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->sibling->basicdxmodel->mats[0].attr_texId = texid; //head
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->basicdxmodel->mats[0].attr_texId = texid; //chest
 
-	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg right 1		
-	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg right 2		
-	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg right 3		
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg right 1
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg right 2
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg right 3
 
-	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg left 1		
-	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg left 2		
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg left 1
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg left 2
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //leg left 3
 
-	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm right 1		
-	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm right 2	
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm right 1
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm right 2
 
-	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[1].attr_texId = texid; //arm right 3		
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[1].attr_texId = texid; //arm right 3
 
-	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 1		
-	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 2	
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 1
+	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //arm left 2
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->basicdxmodel->mats[1].attr_texId = texid; //arm left 3
-
 
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //tail
 }
@@ -63,11 +62,9 @@ static void Knuckles_Display_r(task* tsk)
 	KnuxDisplay_t.Original(tsk);
 }
 
-
 NJS_TEXLIST* getHyperKnuxTex()
 {
 	if (isHyperKnux && charType != none) {
-
 		if (charType == Dreamcast)
 			return &HyperKnuxDC_TEXLIST;
 		else
@@ -85,7 +82,6 @@ Sint32 __cdecl setHyperKnuxTexture(NJS_TEXLIST* texlist)
 }
 
 void SubRings(unsigned char player, EntityData1* data) {
-
 	if (RemoveLimitations || AlwaysHyperKnux || EntityData1Ptrs[player]->CharID != Characters_Knuckles
 		|| !isHyperKnux || isKnuxAI(EntityData1Ptrs[player]) || !ControlEnabled || !TimeThing || GameState != 15)
 		return;
@@ -102,7 +98,6 @@ void SubRings(unsigned char player, EntityData1* data) {
 }
 
 void unSuper(unsigned char player) {
-
 	if (AlwaysHyperKnux)
 		return;
 
@@ -138,7 +133,6 @@ void unSuper(unsigned char player) {
 }
 
 void Load_SuperAura(taskwk* data1) {
-
 	if (!superAura) {
 		return;
 	}
@@ -151,7 +145,6 @@ void Load_SuperAura(taskwk* data1) {
 }
 
 void SetHyperKnux(CharObj2* co2, EntityData1* data1, EntityData2* data2) {
-
 	taskwk* taskw = (taskwk*)data1;
 
 	if (IsIngame() && CurrentSFX != None && !isPerfectChasoLevel())
@@ -171,7 +164,6 @@ void SetHyperKnux(CharObj2* co2, EntityData1* data1, EntityData2* data2) {
 }
 
 void HyperKnux_PlayTransfoAnimation(taskwk* player) {
-
 	if (AlwaysHyperKnux || !AnimationTransfo)
 		return;
 
@@ -179,7 +171,6 @@ void HyperKnux_PlayTransfoAnimation(taskwk* player) {
 }
 
 bool CheckUntransform_Input(unsigned char playerID) {
-
 	auto player = EntityData1Ptrs[playerID];
 
 	if (AlwaysHyperKnux)
@@ -204,7 +195,6 @@ bool CheckUntransform_Input(unsigned char playerID) {
 }
 
 bool CheckPlayer_Input(unsigned char playerID) {
-
 	auto data = EntityData1Ptrs[playerID];
 
 	if (isKnuxAI(data) && isPlayerOnHyperForm(0)) {
@@ -224,13 +214,11 @@ bool CheckPlayer_Input(unsigned char playerID) {
 }
 
 void HyperKnuxDelete(ObjectMaster* obj) {
-
 	unSuper(obj->Data1->CharIndex);
 	MusicList[MusicIDs_sprsonic].Name = "sprsonic";
 }
 
 void HyperKnux_Manager(ObjectMaster* obj) {
-
 	auto data = obj->Data1;
 	auto player = playertwp[obj->Data1->CharIndex];
 	auto playerData2 = EntityData2Ptrs[obj->Data1->CharIndex];
@@ -255,7 +243,6 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 	int timer = 30;
 
 	switch (data->Action) {
-
 	case hyperKnuxSetTask:
 		Set_AuraTextures();
 		obj->DeleteSub = HyperKnuxDelete;
@@ -315,7 +302,6 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 			break;
 
 		if (CheckUntransform_Input(playerID)) {
-
 			data->Action = playerInputCheck;
 		}
 
@@ -335,12 +321,10 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 int resetTimer = 0;
 
 void Knux_Main_r(task* obj) {
-
 	auto playerData = obj->twp;
 	auto pnum = playerData->counter.b[0];
 	auto co2 = (playerwk*)GetCharObj2(pnum);
 	auto data2 = (motionwk2*)obj->mwp;
-
 
 	switch (playerData->mode)
 	{
@@ -376,13 +360,10 @@ void Knux_Main_r(task* obj) {
 		break;
 	}
 
-
 	KnuxExec_t.Original(obj);
 }
 
-
 void __cdecl Init_HyperKnuxTextures(const char* path, const HelperFunctions& helperFunctions) {
-
 	for (uint8_t i = 0; i < LengthOfArray(HyperKnux_DCEntry); i++) {
 		helperFunctions.RegisterCharacterPVM(Characters_Knuckles, charType == Dreamcast ? HyperKnux_DCEntry[i] : HyperKnux_DXEntry[i]);
 	}
@@ -426,7 +407,6 @@ void InvincibilityRestart_r(task* obj)
 
 	Invincibility_restart_t.Original(obj);
 }
-
 
 void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunctions)
 {

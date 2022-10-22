@@ -56,7 +56,6 @@ uint16_t Knuckles_ShovelClawIndices_DC[] = {
 	4, 0,
 };
 
-
 void __cdecl InitHyperKnucklesDC_WeldsInfo()
 {
 	KnucklesWeldInfo_r[29].BaseModel = HyperKnux_Model[root]->getmodel();
@@ -79,7 +78,7 @@ void __cdecl InitHyperKnucklesDC_WeldsInfo()
 	KnucklesWeldInfo_r[30].VertexBuffer = 0;
 	KnucklesWeldInfo_r[30].VertIndexes = Knuckles_LowerArmIndices_DC;
 	KnucklesWeldInfo_r[31].BaseModel = Root;
-	KnucklesWeldInfo_r[31].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling;  
+	KnucklesWeldInfo_r[31].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling;
 	KnucklesWeldInfo_r[31].VertIndexes = Knuckles_UpperArmIndices_DC;
 	KnucklesWeldInfo_r[31].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
 	KnucklesWeldInfo_r[31].VertexPairCount = (uint8_t)(LengthOfArray(Knuckles_UpperArmIndices_DC) / 2);
@@ -302,7 +301,6 @@ void __cdecl InitHyperKnucklesDC_WeldsInfo()
 	KnucklesWeldInfo_r[57].WeldType = 8;
 	KnucklesWeldInfo_r[58] = { 0 };
 }
-
 
 void __cdecl InitHyperKnucklesDX_WeldsInfo()
 {
@@ -636,7 +634,7 @@ void SetHyperKnuxModel_()
 	KNUCKLES_OBJECTS[43] = KNUCKLES_OBJECTS[21];
 	KNUCKLES_OBJECTS[44] = KNUCKLES_OBJECTS[22];
 	KNUCKLES_OBJECTS[45] = KNUCKLES_OBJECTS[23];
-	
+
 	KNUCKLES_OBJECTS[49] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->sibling; //head
 	KNUCKLES_OBJECTS[50] = KNUCKLES_OBJECTS[49];
 	KNUCKLES_OBJECTS[51] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling; // FACE ROOT
@@ -645,7 +643,6 @@ void SetHyperKnuxModel_()
 
 	KNUCKLES_OBJECTS[54] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling; //left eye ROOT
 	KNUCKLES_OBJECTS[55] = KNUCKLES_OBJECTS[49];
-
 
 	KNUCKLES_OBJECTS[58] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
 	KNUCKLES_OBJECTS[59] = KNUCKLES_OBJECTS[22];
@@ -716,7 +713,6 @@ void SetHyperKnuxModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
 	SetHyperKnuxModel_();
 }
 
-
 void CopyKnuxOriginalAnims()
 {
 	//anim obj
@@ -767,7 +763,6 @@ void SetHyperKnuxAnimModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
 
 void InitKnucklesWeldInfo_r()
 {
-
 	InitKnucklesWeldInfo_t.Original();
 
 	memcpy(KnucklesWeldInfo_r, KnucklesWeldInfo, sizeof(WeldInfo) * KnucklesWeldInfo.size());
@@ -796,7 +791,6 @@ void Backup_KnuxModelAnims()
 		SetHyperKnuxModel_();
 		SetHyperKnuxAnim();
 	}
-
 
 	InitKnucklesWeldInfo_t.Hook(InitKnucklesWeldInfo_r);
 	WriteData((WeldInfo**)0x47a89E, KnucklesWeldInfo_r);
