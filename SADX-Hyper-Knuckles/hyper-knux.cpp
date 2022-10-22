@@ -396,10 +396,8 @@ void __cdecl Init_HyperKnuxTextures(const char* path, const HelperFunctions& hel
 	}
 }
 
-
 void InitKnuxCharSelAnim_r()
 {
-
 	Init_CharSel_LoadA_t.Original();
 
 	CharSelDataList[2].anonymous_1[0]->object = HyperKnux_Model[root]->getmodel();
