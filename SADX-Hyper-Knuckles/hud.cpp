@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ScaleInfo.h"
 
-Trampoline* HudDisplayLife_t = nullptr;
+FunctionHook<void> HudDisplayLife_t(HudDisplayRingTimeLife);
 
 extern NJS_TEXLIST KnuxLifeIcon_Texlist;
 
@@ -16,8 +16,7 @@ bool isInActionStage()
 void __cdecl DisplayHyperKnux_Icon()
 {
 
-	VoidFunc(origin, HudDisplayLife_t->Target());
-	origin();
+	 HudDisplayLife_t.Original();
 
 	if (!EntityData1Ptrs[0] || EntityData1Ptrs[0]->CharID != Characters_Knuckles || !isHyperKnux || !isInActionStage())
 		return;
@@ -49,5 +48,5 @@ void init_HudHack()
 	if (!lifeIcon)
 		return;
 
-	HudDisplayLife_t = new Trampoline((int)HudDisplayRingTimeLife, (int)HudDisplayRingTimeLife + 0x6, DisplayHyperKnux_Icon);
+	HudDisplayLife_t.Hook(DisplayHyperKnux_Icon);
 }

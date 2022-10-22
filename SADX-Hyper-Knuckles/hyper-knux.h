@@ -48,7 +48,7 @@ void Load_HyperPhysics(taskwk* data1);
 bool isPlayerOnHyperForm(int player);
 void CheckKnuxAfterImages(EntityData1* data, CharObj2* co2);
 void Knux_EarthQuake_InputCheck(EntityData1* data, CharObj2* co2);
-void Knux_DoEarthQuakeGround(EntityData1* data, CharObj2* co2);
+void Knux_DoEarthQuakeGround(taskwk* data, playerwk* co2);
 void SetGlidSPD(bool increase);
 void InstantMaxHeat_InputCheck(EntityData1* data, CharObj2* co2);
 void SetInstantMaxHeat(bool state);

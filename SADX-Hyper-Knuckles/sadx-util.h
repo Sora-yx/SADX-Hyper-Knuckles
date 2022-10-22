@@ -1,6 +1,6 @@
 #pragma once
 
-FunctionPointer(void, PResetPosition, (EntityData1* data, EntityData2* mwp, CharObj2* pwp), 0x43EE70);
+FunctionPointer(void, PResetPosition, (taskwk* data, motionwk2* mwp, playerwk* pwp), 0x43EE70);
 
 DataArray(NJS_TEXLIST, texlist_aura, 0x1422160, 8);
 DataArray(NJS_TEXLIST, texlist_aura2, 0x14221A0, 8);

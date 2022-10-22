@@ -1224,8 +1224,6 @@ void InitKnucklesWeldInfo_r()
 	{
 		InitHyperKnucklesDX_WeldsInfo();
 	}
-
-
 }
 
 

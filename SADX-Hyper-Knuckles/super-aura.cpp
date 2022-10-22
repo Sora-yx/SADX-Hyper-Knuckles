@@ -2,7 +2,7 @@
 
 extern NJS_TEXLIST Knux_SuperAura_TEXLIST;
 
-Trampoline* SuperAura_Display_t = nullptr;
+TaskHook SuperAura_Display_t(0x55E620);
 
 static NJS_TEXNAME SADXAuratexid0 = { (char*)"k_aura01", 0, 0 };
 static NJS_TEXNAME SADXAuratexid1 = { (char*)"k_aura02", 0, 0 };
@@ -158,12 +158,11 @@ void __cdecl SuperAura_Display_r(task* obj)
 	}
 	else
 	{
-		TaskFunc(origin, SuperAura_Display_t->Target());
-		origin(obj);
+		SuperAura_Display_t.Original(obj);
 	}
 }
 
 void init_AuraHack()
 {
-	SuperAura_Display_t = new Trampoline((int)0x55E620, (int)0x55E625, SuperAura_Display_r);
+	SuperAura_Display_t.Hook(SuperAura_Display_r);
 }

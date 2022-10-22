@@ -1,101 +1,87 @@
 #include "pch.h"
 
-Trampoline* KnuxGrabWall_Check_t = nullptr;
-Trampoline* carSH_t = nullptr;
-Trampoline* carSS_t = nullptr;
-Trampoline* Sweep_Main_t = nullptr;
+static UsercallFuncVoid(KnuxGrabWall_Check_t, (taskwk* a1, playerwk* a2), (a1, a2), 0x4757E0, rEAX, rECX);
+TaskHook carSH_t(0x611FC0);
+TaskHook carSS_t(0x633180);
+TaskHook Sweep_Main_t((intptr_t)Sweep_Main);
 
 NJS_POINT3 Velo = { 5.0f, 5.0f, 5.0f };
 
 bool isQuakeEnabled = false;
 
-void __cdecl Exe_leg_shock_r(ObjectMaster* obj)
+void __cdecl Exe_leg_shock_r(task* obj)
 {
-	EntityData1* data;
 	ObjectMaster* SWColor;
-	EntityData1* swColorData;
-	EntityData1* swData;
+
 	ObjectMaster* SW;
 
-	data = obj->Data1;
-	if (data->Action)
+	auto data = obj->twp;
+	if (data->mode)
 	{
-		if (data->Action != 1)
+		if (data->mode != 1)
 		{
 			goto LABEL_11;
 		}
 	}
 	else
 	{
-		data->Unknown = 30;
-		data->Action = 1;
+		data->id = 30;
+		data->mode = 1;
 	}
 	SWColor = LoadObject(LoadObj_Data1, 6, (void(__cdecl*)(ObjectMaster*))sub_576A90);
 	if (SWColor)
 	{
-		swColorData = SWColor->Data1;
-		swColorData->Position = data->Position;
-		swColorData->Rotation = data->Rotation;
+		auto swColorData = (taskwk*)SWColor->Data1;
+		swColorData->pos = data->pos;
+		swColorData->ang = data->ang;
 	}
 	SW = LoadObject(LoadObj_Data1, 6, (void(__cdecl*)(ObjectMaster*))sub_5768E0);
 	if (SW)
 	{
-		swData = SW->Data1;
-		swData->Position = data->Position;
-		swData->Rotation = data->Rotation;
+		auto swData = (taskwk*)SW->Data1;
+		swData->pos = data->pos;
+		swData->ang = data->ang;
 	}
-	if ((int)--data->Unknown < 0)
+	if ((int)--data->id < 0)
 	{
-		CheckThingButThenDeleteObject(obj);
+		FreeTask(obj);
 	}
 LABEL_11:
-	data->CollisionInfo->CollisionArray->a = (30.0 - (double)(int)data->Unknown) * 2.4666667;
-	AddToCollisionList(data);
+	data->cwp->info->a = (30.0f - (double)(int)data->id) * 2.4666667f;
+	EntryColliList(data);
 }
 
 CollisionData legCol = { 0, 1, 0x0, 0x0, 0x0, {0}, 0.0, 1.0, 0.0, 0.0, 0, 0, 0 };
 //use bomb item to kill enemy, then smoke and egg walker shockwave for the effects
-void CreateBombQuake(EntityData1* player, CharObj2* co2)
+void CreateBombQuake(taskwk* player)
 {
 	isQuakeEnabled = true;
-	stru_3C5AB24 = player->Position;
+	stru_3C5AB24 = player->pos;
 	bombRadius = 6.0f;
 	PlayVoice(7003); //S3k SFX 
-	RumbleA(player->CharIndex, 0);
+	RumbleA(player->counter.b[0], 0);
 
-	CreateSmoke(&player->Position, &Velo, 8.0f);
-	ObjectMaster* shockwave = LoadObject(LoadObj_Data1, 6, Exe_leg_shock_r);
+	CreateSmoke(&player->pos, &Velo, 8.0f);
+	auto shockwave = CreateElementalTask(LoadObj_Data1, 6, Exe_leg_shock_r);
 	if (shockwave) {
-		if (shockwave->Data1) {
-			shockwave->Data1->Position = player->Position;
-			shockwave->Data1->Rotation = player->Rotation;
-			shockwave->Data1->Position.y += 2.5f;
-			Collision_Init(shockwave, &legCol, 1, 4u);
+		if (shockwave->twp) {
+			shockwave->twp->pos = player->pos;
+			shockwave->twp->ang = player->ang;
+			shockwave->twp->pos.y += 2.5f;
+			Collision_Init((ObjectMaster*)shockwave, &legCol, 1, 4u);
 		}
 	}
 }
 
-static void Knux_GrabWallCheck_Origin(EntityData1* a1, CharObj2* a2)
+
+void KnuxGrabWallCheck_r(taskwk* a1, playerwk* a2)
 {
-	auto target = KnuxGrabWall_Check_t->Target();
+	if (a2->spd.x > 2.0f && isHyperKnux) {
 
-	__asm
-	{
-		mov ecx, [a2]
-		mov eax, [a1]
-		call target
-	}
-}
-
-
-void KnuxGrabWallCheck_r(EntityData1* a1, CharObj2* a2)
-{
-	if (a2->Speed.x > 2.0f && isHyperKnux) {
-
-		CreateBombQuake(a1, a2);
+		CreateBombQuake(a1);
 	}
 
-	Knux_GrabWallCheck_Origin(a1, a2);
+	KnuxGrabWall_Check_t.Original(a1, a2);
 }
 
 static void __declspec(naked) KnuxGrabWallCheckASM()
@@ -130,37 +116,37 @@ void Knux_EarthQuake_InputCheck(EntityData1* data, CharObj2* co2)
 	}
 }
 
-void Knux_DoEarthQuakeGround(EntityData1* data, CharObj2* co2)
+void Knux_DoEarthQuakeGround(taskwk* data, playerwk* co2)
 {
-	if ((Controllers[data->Index].PressedButtons & JumpButtons) != 0)
+	if ((Controllers[data->counter.b[0]].PressedButtons & JumpButtons) != 0)
 	{
-		data->Action = glide;
-		co2->AnimationThing.Index = 51;
-		co2->Speed.y = 0.0;
+		data->mode= glide;
+		co2->mj.reqaction = 51;
+		co2->spd.y = 0.0f;
 		return;
 	}
 
-	if ((isHyperKnux && data->Status & (Status_Ground | Status_OnColli)) != 0) {
+	if ((isHyperKnux && data->flag & (Status_Ground | Status_OnColli)) != 0) {
 
-		CreateBombQuake(data, co2);
+		CreateBombQuake(data);
 
-		co2->Speed.y = 0.0f;
+		co2->spd.y = 0.0f;
 
-		if (co2->SurfaceFlags & (ColFlags_Dig)) {
+		if (co2->attr & (ColFlags_Dig)) {
 
-			if (co2->Upgrades & (Upgrades_ShovelClaw))
+			if (co2->equipment & (Upgrades_ShovelClaw))
 			{
-				co2->Speed = { 0.0f, 0.0f, 0.0f };
-				data->Unknown = 0;
-				data->Action = 19;
-				co2->AnimationThing.Index = 41;
+				co2->spd = { 0.0f, 0.0f, 0.0f };
+				data->id = 0;
+				data->mode = 19;
+				co2->mj.reqaction = 41;
 				PlaySound(1260, 0, 0, 0);
 				return;
 			}
 		}
 
-		data->Action = 61;
-		co2->AnimationThing.Index = 20;
+		data->mode = 61;
+		co2->mj.reqaction = 20;
 	}
 }
 
@@ -217,8 +203,7 @@ void Sweep_Main_r(task* obj)
 		}
 	}
 
-	TaskFunc(origin, Sweep_Main_t->Target());
-	origin(obj);
+	Sweep_Main_t.Original(obj);
 }
 
 void DestroyCar(ObjectMaster* obj)
@@ -270,14 +255,12 @@ void ObjectCarSHRegular_r(ObjectMaster* obj)
 		}
 		else {
 
-			ObjectFunc(origin, carSH_t->Target());
-			origin(obj);
+			return carSH_t.Original((task*)obj);		
 		}
 	}
 	else
 	{
-		ObjectFunc(origin, carSH_t->Target());
-		origin(obj);
+		return carSH_t.Original((task*)obj);
 	}
 }
 
@@ -306,23 +289,21 @@ void ObjectCarSS_r(ObjectMaster* obj)
 		}
 		else {
 
-			ObjectFunc(origin, carSS_t->Target());
-			origin(obj);
+			return carSS_t.Original((task*)obj);
 		}
 	}
 	else
 	{
-		ObjectFunc(origin, carSS_t->Target());
-		origin(obj);
+		return carSS_t.Original((task*)obj);
 	}
 }
 
 
 void init_KnuxEarthquake()
 {
-	KnuxGrabWall_Check_t = new Trampoline((int)0x4757E0, (int)0x4757E6, KnuxGrabWallCheckASM);
+	KnuxGrabWall_Check_t.Hook(KnuxGrabWallCheck_r);
 	WriteCall((void*)0x478721, Knux_JumpCancel); //prevent jump cancel to happen when using earthquake
-	carSH_t = new Trampoline((int)0x611FC0, (int)0x611FC6, ObjectCarSHRegular_r);
-	carSS_t = new Trampoline((int)0x633180, (int)0x633188, ObjectCarSS_r);
-	Sweep_Main_t = new Trampoline((int)Sweep_Main, (int)Sweep_Main + 0x5, Sweep_Main_r);
+	carSH_t.Hook((TaskFuncPtr)ObjectCarSHRegular_r);
+	carSS_t.Hook((TaskFuncPtr)ObjectCarSS_r);
+	Sweep_Main_t.Hook(Sweep_Main_r);
 }

@@ -2,17 +2,16 @@
 
 NJS_OBJECT* HyperKnuxEyeList[3];
 NJS_MODEL_SADX* HyperKnuxHeadList[3];
-Trampoline* KnucklesHeadSpikesShake_t = nullptr;
+TaskHook KnucklesHeadSpikesShake_t((intptr_t)0x473CE0);
 
-void __cdecl KnucklesHeadSpikeShake_r(ObjectMaster* arg0)
+void __cdecl KnucklesHeadSpikeShake_r(task* arg0)
 {
 	if (isHyperKnux) {
-		CheckThingButThenDeleteObject(arg0);
+		FreeTask(arg0);
 		return;
 	}
 
-	ObjectFunc(origin, KnucklesHeadSpikesShake_t->Target());
-	origin(arg0);
+	KnucklesHeadSpikesShake_t.Original(arg0);
 }
 
 void __cdecl HyperKnucklesHeadSpikesShake(ObjectMaster* _this)
@@ -212,7 +211,7 @@ void init_Jiggle_EyeTracker()
 	HyperKnuxEyeList[1] = HyperKnux_Model[root]->getmodel()->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->child->child->sibling;
 	HyperKnuxEyeList[2] = HyperKnux_Model[root]->getmodel()->child->child->sibling->sibling->sibling->sibling->child->child->sibling->child->child->sibling;
 
-	KnucklesHeadSpikesShake_t = new Trampoline((int)0x473CE0, 0x473CE7, KnucklesHeadSpikeShake_r);
+	KnucklesHeadSpikesShake_t.Hook(KnucklesHeadSpikeShake_r);
 	HyperKnuxHeadList[0] = HyperKnux_Model[15]->getmodel()->basicdxmodel;
 	HyperKnuxHeadList[1] = HyperKnux_Model[root]->getmodel()->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->sibling->basicdxmodel;
 	HyperKnuxHeadList[2] = HyperKnux_Model[root]->getmodel()->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->sibling->basicdxmodel;

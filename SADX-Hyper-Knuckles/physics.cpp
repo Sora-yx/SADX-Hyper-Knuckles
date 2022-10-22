@@ -1,7 +1,7 @@
 #include "pch.h"
 
 PhysicsData_t knuxPhysicsCopy;
-Trampoline* ResetAngle_t = nullptr;
+FunctionHook<void, taskwk*, motionwk2*, playerwk*> PResetAngle_t(0x443AD0);
 
 void __cdecl Knux_SuperPhysics_Delete(ObjectMaster* obj) {
 
@@ -54,36 +54,27 @@ void Load_HyperPhysics(taskwk* data1) {
 
 
 //fix spring issue, only run if Super Sonic mod is disabled.
-static void __cdecl ResetAngle_r(EntityData1* data, EntityData2* data2, CharObj2* co2)
+static void __cdecl ResetAngle_r(taskwk* data, motionwk2* data2, playerwk* co2_)
 {
-	if (!isPerfectChasoLevel() && co2->Upgrades & Upgrades_SuperSonic)
-	{
-		float v4; // ecx
-		float v5; // eax
-		float v6; // ecx
-		NJS_VECTOR a2a; // [esp+4h] [ebp-Ch] BYREF
-		taskwk* twk = (taskwk*)data;
+	auto co2 = (CharObj2*)co2_;
 
-		a2a.x = co2->Speed.x;
-		v4 = co2->Speed.z;
-		a2a.y = co2->Speed.y;
-		a2a.z = v4;
+	if (!isPerfectChasoLevel() && co2->Upgrades & Upgrades_SuperSonic)
+	{		
+		taskwk* twk = (taskwk*)data;
+		auto a2a = co2->Speed;
+
 		if (co2->PhysicsData.Run2 * co2->PhysicsData.Run2 >= a2a.z * a2a.z + a2a.y * a2a.y + a2a.x * a2a.x)
 		{
 			PConvertVector_P2G(twk, &a2a);
-			data->Rotation.x = BAMS_SubWrap(data->Rotation.x, GravityAngle_Z, 2048);
-			data->Rotation.z = BAMS_SubWrap(data->Rotation.z, GravityAngle_X, 2048);
+			data->ang.x = BAMS_SubWrap(data->ang.x, GravityAngle_Z, 2048);
+			data->ang.z = BAMS_SubWrap(data->ang.z, GravityAngle_X, 2048);
 			PConvertVector_G2P(twk, &a2a);
-			v5 = a2a.y;
-			v6 = a2a.z;
-			co2->Speed.x = a2a.x;
-			co2->Speed.y = v5;
-			co2->Speed.z = v6;
+			co2->Speed = a2a;
 		}
 	}
 	else
 	{
-		TARGET_DYNAMIC(ResetAngle)(data, data2, co2);
+		PResetAngle_t.Original(data, data2, co2_);
 	}
 }
 
@@ -132,7 +123,7 @@ void init_PhysicsHack()
 	bool bSS = GetModuleHandle(L"Better-Super-Sonic");
 
 	if (!bSS) {
-		ResetAngle_t = new Trampoline(0x443AD0, 0x443AD7, ResetAngle_r);
+		PResetAngle_t.Hook(ResetAngle_r);
 	}
 
 	WriteCall((void*)0x44453F, Increase_ClimbSPD);

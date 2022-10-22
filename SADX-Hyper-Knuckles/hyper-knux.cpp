@@ -4,10 +4,10 @@
 
 int ActualSong = 0;
 
-Trampoline* Knuckles_Main_t = nullptr;
-Trampoline* Knuckles_Display_t = nullptr;
-Trampoline* Invincibility_restart_t = nullptr;
-Trampoline* Init_CharSel_LoadA_t = nullptr;
+TaskHook KnuxExec_t(KnucklesTheEchidna);
+TaskHook KnuxDisplay_t(KnucklesDisplay);
+TaskHook Invincibility_restart_t(0x441F80);
+FunctionHook<void> Init_CharSel_LoadA_t(CharSel_LoadA);
 ModelInfo* HyperKnux_Model[16] = { 0 };
 
 int HKDXAnimTextures[] = { 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 };//Texture IDs for animation
@@ -50,17 +50,17 @@ void animateTextures()
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //tail
 }
 
-static void Knuckles_Display_r(ObjectMaster* tsk)
+static void Knuckles_Display_r(task* tsk)
 {
-	EntityData1* data = tsk->Data1;
+	auto data = tsk->twp;
 
 	if (!AlwaysHyperKnux)
-		isHyperKnux = isPlayerOnHyperForm(data->CharIndex) == true ? 1 : 0;
+		isHyperKnux = isPlayerOnHyperForm(data->counter.b[0]) == true ? 1 : 0;
 	else
 		isHyperKnux = true;
 
 	animateTextures();
-	TARGET_DYNAMIC(Knuckles_Display)(tsk);
+	KnuxDisplay_t.Original(tsk);
 }
 
 
@@ -336,19 +336,21 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 
 int resetTimer = 0;
 
-void Knux_Main_r(ObjectMaster* obj) {
+void Knux_Main_r(task* obj) {
 
-	EntityData1* playerData = obj->Data1;
-	CharObj2* co2 = GetCharObj2(playerData->Index);
-	EntityData2* data2 = (EntityData2*)obj->Data2;
+	auto playerData = obj->twp;
+	auto pnum = playerData->counter.b[0];
+	auto co2 = (playerwk*)GetCharObj2(pnum);
+	auto data2 = (motionwk2*)obj->mwp;
 
-	switch (playerData->Action)
+
+	switch (playerData->mode)
 	{
 	case 0:
 	{
-		Load_EyeTracker(playerData->CharIndex);
+		Load_EyeTracker(pnum);
 		ObjectMaster* HyperKnux_ObjManager = LoadObject((LoadObj)2, 0, HyperKnux_Manager);
-		HyperKnux_ObjManager->Data1->CharIndex = playerData->CharIndex;
+		HyperKnux_ObjManager->Data1->CharIndex = pnum;
 	}
 	break;
 	case 18:
@@ -357,27 +359,27 @@ void Knux_Main_r(ObjectMaster* obj) {
 	case earthQuake:
 		Knux_DoEarthQuakeGround(playerData, co2);
 
-		PResetAngle((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
-		PGetRotation((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
-		PGetAcceleration((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
-		PGetSpeed((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
-		PSetPosition((taskwk*)playerData, (motionwk2*)data2, (playerwk*)co2);
+		PResetAngle(playerData, (motionwk2*)data2, (playerwk*)co2);
+		PGetRotation(playerData, (motionwk2*)data2, (playerwk*)co2);
+		PGetAcceleration(playerData, (motionwk2*)data2, (playerwk*)co2);
+		PGetSpeed(playerData, (motionwk2*)data2, (playerwk*)co2);
+		PSetPosition(playerData, (motionwk2*)data2, (playerwk*)co2);
 		PResetPosition(playerData, data2, co2);
 
 		break;
 	case 61:
 
 		if (++resetTimer == 20) {
-			playerData->Action = 1;
-			co2->AnimationThing.Index = 0;
+			playerData->mode = 1;
+			co2->mj.reqaction = 0;
 			resetTimer = 0;
 		}
 
 		break;
 	}
 
-	ObjectFunc(origin, Knuckles_Main_t->Target());
-	origin(obj);
+
+	KnuxExec_t.Original(obj);
 }
 
 
@@ -399,8 +401,8 @@ void __cdecl Init_HyperKnuxTextures(const char* path, const HelperFunctions& hel
 
 void InitKnuxCharSelAnim_r()
 {
-	VoidFunc(origin, Init_CharSel_LoadA_t->Target());
-	origin();
+
+	Init_CharSel_LoadA_t.Original();
 
 	CharSelDataList[2].anonymous_1[0]->object = HyperKnux_Model[root]->getmodel();
 	CharSelDataList[2].anonymous_1[1]->object = HyperKnux_Model[root]->getmodel();
@@ -415,19 +417,18 @@ void InitKnuxCharSelAnim_r()
 }
 
 //fix character not invincibile in superform after a restart lol
-void InvincibilityRestart_r(ObjectMaster* obj)
+void InvincibilityRestart_r(task* obj)
 {
-	EntityData1* data = obj->Data1;
-	char pID = data->CharIndex;
+	auto data = obj->twp;
+	char pID = data->counter.b[0];
 
-	if (CharObj2Ptrs[pID] && CharObj2Ptrs[pID]->Upgrades & Upgrades_SuperSonic)
+	if (playerpwp[pID] && playerpwp[pID]->equipment & Upgrades_SuperSonic)
 	{
-		CheckThingButThenDeleteObject(obj);
+		FreeTask(obj);
 		return;
 	}
 
-	ObjectFunc(origin, Invincibility_restart_t->Target());
-	origin(obj);
+	Invincibility_restart_t.Original(obj);
 }
 
 
@@ -435,9 +436,9 @@ void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunct
 {
 	Init_HyperKnuxTextures(path, helperFunctions);
 
-	Knuckles_Main_t = new Trampoline((int)Knuckles_Main, (int)Knuckles_Main + 0x7, Knux_Main_r);
-	Knuckles_Display_t = new Trampoline((int)Knuckles_Display, (int)Knuckles_Display + 0x7, Knuckles_Display_r);
-	Invincibility_restart_t = new Trampoline((int)0x441F80, (int)0x441F85, InvincibilityRestart_r);
+	KnuxExec_t.Hook(Knux_Main_r);
+	KnuxDisplay_t.Hook(Knuckles_Display_r);
+	Invincibility_restart_t.Hook(InvincibilityRestart_r);
 
 	//Textures init
 	WriteCall((void*)0x47224E, setHyperKnuxTexture);
@@ -445,8 +446,6 @@ void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunct
 	//models
 	Load_HyperKnuxModels();
 	if (AlwaysHyperKnux && charType != none) {
-		Init_CharSel_LoadA_t = new Trampoline((int)CharSel_LoadA, (int)CharSel_LoadA + 0x6, InitKnuxCharSelAnim_r);
+		Init_CharSel_LoadA_t.Hook(InitKnuxCharSelAnim_r);
 	}
-
-
 }

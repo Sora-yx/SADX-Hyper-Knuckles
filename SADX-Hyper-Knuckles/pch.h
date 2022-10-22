@@ -11,7 +11,6 @@
 #include "framework.h"
 #include "SADXModLoader.h"
 #include "LandTableInfo.h"
-#include "Trampoline.h"
 #include "ModelInfo.h"
 #include "AnimationFile.h"
 #include "IniFile.hpp"
@@ -20,5 +19,6 @@
 #include "mod.h"
 #include "util.h"
 #include "FunctionHook.h"
+#include "UsercallFunctionHandler.h"
 
 #endif //PCH_H
