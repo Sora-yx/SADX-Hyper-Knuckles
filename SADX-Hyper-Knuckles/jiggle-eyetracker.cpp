@@ -67,7 +67,7 @@ void __cdecl HyperKnucklesHeadSpikesShake(ObjectMaster* _this)
 	if (!data->Action)
 	{
 		data->Action++;
-		_this->DeleteSub = KnuxJiggle_Delete;
+		_this->DeleteSub = (ObjectFuncPtr)KnuxJiggle_Delete;
 		KNUCKLES_OBJECTS[49]->model = HyperKnuxHeadList[0];
 		KNUCKLES_OBJECTS[50]->model = HyperKnuxHeadList[0];
 	}
@@ -177,19 +177,19 @@ void LoadHyperKnux_Jiggle(uint8_t pnum)
 	if (charType == none)
 		return;
 
-	ObjectMaster* jiggle = LoadObject((LoadObj)(LoadObj_Data1 | LoadObj_Data2), 3, HyperKnucklesHeadSpikesShake);
+	auto jiggle = CreateElementalTask((LoadObj)(LoadObj_Data1 | LoadObj_Data2), 3, (TaskFuncPtr)HyperKnucklesHeadSpikesShake);
 	if (jiggle)
 	{
-		jiggle->Data1->CharIndex = pnum;
+		jiggle->twp->counter.b[0] = pnum;
 	}
 }
 
 void LoadRegularKnuxJiggle(uint8_t pnum)
 {
-	ObjectMaster* jiggle = LoadObject((LoadObj)(LoadObj_Data1 | LoadObj_Data2), 3, KnucklesHeadSpikesShake);
+	auto jiggle = CreateElementalTask((LoadObj)(LoadObj_Data1 | LoadObj_Data2), 3, KnucklesHeadSpikesShake);
 	if (jiggle)
 	{
-		jiggle->Data1->CharIndex = pnum;
+		jiggle->twp->counter.b[0] = pnum;
 	}
 }
 

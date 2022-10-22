@@ -69,5 +69,5 @@ static inline signed int InitKnuxEyeTracker(NJS_OBJECT* a1, char a2)
 DataPointer(D3DMATRIX, stru_3C52AE0, 0x3C52AE0);
 DataPointer(D3DMATRIX, stru_3C52B98, 0x3C52B98);
 DataPointer(D3DMATRIX, stru_3C52C08, 0x3C52C08);
-ObjectFunc(KnuxJiggle_Delete, 0x473CB0);
-ObjectFunc(KnucklesHeadSpikesShake, 0x473CE0);
+TaskFunc(KnuxJiggle_Delete, 0x473CB0);
+TaskFunc(KnucklesHeadSpikesShake, 0x473CE0);

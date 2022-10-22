@@ -106,9 +106,9 @@ void unSuper(unsigned char player) {
 	if (AlwaysHyperKnux)
 		return;
 
-	EntityData1* data = EntityData1Ptrs[player];
-	EntityData2* data2 = EntityData2Ptrs[player];
-	CharObj2* co2 = CharObj2Ptrs[player];
+	auto data = playertwp[player];
+	auto data2 = playermwp[player];
+	auto co2 = playerpwp[player];
 
 	isQuakeEnabled = false;
 	RestoreOriginalTrailColor();
@@ -116,11 +116,10 @@ void unSuper(unsigned char player) {
 	if (!data)
 		return;
 
+	if (data->counter.b[1] == Characters_Knuckles) //fix an issue with charsel
+		co2->p = *(player_parameter*)&PhysicsArray[Characters_Knuckles];
 
-	if (data->CharID == Characters_Knuckles) //fix an issue with charsel
-		co2->PhysicsData = PhysicsArray[Characters_Knuckles];
-
-	data->Status = 0;
+	data->flag = 0;
 	ForcePlayerAction(player, 24);
 
 	if (IsIngame())
@@ -131,11 +130,10 @@ void unSuper(unsigned char player) {
 		RestoreMusic();
 	}
 
-
-	RestoreKnuxAnimModel(data, co2);
+	RestoreKnuxAnimModel(data);
 	SetGlidSPD(false);
-	co2->Powerups &= ~Powerups_Invincibility;
-	co2->Upgrades &= ~Upgrades_SuperSonic;
+	co2->item &= ~Powerups_Invincibility;
+	co2->equipment &= ~Upgrades_SuperSonic;
 	return;
 }
 
@@ -172,12 +170,12 @@ void SetHyperKnux(CharObj2* co2, EntityData1* data1, EntityData2* data2) {
 	return;
 }
 
-void HyperKnux_PlayTransfoAnimation(EntityData1* player) {
+void HyperKnux_PlayTransfoAnimation(taskwk* player) {
 
 	if (AlwaysHyperKnux || !AnimationTransfo)
 		return;
 
-	CharObj2Ptrs[player->CharIndex]->AnimationThing.Index = 38;
+	playerpwp[player->counter.b[0]]->mj.reqaction = 38;
 }
 
 bool CheckUntransform_Input(unsigned char playerID) {
@@ -234,14 +232,14 @@ void HyperKnuxDelete(ObjectMaster* obj) {
 void HyperKnux_Manager(ObjectMaster* obj) {
 
 	auto data = obj->Data1;
-	auto player = EntityData1Ptrs[obj->Data1->CharIndex];
+	auto player = playertwp[obj->Data1->CharIndex];
 	auto playerData2 = EntityData2Ptrs[obj->Data1->CharIndex];
 
 	if (!player || !IsIngame())
 		return;
 
 	unsigned char playerID = data->CharIndex;
-	CharObj2* co2 = CharObj2Ptrs[player->CharIndex];
+	CharObj2* co2 = CharObj2Ptrs[player->counter.b[0]];
 
 	if (EV_MainThread_ptr)
 	{
@@ -251,7 +249,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 		return;
 	}
 
-	if (player->CharID != Characters_Knuckles || player->CharIndex == 1 && CharacterBossActive) //charsel fix
+	if (player->counter.b[1] != Characters_Knuckles || player->counter.b[0] == 1 && CharacterBossActive) //charsel fix
 		CheckThingButThenDeleteObject(obj);
 
 	int timer = 30;
@@ -274,7 +272,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 		break;
 	case hyperKnuxInit:
 		data->Index = 0;
-		player->Status &= ~Status_Ball;
+		player->flag &= ~Status_Ball;
 
 		HyperKnux_PlayTransfoAnimation(player);
 
@@ -293,9 +291,9 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 		break;
 	case hyperKnuxTransfo:
 
-		SetHyperKnux(co2, player, playerData2);
+		SetHyperKnux(co2, (EntityData1*)player, playerData2);
 
-		if (!isKnuxAI(player) && !isPerfectChasoLevel()) {
+		if (!isKnuxAI((EntityData1*)player) && !isPerfectChasoLevel()) {
 			if (CurrentSuperMusic != None && CurrentSong != MusicIDs_sprsonic)
 			{
 				ActualSong = LastSong;
@@ -311,7 +309,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 			CheckSuperMusic_Restart(playerID);
 		}
 
-		CheckKnuxAfterImages(player, co2);
+		CheckKnuxAfterImages((EntityData1*)player, co2);
 
 		if (KnucklesCheckInput((taskwk*)player, (motionwk2*)playerData2, (playerwk*)co2))
 			break;
@@ -321,8 +319,8 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 			data->Action = playerInputCheck;
 		}
 
-		Knux_EarthQuake_InputCheck(player, co2);
-		InstantMaxHeat_InputCheck(player, co2);
+		Knux_EarthQuake_InputCheck((EntityData1*)player, co2);
+		InstantMaxHeat_InputCheck((EntityData1*)player, co2);
 		break;
 	case hyperKnuxUntransfo:
 		unSuper(playerID);

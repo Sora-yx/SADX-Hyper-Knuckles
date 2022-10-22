@@ -660,7 +660,7 @@ void CopyKnuxOriginalModel()
 	KnuxModelCopy[22] = KNUCKLES_MODELS[22];
 }
 
-void RestoreKnuxModels(EntityData1* data, CharObj2* co2)
+void RestoreKnuxModels(taskwk* data)
 {
 	KNUCKLES_OBJECTS[0] = KnuxObjCopy[0];
 	KNUCKLES_OBJECTS[1] = KnuxObjCopy[1];
@@ -767,8 +767,8 @@ void RestoreKnuxModels(EntityData1* data, CharObj2* co2)
 	KNUCKLES_MODELS[21] = KnuxModelCopy[21];
 	KNUCKLES_MODELS[22] = KnuxModelCopy[22];
 
-	if (co2) {
-		LoadRegularKnuxJiggle(data->CharIndex);
+	if (data) {
+		LoadRegularKnuxJiggle(data->counter.b[0]);
 	}
 }
 
@@ -1017,7 +1017,6 @@ void RestoreKnuxAnim()
 
 		KNUCKLES_ACTIONS[i]->object = KnuxAnimCopy[i];
 	}
-
 }
 
 void SetHyperKnuxAnim()
@@ -1084,12 +1083,12 @@ void Backup_KnuxModelAnims()
 }
 
 
-void RestoreKnuxAnimModel(EntityData1* data, CharObj2* co2)
+void RestoreKnuxAnimModel(taskwk* data)
 {
 	if (charType == none)
 		return;
 
-	RestoreKnuxModels(data, co2);
+	RestoreKnuxModels(data);
 	RestoreKnuxAnim();
 }
 
