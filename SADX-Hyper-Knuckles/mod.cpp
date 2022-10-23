@@ -31,6 +31,7 @@ extern "C" {
 	__declspec(dllexport) void __cdecl OnInitEnd()
 	{
 		Backup_KnuxModelAnims();
+
 	}
 
 	__declspec(dllexport) void __cdecl OnFrame()

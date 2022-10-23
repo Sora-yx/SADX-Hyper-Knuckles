@@ -16,8 +16,9 @@ int HKDCAnimTextures[] = { 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 3
 const int animSPD = 2;
 
 bool isHyperKnux = false;
-bool decrease = false;
+bool longTransfom = false;
 float green = 0.0f;
+static task* flashPtr = nullptr;
 
 void animateTextures()
 {
@@ -213,10 +214,35 @@ bool CheckPlayer_Input(unsigned char playerID) {
 	return false;
 }
 
+void Delete_FlashTransfo()
+{
+
+	crushLightOff();
+
+	if (flashPtr) {
+		FreeTask(flashPtr);
+		flashPtr = nullptr;
+	}
+
+	longTransfom = true;
+}
+
+
+void SetEffectTransformation(taskwk* data)
+{
+	crushLightOn(
+		data->pos.x,
+		data->pos.y + 5.0f,
+		data->pos.z,
+		3, 10, 0.40000001f, 2.0f, 0xFFFFFFFF, 0x96969696);
+}
+
 void HyperKnuxDelete(ObjectMaster* obj) {
 	unSuper(obj->Data1->CharIndex);
 	MusicList[MusicIDs_sprsonic].Name = "sprsonic";
 }
+
+FunctionPointer(void*, EventSE_Init, (int count), 0x64FC80);
 
 void HyperKnux_Manager(ObjectMaster* obj) {
 	auto data = obj->Data1;
@@ -260,7 +286,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 	case hyperKnuxInit:
 		data->Index = 0;
 		player->flag &= ~Status_Ball;
-
+		SetEffectTransformation(player);
 		HyperKnux_PlayTransfoAnimation(player);
 
 		data->Action++;
@@ -269,12 +295,20 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 
 		if (AlwaysHyperKnux)
 			timer = 10;
+		else if (!longTransfom)
+			timer = 50;
 
-		if (++data->Index == timer)
+		++data->Index;
+
+		if (data->Index == timer)
 		{
-			//ForcePlayerAction(player->Index, 24);
+			Delete_FlashTransfo();
 			data->Action++;
 		}
+		else if (!longTransfom && data->Index == timer - 40)
+			{
+				flashPtr = COverlayCreate(0.039999999f, 0.1f, 1.0f, 1.0f, 1.0f);
+			}
 		break;
 	case hyperKnuxTransfo:
 
@@ -318,13 +352,14 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 	}
 }
 
-int resetTimer = 0;
 
+static int resetTimer = 0;
 void Knux_Main_r(task* obj) {
 	auto playerData = obj->twp;
 	auto pnum = playerData->counter.b[0];
 	auto co2 = (playerwk*)GetCharObj2(pnum);
 	auto data2 = (motionwk2*)obj->mwp;
+
 
 	switch (playerData->mode)
 	{

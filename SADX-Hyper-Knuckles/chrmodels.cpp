@@ -6,6 +6,7 @@ NJS_MODEL_SADX* KnuxModelCopy[23] = { 0 };
 WeldInfo KnucklesWeldInfo_r[60] = { 0 };
 
 static FunctionHook<void> InitKnucklesWeldInfo_t((intptr_t)InitKnucklesWeldInfo);
+static UsercallFuncVoid(Knuckles_Upgrades_t, (playerwk* a1), (a1), 0x4726A0, rEAX);
 
 //This whole page manage the character model swap in real time, it's a giant mess due to how the game works.
 //Main idea is to backup everything on startup, swap models when transform, then restore everything when destransform.
@@ -59,7 +60,7 @@ uint16_t Knuckles_ShovelClawIndices_DC[] = {
 void __cdecl InitHyperKnucklesDC_WeldsInfo()
 {
 	KnucklesWeldInfo_r[29].BaseModel = HyperKnux_Model[root]->getmodel();
-	NJS_OBJECT* Root = KnucklesWeldInfo_r[29].BaseModel;
+	auto Root = KnucklesWeldInfo_r[29].BaseModel;
 
 	KnucklesWeldInfo_r[29].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->sibling;
 	KnucklesWeldInfo_r[29].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
@@ -761,10 +762,25 @@ void SetHyperKnuxAnimModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
 	SetHyperKnuxAnim();
 }
 
+void Knuckles_Upgrades_r(playerwk* a1)
+{
+	Knuckles_Upgrades_t.Original(a1);
+	//fix upgrade weld for regular knux
+	KnucklesWeldInfo_r[23].VertIndexes = KnucklesWeldInfo[23].VertIndexes;
+	KnucklesWeldInfo_r[22].VertIndexes = KnucklesWeldInfo[22].VertIndexes;
+	KnucklesWeldInfo_r[11].VertIndexes = KnucklesWeldInfo[11].VertIndexes;
+	KnucklesWeldInfo_r[10].VertIndexes = KnucklesWeldInfo[10].VertIndexes;
+	//fix upgrade weld for hyper knux
+	KnucklesWeldInfo_r[52].VertIndexes = KnucklesWeldInfo[23].VertIndexes;
+	KnucklesWeldInfo_r[51].VertIndexes = KnucklesWeldInfo[22].VertIndexes;
+	KnucklesWeldInfo_r[40].VertIndexes = KnucklesWeldInfo[11].VertIndexes;
+	KnucklesWeldInfo_r[39].VertIndexes = KnucklesWeldInfo[10].VertIndexes;
+}
+
+
 void InitKnucklesWeldInfo_r()
 {
 	InitKnucklesWeldInfo_t.Original();
-
 	memcpy(KnucklesWeldInfo_r, KnucklesWeldInfo, sizeof(WeldInfo) * KnucklesWeldInfo.size());
 
 	if (charType == Dreamcast)
@@ -794,6 +810,7 @@ void Backup_KnuxModelAnims()
 
 	InitKnucklesWeldInfo_t.Hook(InitKnucklesWeldInfo_r);
 	WriteData((WeldInfo**)0x47a89E, KnucklesWeldInfo_r);
+	Knuckles_Upgrades_t.Hook(Knuckles_Upgrades_r);
 
 	return;
 }
