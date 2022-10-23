@@ -777,7 +777,6 @@ void Knuckles_Upgrades_r(playerwk* a1)
 	KnucklesWeldInfo_r[39].VertIndexes = KnucklesWeldInfo[10].VertIndexes;
 }
 
-
 void InitKnucklesWeldInfo_r()
 {
 	InitKnucklesWeldInfo_t.Original();

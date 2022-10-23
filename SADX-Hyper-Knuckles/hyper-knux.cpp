@@ -216,7 +216,6 @@ bool CheckPlayer_Input(unsigned char playerID) {
 
 void Delete_FlashTransfo()
 {
-
 	crushLightOff();
 
 	if (flashPtr) {
@@ -226,7 +225,6 @@ void Delete_FlashTransfo()
 
 	longTransfom = true;
 }
-
 
 void SetEffectTransformation(taskwk* data)
 {
@@ -241,8 +239,6 @@ void HyperKnuxDelete(ObjectMaster* obj) {
 	unSuper(obj->Data1->CharIndex);
 	MusicList[MusicIDs_sprsonic].Name = "sprsonic";
 }
-
-FunctionPointer(void*, EventSE_Init, (int count), 0x64FC80);
 
 void HyperKnux_Manager(ObjectMaster* obj) {
 	auto data = obj->Data1;
@@ -306,9 +302,9 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 			data->Action++;
 		}
 		else if (!longTransfom && data->Index == timer - 40)
-			{
-				flashPtr = COverlayCreate(0.039999999f, 0.1f, 1.0f, 1.0f, 1.0f);
-			}
+		{
+			flashPtr = COverlayCreate(0.039999999f, 0.1f, 1.0f, 1.0f, 1.0f);
+		}
 		break;
 	case hyperKnuxTransfo:
 
@@ -352,14 +348,12 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 	}
 }
 
-
 static int resetTimer = 0;
 void Knux_Main_r(task* obj) {
 	auto playerData = obj->twp;
 	auto pnum = playerData->counter.b[0];
 	auto co2 = (playerwk*)GetCharObj2(pnum);
 	auto data2 = (motionwk2*)obj->mwp;
-
 
 	switch (playerData->mode)
 	{
