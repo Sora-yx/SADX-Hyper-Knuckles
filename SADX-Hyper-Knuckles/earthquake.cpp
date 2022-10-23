@@ -87,7 +87,7 @@ static void Knux_GrabWallCheck_Origin(taskwk* a1, playerwk* a2)
 
 void KnuxGrabWallCheck_r(taskwk* a1, playerwk* a2)
 {
-	if (a1 && a2 && a2->spd.x > 2.0f && isHyperKnux) {
+	if (a1 && a2 && a2->spd.x > 2.0f && isHyperKnux[a1->counter.b[0]]) {
 		CreateBombQuake(a1);
 	}
 
@@ -127,7 +127,8 @@ void Knux_EarthQuake_InputCheck(EntityData1* data, CharObj2* co2)
 
 void Knux_DoEarthQuakeGround(taskwk* data, playerwk* co2)
 {
-	if ((Controllers[data->counter.b[0]].PressedButtons & JumpButtons) != 0)
+	auto pnum = data->counter.b[0];
+	if ((Controllers[pnum].PressedButtons & JumpButtons) != 0)
 	{
 		data->mode = glide;
 		co2->mj.reqaction = 51;
@@ -135,7 +136,7 @@ void Knux_DoEarthQuakeGround(taskwk* data, playerwk* co2)
 		return;
 	}
 
-	if ((isHyperKnux && data->flag & (Status_Ground | Status_OnColli)) != 0) {
+	if ((isHyperKnux[pnum] && data->flag & (Status_Ground | Status_OnColli)) != 0) {
 		CreateBombQuake(data);
 
 		co2->spd.y = 0.0f;
@@ -159,7 +160,7 @@ void Knux_DoEarthQuakeGround(taskwk* data, playerwk* co2)
 
 int Knux_JumpCancel_r(CharObj2* a1, EntityData1* data)
 {
-	if ((AttackButtons & Controllers[data->CharIndex].PressedButtons) == 0 || isHyperKnux)
+	if ((AttackButtons & Controllers[data->CharIndex].PressedButtons) == 0 || isHyperKnux[data->CharIndex])
 	{
 		return 0;
 	}
@@ -237,7 +238,7 @@ void ObjectCarSHRegular_r(ObjectMaster* obj)
 {
 	EntityData1* data = obj->Data1;
 
-	if (isHyperKnux && isKnucklesPlayer())
+	if (isHyperKnux[data->CharIndex] && isKnucklesPlayer())
 	{
 		if (data->Index > 1)
 			data->Index = 0;
@@ -270,7 +271,7 @@ void ObjectCarSS_r(ObjectMaster* obj)
 {
 	EntityData1* data = obj->Data1;
 
-	if (isHyperKnux && isKnucklesPlayer()) {
+	if (isHyperKnux[data->CharIndex] && isKnucklesPlayer()) {
 		if (data->Index > 1)
 			data->Index = 0;
 

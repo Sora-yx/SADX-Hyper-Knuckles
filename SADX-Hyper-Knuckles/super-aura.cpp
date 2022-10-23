@@ -44,22 +44,6 @@ static NJS_TEXLIST KnuxSuperAuraTexListArray2[8] = {
 	&SADXAuratexid15, 1
 };
 
-void njTexlistSetSuperAura(NJS_TEXLIST* texlist)
-{
-	if (isHyperKnux)
-		texlist = KnuxSuperAuraTexListArray;
-
-	njSetTexture(texlist);
-}
-
-void njTexlistSetSuperAura2(NJS_TEXLIST* texlist)
-{
-	if (isHyperKnux)
-		texlist = KnuxSuperAuraTexListArray2;
-
-	njSetTexture(texlist);
-}
-
 void Set_AuraTextures() {
 	for (uint8_t i = 0; i < LengthOfArray(KnuxSuperAuraTexListArray); i++) {
 		KnuxSuperAuraTexListArray[i].textures[0] = Knux_SuperAura_TEXLIST.textures[i];
@@ -149,7 +133,7 @@ void __cdecl SuperAura_Display_r(task* obj)
 	taskwk* playerData = (taskwk*)EntityData1Ptrs[(unsigned __int8)data->counter.b[0]];
 	EntityData1* pData = (EntityData1*)playerData;
 
-	if (isHyperKnux && pData->CharID == Characters_Knuckles && !isPerfectChasoLevel())
+	if (isHyperKnux[(unsigned __int8)data->counter.b[0]] && pData->CharID == Characters_Knuckles && !isPerfectChasoLevel())
 	{
 		SuperAuraKnux_Display(obj);
 	}

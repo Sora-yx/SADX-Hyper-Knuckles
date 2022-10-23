@@ -17,7 +17,7 @@ void __cdecl DisplayHyperKnux_Icon()
 {
 	HudDisplayLife_t.Original();
 
-	if (!EntityData1Ptrs[0] || EntityData1Ptrs[0]->CharID != Characters_Knuckles || !isHyperKnux || !isInActionStage())
+	if (!EntityData1Ptrs[0] || EntityData1Ptrs[0]->CharID != Characters_Knuckles || !isHyperKnux[0] || !isInActionStage())
 		return;
 
 	HelperFunctionsGlobal.PushScaleUI(uiscale::Align_Automatic, false, 1.0f, 1.0f);

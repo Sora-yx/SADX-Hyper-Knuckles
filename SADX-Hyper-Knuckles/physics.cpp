@@ -77,7 +77,7 @@ void Increase_ClimbSPD(taskwk* a1, NJS_POINT3* a2)
 {
 	float spd = 0.9f;
 
-	if (isHyperKnux)
+	if (isHyperKnux[a1->counter.b[0]])
 	{
 		if (a2->x > 0.10f)
 			a2->x += spd;

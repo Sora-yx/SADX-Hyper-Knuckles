@@ -706,7 +706,7 @@ void SetHyperKnuxModel_()
 	KNUCKLES_MODELS[22] = HyperKnux_Model[10]->getmodel()->basicdxmodel;
 }
 
-void SetHyperKnuxModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
+void SetHyperKnuxModel()
 {
 	if (charType == none)
 		return;
@@ -753,18 +753,16 @@ void SetHyperKnuxAnim()
 	KNUCKLES_ACTIONS[62]->object = HyperKnux_Model[ball]->getmodel();
 }
 
-void SetHyperKnuxAnimModel(EntityData1* data, CharObj2* co2, EntityData2* data2)
+void SetHyperKnuxAnimModel()
 {
-	if (charType == none || AlwaysHyperKnux)
-		return;
-
-	SetHyperKnuxModel(data, co2, data2);
+	SetHyperKnuxModel();
 	SetHyperKnuxAnim();
 }
 
 void Knuckles_Upgrades_r(playerwk* a1)
 {
 	Knuckles_Upgrades_t.Original(a1);
+
 	//fix upgrade weld for regular knux
 	KnucklesWeldInfo_r[23].VertIndexes = KnucklesWeldInfo[23].VertIndexes;
 	KnucklesWeldInfo_r[22].VertIndexes = KnucklesWeldInfo[22].VertIndexes;
@@ -780,7 +778,9 @@ void Knuckles_Upgrades_r(playerwk* a1)
 void InitKnucklesWeldInfo_r()
 {
 	InitKnucklesWeldInfo_t.Original();
-	memcpy(KnucklesWeldInfo_r, KnucklesWeldInfo, sizeof(WeldInfo) * KnucklesWeldInfo.size());
+
+	if (!AlwaysHyperKnux)
+		memcpy(KnucklesWeldInfo_r, KnucklesWeldInfo, sizeof(WeldInfo) * KnucklesWeldInfo.size());
 
 	if (charType == Dreamcast)
 	{
@@ -789,6 +789,16 @@ void InitKnucklesWeldInfo_r()
 	else
 	{
 		InitHyperKnucklesDX_WeldsInfo();
+	}
+
+	if (AlwaysHyperKnux)
+	{
+		for (int i = 0; i < 30; i++)
+		{
+			KnucklesWeldInfo_r[i] = KnucklesWeldInfo_r[i + 29];
+		}
+
+		KnucklesWeldInfo_r[30] = { 0 };
 	}
 }
 
@@ -801,17 +811,22 @@ void Backup_KnuxModelAnims()
 		CopyKnuxOriginalModel();
 		CopyKnuxOriginalAnims();
 	}
-	else
-	{
-		SetHyperKnuxModel_();
-		SetHyperKnuxAnim();
-	}
+}
+
+void SetAlwaysHyperKnuxModels()
+{
+	SetHyperKnuxModel_();
+	SetHyperKnuxAnim();
+}
+
+void InitHyperKnuxWelds()
+{
+	if (charType == none)
+		return;
 
 	InitKnucklesWeldInfo_t.Hook(InitKnucklesWeldInfo_r);
 	WriteData((WeldInfo**)0x47a89E, KnucklesWeldInfo_r);
 	Knuckles_Upgrades_t.Hook(Knuckles_Upgrades_r);
-
-	return;
 }
 
 void RestoreKnuxAnimModel(taskwk* data)

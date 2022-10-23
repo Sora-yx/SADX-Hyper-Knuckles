@@ -7,6 +7,7 @@ extern std::string modpath;
 
 #define TARGET_DYNAMIC(name) ((decltype(name##_r)*)name##_t->Target())
 #define TaskHook static FunctionHook<void, task*>
+constexpr char pMax = 8;
 
 enum HyperKnuxMusic {
 	None,
@@ -42,7 +43,7 @@ extern bool RemoveLimitations;
 extern int CurrentSFX;
 extern bool AnimationTransfo;
 extern int ActualSong;
-extern bool isHyperKnux;
+extern bool isHyperKnux[];
 extern bool AlwaysHyperKnux;
 extern bool superAura;
 extern bool customPhysics;
@@ -96,3 +97,5 @@ void init_HudHack();
 void init_Jiggle_EyeTracker();
 void LoadHyperKnux_Jiggle(uint8_t pnum);
 void LoadRegularKnuxJiggle(uint8_t pnum);
+void SetAlwaysHyperKnuxModels();
+void InitHyperKnuxWelds();

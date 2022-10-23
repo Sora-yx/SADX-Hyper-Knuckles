@@ -15,14 +15,27 @@ int HKDCAnimTextures[] = { 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 3
 
 const int animSPD = 2;
 
-bool isHyperKnux = false;
+bool isHyperKnux[pMax] = { false };
 bool longTransfom = false;
 float green = 0.0f;
 static task* flashPtr = nullptr;
 
+bool isOnePlayerHyper()
+{
+	for (uint8_t i = 0; i < pMax; i++)
+	{
+		if (isPlayerOnHyperForm(i))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void animateTextures()
 {
-	if (!isHyperKnux || GameState != 15 || charType == none)
+	if (!isOnePlayerHyper() || GameState != 15 || charType == none)
 		return;
 
 	uint16_t texid = charType == Dreamcast ? HKDCAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDCAnimTextures))] : HKDXAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDXAnimTextures))];
@@ -50,22 +63,29 @@ void animateTextures()
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling->basicdxmodel->mats[0].attr_texId = texid; //tail
 }
 
+bool dispIsHyper = false;
 static void Knuckles_Display_r(task* tsk)
 {
 	auto data = tsk->twp;
 
-	if (!AlwaysHyperKnux)
-		isHyperKnux = isPlayerOnHyperForm(data->counter.b[0]) == true ? 1 : 0;
-	else
-		isHyperKnux = true;
+	if (data) {
+		auto pnum = data->counter.b[0];
 
-	animateTextures();
+		if (!AlwaysHyperKnux)
+			isHyperKnux[pnum] = isPlayerOnHyperForm(pnum);
+		else
+			isHyperKnux[pnum] = true;
+
+		animateTextures();
+		dispIsHyper = isHyperKnux[pnum];
+	}
+
 	KnuxDisplay_t.Original(tsk);
 }
 
 NJS_TEXLIST* getHyperKnuxTex()
 {
-	if (isHyperKnux && charType != none) {
+	if (dispIsHyper && charType != none) {
 		if (charType == Dreamcast)
 			return &HyperKnuxDC_TEXLIST;
 		else
@@ -84,7 +104,7 @@ Sint32 __cdecl setHyperKnuxTexture(NJS_TEXLIST* texlist)
 
 void SubRings(unsigned char player, EntityData1* data) {
 	if (RemoveLimitations || AlwaysHyperKnux || EntityData1Ptrs[player]->CharID != Characters_Knuckles
-		|| !isHyperKnux || isKnuxAI(EntityData1Ptrs[player]) || !ControlEnabled || !TimeThing || GameState != 15)
+		|| !isHyperKnux[player] || isKnuxAI(EntityData1Ptrs[player]) || !ControlEnabled || !TimeThing || GameState != 15)
 		return;
 
 	if (FrameCounterUnpaused % 60 == 0 && Rings > 0) {
@@ -118,7 +138,7 @@ void unSuper(unsigned char player) {
 	data->flag = 0;
 	ForcePlayerAction(player, 24);
 
-	if (IsIngame())
+	if (IsIngame() && !player)
 	{
 		if (CurrentSFX == DBZ_SFX)
 			PlayVoice(7002);
@@ -154,7 +174,7 @@ void SetHyperKnux(CharObj2* co2, EntityData1* data1, EntityData2* data2) {
 	co2->Upgrades |= Upgrades_SuperSonic;
 	co2->Powerups |= Powerups_Invincibility;
 
-	SetHyperKnuxAnimModel(data1, co2, data2);
+	SetHyperKnuxAnimModel();
 	Load_SuperAura(taskw);
 	Load_HyperPhysics(taskw);
 	SetGlidSPD(true);
@@ -216,23 +236,29 @@ bool CheckPlayer_Input(unsigned char playerID) {
 
 void Delete_FlashTransfo()
 {
-	crushLightOff();
+	if (!AlwaysHyperKnux)
+	{
+		crushLightOff();
 
-	if (flashPtr) {
-		FreeTask(flashPtr);
-		flashPtr = nullptr;
+		if (flashPtr) {
+			FreeTask(flashPtr);
+			flashPtr = nullptr;
+		}
+
+		longTransfom = true;
 	}
-
-	longTransfom = true;
 }
 
 void SetEffectTransformation(taskwk* data)
 {
-	crushLightOn(
-		data->pos.x,
-		data->pos.y + 5.0f,
-		data->pos.z,
-		3, 10, 0.40000001f, 2.0f, 0xFFFFFFFF, 0x96969696);
+	if (!AlwaysHyperKnux && IsIngame())
+	{
+		crushLightOn(
+			data->pos.x,
+			data->pos.y + 5.0f,
+			data->pos.z,
+			3, 10, 0.40000001f, 2.0f, 0xFFFFFFFF, 0x96969696);
+	}
 }
 
 void HyperKnuxDelete(ObjectMaster* obj) {
@@ -310,7 +336,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 
 		SetHyperKnux(co2, (EntityData1*)player, playerData2);
 
-		if (!isKnuxAI((EntityData1*)player) && !isPerfectChasoLevel()) {
+		if (!playerID && !isPerfectChasoLevel()) {
 			if (CurrentSuperMusic != None && CurrentSong != MusicIDs_sprsonic)
 			{
 				ActualSong = LastSong;
@@ -448,9 +474,11 @@ void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunct
 	//Textures init
 	WriteCall((void*)0x47224E, setHyperKnuxTexture);
 
-	//models
+	//models and anims
 	Load_HyperKnuxModels();
 	if (AlwaysHyperKnux && charType != none) {
 		Init_CharSel_LoadA_t.Hook(InitKnuxCharSelAnim_r);
 	}
+
+	InitHyperKnuxWelds();
 }

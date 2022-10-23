@@ -53,7 +53,7 @@ void InstantMaxHeat_InputCheck(EntityData1* data, CharObj2* co2);
 void SetInstantMaxHeat(bool state);
 void Set_AuraTextures();
 void RestoreOriginalTrailColor();
-void SetHyperKnuxAnimModel(EntityData1* data, CharObj2* co2, EntityData2* data2);
+void SetHyperKnuxAnimModel();
 void RestoreKnuxAnimModel(taskwk* data);
 void Load_HyperKnuxModels();
 void Load_EyeTracker(uint8_t pnum);

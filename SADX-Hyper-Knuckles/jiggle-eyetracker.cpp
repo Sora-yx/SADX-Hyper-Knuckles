@@ -4,14 +4,14 @@ NJS_OBJECT* HyperKnuxEyeList[3];
 NJS_MODEL_SADX* HyperKnuxHeadList[3];
 TaskHook KnucklesHeadSpikesShake_t((intptr_t)0x473CE0);
 
-void __cdecl KnucklesHeadSpikeShake_r(task* arg0)
+void __cdecl KnucklesHeadSpikeShake_r(task* tsk)
 {
-	if (isHyperKnux) {
-		FreeTask(arg0);
+	if (isHyperKnux[tsk->twp->counter.b[0]]) {
+		FreeTask(tsk);
 		return;
 	}
 
-	KnucklesHeadSpikesShake_t.Original(arg0);
+	KnucklesHeadSpikesShake_t.Original(tsk);
 }
 
 void __cdecl HyperKnucklesHeadSpikesShake(ObjectMaster* _this)
@@ -38,7 +38,7 @@ void __cdecl HyperKnucklesHeadSpikesShake(ObjectMaster* _this)
 	EntityData1* data = _this->Data1;
 	unsigned __int8 pnum = data->CharIndex;
 
-	if (!AlwaysHyperKnux && !isHyperKnux || !EntityData1Ptrs[pnum])
+	if (!AlwaysHyperKnux && !isHyperKnux[pnum] || !EntityData1Ptrs[pnum])
 	{
 		DeleteObjectMaster(_this);
 		return;
