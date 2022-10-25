@@ -5,7 +5,7 @@ ModelInfo* LoadBasicModel(const char* name) {
 
 	std::string modelFolder = "DX\\";
 
-	if (charType == Dreamcast)
+	if (modelType == Dreamcast)
 		modelFolder = "DC\\";
 
 	std::string fullPath = "system\\models\\" + modelFolder;

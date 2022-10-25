@@ -7,7 +7,7 @@ bool RemoveLimitations = false;
 bool AlwaysHyperKnux = false;
 bool superAura = true;
 bool customPhysics = true;
-uint8_t charType = Dreamcast;
+uint8_t modelType = Dreamcast;
 bool redAura = false;
 std::string auraPVM = "HYPE_K_AURA";
 Buttons TransformButton = Buttons_B;
@@ -24,7 +24,7 @@ void ReadConfig(const char* path, const HelperFunctions& helperFunctions) {
 	//Ini file Configuration
 	const IniFile* config = new IniFile(std::string(path) + "\\config.ini");
 
-	charType = config->getInt("appearance", "charType", Dreamcast);
+	modelType = config->getInt("appearance", "charType", Dreamcast);
 	superAura = config->getBool("appearance", "superAura", true);
 	redAura = config->getBool("appearance", "redAura", false);
 	lifeIcon = config->getBool("appearance", "lifeIcon", true);

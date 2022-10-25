@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "hyper-knux.h"
 #include "audio.h"
+#include "multiapi.h"
 
 int ActualSong = 0;
 
@@ -35,10 +36,10 @@ bool isOnePlayerHyper()
 
 void animateTextures()
 {
-	if (!isOnePlayerHyper() || GameState != 15 || charType == none)
+	if (!isOnePlayerHyper() || GameState != 15 || modelType == none || MultiModEnabled && multi_is_active())
 		return;
 
-	uint16_t texid = charType == Dreamcast ? HKDCAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDCAnimTextures))] : HKDXAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDXAnimTextures))];
+	uint16_t texid = modelType == Dreamcast ? HKDCAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDCAnimTextures))] : HKDXAnimTextures[(FrameCounter / animSPD) % (LengthOfArray(HKDXAnimTextures))];
 
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->child->child->sibling->sibling->sibling->basicdxmodel->mats[0].attr_texId = texid; //head
 	HyperKnux_Model[0]->getmodel()->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->basicdxmodel->mats[0].attr_texId = texid; //chest
@@ -83,10 +84,16 @@ static void Knuckles_Display_r(task* tsk)
 	KnuxDisplay_t.Original(tsk);
 }
 
+void THISGAMESUCKS();
 NJS_TEXLIST* getHyperKnuxTex()
 {
-	if (dispIsHyper && charType != none) {
-		if (charType == Dreamcast)
+
+	THISGAMESUCKS();
+	if (MultiModEnabled && multi_is_active())
+		return &KNUCKLES_TEXLIST;
+
+	if (dispIsHyper && modelType != none) {
+		if (modelType == Dreamcast)
 			return &HyperKnuxDC_TEXLIST;
 		else
 			return &HyperKnuxDX_TEXLIST;
@@ -150,6 +157,7 @@ void unSuper(unsigned char player) {
 	SetGlidSPD(false);
 	co2->item &= ~Powerups_Invincibility;
 	co2->equipment &= ~Upgrades_SuperSonic;
+	dispIsHyper = false;
 	return;
 }
 
@@ -251,7 +259,10 @@ void Delete_FlashTransfo()
 
 void SetEffectTransformation(taskwk* data)
 {
-	if (!AlwaysHyperKnux && IsIngame())
+	if (MultiModEnabled && multi_is_active())
+		return;
+
+	if (!AlwaysHyperKnux && IsIngame() && AnimationTransfo)
 	{
 		crushLightOn(
 			data->pos.x,
@@ -262,8 +273,10 @@ void SetEffectTransformation(taskwk* data)
 }
 
 void HyperKnuxDelete(ObjectMaster* obj) {
+
 	unSuper(obj->Data1->CharIndex);
 	MusicList[MusicIDs_sprsonic].Name = "sprsonic";
+	flashPtr = nullptr;
 }
 
 void HyperKnux_Manager(ObjectMaster* obj) {
@@ -293,6 +306,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 	switch (data->Action) {
 	case hyperKnuxSetTask:
 		Set_AuraTextures();
+
 		obj->DeleteSub = HyperKnuxDelete;
 		data->Action++;
 		break;
@@ -308,15 +322,17 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 	case hyperKnuxInit:
 		data->Index = 0;
 		player->flag &= ~Status_Ball;
+
 		SetEffectTransformation(player);
 		HyperKnux_PlayTransfoAnimation(player);
-
 		data->Action++;
 		break;
 	case hyperKnuxWait:
 
 		if (AlwaysHyperKnux)
 			timer = 10;
+		else if (MultiModEnabled && multi_is_active())
+			timer = 35;
 		else if (!longTransfom)
 			timer = 50;
 
@@ -327,8 +343,11 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 			Delete_FlashTransfo();
 			data->Action++;
 		}
-		else if (!longTransfom && data->Index == timer - 40)
+		else if (AnimationTransfo && !longTransfom && data->Index == timer - 40)
 		{
+			if (MultiModEnabled && multi_is_active())
+				return;
+
 			flashPtr = COverlayCreate(0.039999999f, 0.1f, 1.0f, 1.0f, 1.0f);
 		}
 		break;
@@ -349,7 +368,7 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 
 		if (!isPerfectChasoLevel()) {
 			SubRings(playerID, data);
-			CheckSuperMusic_Restart(playerID);
+			CheckSuperMusic_Restart(0);
 		}
 
 		CheckKnuxAfterImages((EntityData1*)player, co2);
@@ -420,13 +439,13 @@ void Knux_Main_r(task* obj) {
 
 void __cdecl Init_HyperKnuxTextures(const char* path, const HelperFunctions& helperFunctions) {
 	for (uint8_t i = 0; i < LengthOfArray(HyperKnux_DCEntry); i++) {
-		helperFunctions.RegisterCharacterPVM(Characters_Knuckles, charType == Dreamcast ? HyperKnux_DCEntry[i] : HyperKnux_DXEntry[i]);
+		helperFunctions.RegisterCharacterPVM(Characters_Knuckles, modelType == Dreamcast ? HyperKnux_DCEntry[i] : HyperKnux_DXEntry[i]);
 	}
 
 	if (AlwaysHyperKnux) {
-		KNUCKLES_TEXLIST = charType == Dreamcast ? HyperKnuxDC_TEXLIST : HyperKnuxDX_TEXLIST;
+		KNUCKLES_TEXLIST = modelType == Dreamcast ? HyperKnuxDC_TEXLIST : HyperKnuxDX_TEXLIST;
 		std::string texPath = modpath + "\\textures\\";
-		texPath += charType == Dreamcast ? "HYPERKNUX_DC" : "HYPERKNUX_DX";
+		texPath += modelType == Dreamcast ? "HYPERKNUX_DC" : "HYPERKNUX_DX";
 		texPath += ".pvmx";
 		helperFunctions.ReplaceFile("system\\KNUCKLES.PVM", texPath.c_str());
 	}
@@ -440,7 +459,7 @@ void InitKnuxCharSelAnim_r()
 	CharSelDataList[2].anonymous_1[1]->object = HyperKnux_Model[root]->getmodel();
 	CharSelDataList[2].anonymous_1[2]->object = HyperKnux_Model[root]->getmodel();
 
-	if (charType == Dreamcast) {
+	if (modelType == Dreamcast) {
 		CharSelDataList[2].TextureList = &HyperKnuxDC_TEXLIST;
 	}
 	else {
@@ -476,7 +495,7 @@ void __cdecl HyperKnux_Init(const char* path, const HelperFunctions& helperFunct
 
 	//models and anims
 	Load_HyperKnuxModels();
-	if (AlwaysHyperKnux && charType != none) {
+	if (AlwaysHyperKnux && modelType != none) {
 		Init_CharSel_LoadA_t.Hook(InitKnuxCharSelAnim_r);
 	}
 

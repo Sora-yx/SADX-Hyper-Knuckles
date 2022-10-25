@@ -47,11 +47,12 @@ extern bool isHyperKnux[];
 extern bool AlwaysHyperKnux;
 extern bool superAura;
 extern bool customPhysics;
-extern uint8_t charType;
+extern uint8_t modelType;
 extern bool isQuakeEnabled;
 extern bool redAura;
 extern bool lifeIcon;
 
+extern bool MultiModEnabled;
 extern Buttons TransformButton;
 
 #pragma pack(push, 1)
@@ -97,5 +98,4 @@ void init_HudHack();
 void init_Jiggle_EyeTracker();
 void LoadHyperKnux_Jiggle(uint8_t pnum);
 void LoadRegularKnuxJiggle(uint8_t pnum);
-void SetAlwaysHyperKnuxModels();
 void InitHyperKnuxWelds();

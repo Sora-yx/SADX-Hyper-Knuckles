@@ -3,6 +3,8 @@
 HelperFunctions HelperFunctionsGlobal;
 std::string modpath;
 
+bool MultiModEnabled = false;
+
 extern "C" {
 	__declspec(dllexport) void __cdecl Init(const char* path, const HelperFunctions& helperFunctions)
 	{
@@ -26,6 +28,8 @@ extern "C" {
 		init_AuraHack();
 		init_HudHack();
 		init_Jiggle_EyeTracker();
+
+		MultiModEnabled = GetModuleHandle(L"sadx-multiplayer") != nullptr;
 	}
 
 	__declspec(dllexport) void __cdecl OnInitEnd()

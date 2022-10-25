@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "multiapi.h"
 
 NJS_OBJECT* KnuxObjCopy[74] = { 0 };
 NJS_OBJECT* KnuxAnimCopy[90] = { 0 };
@@ -587,7 +588,7 @@ void SetHyperKnuxModel_()
 	KNUCKLES_OBJECTS[3] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling; //3);
 	KNUCKLES_OBJECTS[4] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
 
-	if (charType != Dreamcast)
+	if (modelType != Dreamcast)
 		KNUCKLES_OBJECTS[5] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
 	else
 		KNUCKLES_OBJECTS[5] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
@@ -654,7 +655,7 @@ void SetHyperKnuxModel_()
 	KNUCKLES_OBJECTS[64] = KNUCKLES_OBJECTS[5];
 
 	//Thumb model hiearchy is also different with DC Glide Model.
-	if (charType == Dreamcast)
+	if (modelType == Dreamcast)
 		KNUCKLES_OBJECTS[65] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
 	else
 		KNUCKLES_OBJECTS[65] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
@@ -688,7 +689,7 @@ void SetHyperKnuxModel_()
 	KNUCKLES_MODELS[12] = KNUCKLES_OBJECTS[20]->getbasicdxmodel();
 	KNUCKLES_MODELS[13] = KNUCKLES_OBJECTS[5]->getbasicdxmodel();
 
-	if (charType == Dreamcast)
+	if (modelType == Dreamcast)
 		KNUCKLES_MODELS[14] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling->getbasicdxmodel();
 	else
 		KNUCKLES_MODELS[14] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->getbasicdxmodel();
@@ -708,7 +709,7 @@ void SetHyperKnuxModel_()
 
 void SetHyperKnuxModel()
 {
-	if (charType == none)
+	if (modelType == none || MultiModEnabled && multi_is_active())
 		return;
 
 	SetHyperKnuxModel_();
@@ -740,6 +741,9 @@ void RestoreKnuxAnim()
 
 void SetHyperKnuxAnim()
 {
+	if (modelType == none || MultiModEnabled && multi_is_active())
+		return;
+
 	for (uint8_t i = 0; i < LengthOfArray(KnuxAnimCopy); i++)
 	{
 		//8 is empty
@@ -782,7 +786,7 @@ void InitKnucklesWeldInfo_r()
 	if (!AlwaysHyperKnux)
 		memcpy(KnucklesWeldInfo_r, KnucklesWeldInfo, sizeof(WeldInfo) * KnucklesWeldInfo.size());
 
-	if (charType == Dreamcast)
+	if (modelType == Dreamcast)
 	{
 		InitHyperKnucklesDC_WeldsInfo();
 	}
@@ -804,7 +808,7 @@ void InitKnucklesWeldInfo_r()
 
 void Backup_KnuxModelAnims()
 {
-	if (charType == none)
+	if (modelType == none)
 		return;
 
 	if (!AlwaysHyperKnux) {
@@ -813,15 +817,9 @@ void Backup_KnuxModelAnims()
 	}
 }
 
-void SetAlwaysHyperKnuxModels()
-{
-	SetHyperKnuxModel_();
-	SetHyperKnuxAnim();
-}
-
 void InitHyperKnuxWelds()
 {
-	if (charType == none)
+	if (modelType == none)
 		return;
 
 	InitKnucklesWeldInfo_t.Hook(InitKnucklesWeldInfo_r);
@@ -829,9 +827,14 @@ void InitHyperKnuxWelds()
 	Knuckles_Upgrades_t.Hook(Knuckles_Upgrades_r);
 }
 
+void THISGAMESUCKS()
+{
+	KNUCKLES_ACTIONS[15]->object = KNUCKLES_ACTIONS[15]->object;
+}
+
 void RestoreKnuxAnimModel(taskwk* data)
 {
-	if (charType == none)
+	if (modelType == none || MultiModEnabled && multi_is_active())
 		return;
 
 	RestoreKnuxModels(data);
@@ -840,10 +843,10 @@ void RestoreKnuxAnimModel(taskwk* data)
 
 void Load_HyperKnuxModels()
 {
-	if (charType == none)
+	if (modelType == none)
 		return;
 
-	if (charType == Dreamcast)
+	if (modelType == Dreamcast)
 	{
 		HyperKnux_Model[root] = LoadBasicModel("HYPEKNUX_DC");
 		HyperKnux_Model[curl] = LoadBasicModel("HYPECURL_DC");
