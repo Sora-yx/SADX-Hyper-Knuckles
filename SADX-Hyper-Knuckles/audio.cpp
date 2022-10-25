@@ -26,7 +26,6 @@ void CheckSuperMusic_Restart(int playerID) {
 		return;
 
 	if (CharObj2Ptrs[playerID]->Upgrades & Upgrades_SuperSonic && !isKnuxAI(EntityData1Ptrs[playerID])) {
-
 		if (CurrentSong != MusicIDs_sprsonic && CurrentSong != -1 && CurrentSong != 255) {
 			ActualSong = CurrentSong;
 			Play_HyperKnuxMusic();
