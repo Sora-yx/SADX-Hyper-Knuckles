@@ -84,11 +84,9 @@ static void Knuckles_Display_r(task* tsk)
 	KnuxDisplay_t.Original(tsk);
 }
 
-void THISGAMESUCKS();
+
 NJS_TEXLIST* getHyperKnuxTex()
 {
-
-	THISGAMESUCKS();
 	if (MultiModEnabled && multi_is_active())
 		return &KNUCKLES_TEXLIST;
 
@@ -277,6 +275,7 @@ void HyperKnuxDelete(ObjectMaster* obj) {
 	unSuper(obj->Data1->CharIndex);
 	MusicList[MusicIDs_sprsonic].Name = "sprsonic";
 	flashPtr = nullptr;
+
 }
 
 void HyperKnux_Manager(ObjectMaster* obj) {

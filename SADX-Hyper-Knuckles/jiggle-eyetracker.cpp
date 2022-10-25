@@ -39,7 +39,7 @@ void __cdecl HyperKnucklesHeadSpikesShake(ObjectMaster* _this)
 	EntityData1* data = _this->Data1;
 	unsigned __int8 pnum = data->CharIndex;
 
-	if (!AlwaysHyperKnux && !isHyperKnux[pnum] || !EntityData1Ptrs[pnum] || MultiModEnabled)
+	if (!AlwaysHyperKnux && !isHyperKnux[pnum] || !EntityData1Ptrs[pnum])
 	{
 		DeleteObjectMaster(_this);
 		return;
@@ -184,8 +184,10 @@ void LoadHyperKnux_Jiggle(uint8_t pnum)
 
 void LoadRegularKnuxJiggle(uint8_t pnum)
 {
-	if (modelType == none || MultiModEnabled)
+	if (modelType == none)
+	{
 		return;
+	}
 
 	auto jiggle = CreateElementalTask((LoadObj)(LoadObj_Data1 | LoadObj_Data2), 3, KnucklesHeadSpikesShake);
 	if (jiggle)
@@ -196,7 +198,7 @@ void LoadRegularKnuxJiggle(uint8_t pnum)
 
 void Load_EyeTracker(uint8_t pnum)
 {
-	if (modelType == none || MultiModEnabled)
+	if (modelType == none)
 		return;
 
 	InitKnuxEyeTracker((NJS_OBJECT*)HyperKnuxEyeList, pnum);
