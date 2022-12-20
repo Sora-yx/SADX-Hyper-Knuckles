@@ -230,16 +230,16 @@ void DestroyCar(task* obj)
 	boom.fExpMaxRadius = 25.0f;
 	egm2MiDexplosion(&boom);
 	dsPlay_oneshot_Dolby(475, 0, 0, 64, 120, (taskwk*)data);
-	data->timer.l = 30;
 	data->id++;
 }
 
-bool CheckDestroyCars(taskwk* data, task* obj)
+
+void CheckDestroyCars(taskwk* data, task* obj)
 {
 	NJS_VECTOR pos = data->pos;
 	int pNum = IsPlayerInSphere(pos, 100);
 
-	if (pNum > -1 && isQuakeEnabled)
+	if (pNum > 0 && isQuakeEnabled)
 	{
 		if (isHyperKnux[pNum - 1] && isKnucklesPlayer())
 		{
@@ -250,35 +250,25 @@ bool CheckDestroyCars(taskwk* data, task* obj)
 			{
 				egm2_car_broken_main_set(&data->pos);
 				EraseDolbyCtrl((EntityData1*)data);
-				data->id++;
 				FreeTask(obj);
+				return;
 			}
-
-			return true;
 		}
 	}
-
-	return false;
 }
 
 void ObjectCarSHRegular_r(task* obj)
 {
 	auto data = obj->twp;
-
-	if (!CheckDestroyCars(data, obj))
-	{
-		return carSH_t.Original((task*)obj);
-	}
+	CheckDestroyCars(data, obj);
+	carSH_t.Original((task*)obj);
 }
 
 void ObjectCarSS_r(task* obj)
 {
 	auto data = obj->twp;
-
-	if (!CheckDestroyCars(data, obj))
-	{
-		return carSS_t.Original((task*)obj);
-	}
+	CheckDestroyCars(data, obj);
+	carSS_t.Original((task*)obj);
 }
 
 void init_KnuxEarthquake()
