@@ -11,7 +11,7 @@ uint8_t modelType = Dreamcast;
 bool redAura = false;
 std::string auraPVM = "HYPE_K_AURA";
 Buttons TransformButton = Buttons_B;
-bool lifeIcon = false;
+bool lifeIcon = true;
 
 static const Buttons ButtonsList[]
 {

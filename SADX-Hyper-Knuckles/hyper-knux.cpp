@@ -302,7 +302,6 @@ void HyperKnux_Manager(ObjectMaster* obj) {
 	switch (data->Action) {
 	case hyperKnuxSetTask:
 		Set_AuraTextures();
-
 		obj->DeleteSub = HyperKnuxDelete;
 		data->Action++;
 		break;

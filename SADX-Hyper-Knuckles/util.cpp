@@ -233,7 +233,7 @@ bool isKnucklesPlayer()
 {
 	for (uint8_t i = 0; i < 8; i++)
 	{
-		if (EntityData1Ptrs[i] && EntityData1Ptrs[i]->CharID == Characters_Knuckles)
+		if (playertwp[i] && playertwp[i]->counter.b[1] == Characters_Knuckles)
 			return true;
 	}
 

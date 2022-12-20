@@ -211,89 +211,71 @@ void Sweep_Main_r(task* obj)
 	Sweep_Main_t.Original(obj);
 }
 
-void DestroyCar(ObjectMaster* obj)
+void DestroyCar(task* obj)
 {
-	EntityData1* data = obj->Data1;
+	auto data = obj->twp;
 
 	MID_EXPLOSION_INFO boom;
 
-	boom.pPos = &data->Position;
+	boom.pPos = &data->pos;
 	boom.flag = 3;
 	boom.nLightStartTime = 0;
 	boom.nLightEndTime = 0;
-	boom.fLightLength = 0.0;
+	boom.fLightLength = 0.0f;
 	boom.angLightSpd = 0;
 	boom.nExpStartTime = 0;
 	boom.nExpGrowEndTime = 20;
 	boom.nExpEndTime = 40;
 	boom.nExpTailTime = 60;
-	boom.fExpMaxRadius = 25.0;
+	boom.fExpMaxRadius = 25.0f;
 	egm2MiDexplosion(&boom);
 	dsPlay_oneshot_Dolby(475, 0, 0, 64, 120, (taskwk*)data);
-	data->Unknown = 30;
-	data->Index++;
+	data->timer.l = 30;
+	data->id++;
 }
 
-void ObjectCarSHRegular_r(ObjectMaster* obj)
+bool CheckDestroyCars(taskwk* data, task* obj)
 {
-	EntityData1* data = obj->Data1;
+	NJS_VECTOR pos = data->pos;
+	int pNum = IsPlayerInSphere(pos, 100);
 
-	if (isHyperKnux[data->CharIndex] && isKnucklesPlayer())
+	if (pNum > -1 && isQuakeEnabled)
 	{
-		if (data->Index > 1)
-			data->Index = 0;
-
-		NJS_VECTOR pos = data->Position;
-		if (IsPlayerInSphere(pos, 100) && isQuakeEnabled)
+		if (isHyperKnux[pNum - 1] && isKnucklesPlayer())
 		{
-			if (data->Index == 0)
+			if (data->id == 0)
 				DestroyCar(obj);
-		}
 
-		if (data->Index == 1)
-		{
-			egm2_car_broken_main_set(&data->Position);
-			EraseDolbyCtrl(data);
-			CheckThingButThenDeleteObject(obj);
-			return;
-		}
-		else {
-			return carSH_t.Original((task*)obj);
+			if (data->id == 1)
+			{
+				egm2_car_broken_main_set(&data->pos);
+				EraseDolbyCtrl((EntityData1*)data);
+				data->id++;
+				FreeTask(obj);
+			}
+
+			return true;
 		}
 	}
-	else
+
+	return false;
+}
+
+void ObjectCarSHRegular_r(task* obj)
+{
+	auto data = obj->twp;
+
+	if (!CheckDestroyCars(data, obj))
 	{
 		return carSH_t.Original((task*)obj);
 	}
 }
 
-void ObjectCarSS_r(ObjectMaster* obj)
+void ObjectCarSS_r(task* obj)
 {
-	EntityData1* data = obj->Data1;
+	auto data = obj->twp;
 
-	if (isHyperKnux[data->CharIndex] && isKnucklesPlayer()) {
-		if (data->Index > 1)
-			data->Index = 0;
-
-		NJS_VECTOR pos = data->Position;
-		if (IsPlayerInSphere(pos, 100) && isQuakeEnabled)
-		{
-			if (data->Index == 0)
-				DestroyCar(obj);
-		}
-
-		if (data->Index == 1)
-		{
-			egm2_car_broken_main_set(&data->Position);
-			EraseDolbyCtrl(data);
-			CheckThingButThenDeleteObject(obj);
-			return;
-		}
-		else {
-			return carSS_t.Original((task*)obj);
-		}
-	}
-	else
+	if (!CheckDestroyCars(data, obj))
 	{
 		return carSS_t.Original((task*)obj);
 	}
@@ -303,7 +285,7 @@ void init_KnuxEarthquake()
 {
 	KnuxGrabWall_Check_t = new Trampoline((int)0x4757E0, (int)0x4757E6, KnuxGrabWallCheckASM);
 	WriteCall((void*)0x478721, Knux_JumpCancel); //prevent jump cancel to happen when using earthquake
-	carSH_t.Hook((TaskFuncPtr)ObjectCarSHRegular_r);
-	carSS_t.Hook((TaskFuncPtr)ObjectCarSS_r);
+	carSH_t.Hook(ObjectCarSHRegular_r);
+	carSS_t.Hook(ObjectCarSS_r);
 	Sweep_Main_t.Hook(Sweep_Main_r);
 }
