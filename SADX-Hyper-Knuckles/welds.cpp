@@ -338,34 +338,38 @@ void __cdecl InitHyperKnucklesDX_WeldsInfo()
 	KnucklesWeldInfo_r[33].BaseModel = Root;
 	KnucklesWeldInfo_r[33].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling;
 	KnucklesWeldInfo_r[33].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
-	KnucklesWeldInfo_r[33].VertexPairCount = 4;
+	KnucklesWeldInfo_r[33].VertexPairCount = (uint8_t)(Knuckles_LegIndices.size() / 2);
 	KnucklesWeldInfo_r[33].WeldType = 2;
 	KnucklesWeldInfo_r[33].anonymous_5 = 0;
 	KnucklesWeldInfo_r[33].VertexBuffer = 0;
-	KnucklesWeldInfo_r[33].VertIndexes = (unsigned short*)&Knuckles_LegIndices;
+	KnucklesWeldInfo_r[33].VertIndexes = Knuckles_LegIndices_DC;
 	KnucklesWeldInfo_r[34].BaseModel = Root;
 	KnucklesWeldInfo_r[34].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
 	KnucklesWeldInfo_r[34].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
+	KnucklesWeldInfo_r[34].VertexPairCount = (uint8_t)(Knuckles_LegIndices.size() / 2);
 	KnucklesWeldInfo_r[34].WeldType = 2;
 	KnucklesWeldInfo_r[34].anonymous_5 = 0;
 	KnucklesWeldInfo_r[34].VertexBuffer = 0;
-	KnucklesWeldInfo_r[34].VertIndexes = (unsigned short*)&Knuckles_LegIndices;
+	KnucklesWeldInfo_r[34].VertIndexes = Knuckles_LegIndices_DC;
+
 	KnucklesWeldInfo_r[35].BaseModel = Root;
 	KnucklesWeldInfo_r[35].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling;
 	KnucklesWeldInfo_r[35].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
-	KnucklesWeldInfo_r[35].VertexPairCount = 4;
+	KnucklesWeldInfo_r[35].VertexPairCount = (uint8_t)((Knuckles_LegIndices.size()) / 2);
 	KnucklesWeldInfo_r[35].WeldType = 2;
 	KnucklesWeldInfo_r[35].anonymous_5 = 0;
 	KnucklesWeldInfo_r[35].VertexBuffer = 0;
-	KnucklesWeldInfo_r[35].VertIndexes = (unsigned __int16*)&Knuckles_LegIndices;
+	KnucklesWeldInfo_r[35].VertIndexes = (unsigned short*)&Knuckles_LegIndices;
+
 	KnucklesWeldInfo_r[36].BaseModel = Root;
 	KnucklesWeldInfo_r[36].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
 	KnucklesWeldInfo_r[36].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
-	KnucklesWeldInfo_r[36].VertexPairCount = 4;
+	KnucklesWeldInfo_r[36].VertexPairCount = (uint8_t)((Knuckles_LegIndices.size()) / 2);
 	KnucklesWeldInfo_r[36].WeldType = 2;
 	KnucklesWeldInfo_r[36].anonymous_5 = 0;
 	KnucklesWeldInfo_r[36].VertexBuffer = 0;
-	KnucklesWeldInfo_r[36].VertIndexes = (unsigned __int16*)&Knuckles_LegIndices;
+	KnucklesWeldInfo_r[36].VertIndexes = (unsigned short*)&Knuckles_LegIndices;
+	
 	KnucklesWeldInfo_r[37].BaseModel = Root;
 	KnucklesWeldInfo_r[37].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
 	KnucklesWeldInfo_r[37].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
@@ -382,6 +386,7 @@ void __cdecl InitHyperKnucklesDX_WeldsInfo()
 	KnucklesWeldInfo_r[38].WeldType = 2;
 	KnucklesWeldInfo_r[38].anonymous_5 = 0;
 	KnucklesWeldInfo_r[38].VertexBuffer = 0;
+
 	KnucklesWeldInfo_r[39].BaseModel = Root;
 	KnucklesWeldInfo_r[39].ModelA = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
 	KnucklesWeldInfo_r[39].ModelB = Root->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
