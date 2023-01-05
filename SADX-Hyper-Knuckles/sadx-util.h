@@ -71,8 +71,3 @@ DataPointer(D3DMATRIX, stru_3C52B98, 0x3C52B98);
 DataPointer(D3DMATRIX, stru_3C52C08, 0x3C52C08);
 TaskFunc(KnuxJiggle_Delete, 0x473CB0);
 TaskFunc(KnucklesHeadSpikesShake, 0x473CE0);
-
-VoidFunc(crushLightOff, 0x6ED9A0);
-FunctionPointer(void, crushLightOn, (float pos_x, float pos_y, float pos_z, int crushLightNum, int life,
-	float start_width, float end_width, unsigned int start_col, unsigned int end_col), 0x6EDA20);
-FunctionPointer(task*, COverlayCreate, (float s, float a, float r, float g, float b), 0x6EF480);
