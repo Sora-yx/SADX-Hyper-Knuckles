@@ -4,6 +4,7 @@ HelperFunctions HelperFunctionsGlobal;
 std::string modpath;
 
 bool MultiModEnabled = false;
+bool hudPlus = false;
 
 extern "C" {
 	__declspec(dllexport) void __cdecl Init(const char* path, const HelperFunctions& helperFunctions)
@@ -26,10 +27,10 @@ extern "C" {
 		WaterHack_Init();
 		init_KnuxEarthquake();
 		init_AuraHack();
-		init_HudHack();
 		init_Jiggle_EyeTracker();
 
 		MultiModEnabled = GetModuleHandle(L"sadx-multiplayer") != nullptr;
+		hudPlus = GetModuleHandleW(L"sadx-hud-plus") != nullptr;
 	}
 
 	__declspec(dllexport) void __cdecl OnInitEnd()
@@ -40,6 +41,7 @@ extern "C" {
 	__declspec(dllexport) void __cdecl OnFrame()
 	{
 		CamShakes();
+		DisplayHyperKnux_Icon();
 	}
 
 	__declspec(dllexport) void __cdecl OnExit()

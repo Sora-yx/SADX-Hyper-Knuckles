@@ -24,7 +24,7 @@ void ReadConfig(const char* path, const HelperFunctions& helperFunctions) {
 	//Ini file Configuration
 	const IniFile* config = new IniFile(std::string(path) + "\\config.ini");
 
-	modelType = config->getInt("appearance", "charType", Dreamcast);
+	modelType = config->getInt("appearance", "modelType", Dreamcast);
 	superAura = config->getBool("appearance", "superAura", true);
 	redAura = config->getBool("appearance", "redAura", false);
 	lifeIcon = config->getBool("appearance", "lifeIcon", true);

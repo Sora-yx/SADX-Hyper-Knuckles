@@ -827,11 +827,6 @@ void InitHyperKnuxWelds()
 	Knuckles_Upgrades_t.Hook(Knuckles_Upgrades_r);
 }
 
-void THISGAMESUCKS()
-{
-	KNUCKLES_ACTIONS[15]->object = KNUCKLES_ACTIONS[15]->object;
-}
-
 void RestoreKnuxAnimModel(taskwk* data)
 {
 	if (modelType == none || MultiModEnabled && multi_is_active())

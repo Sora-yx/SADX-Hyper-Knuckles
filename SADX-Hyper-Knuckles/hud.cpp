@@ -15,9 +15,7 @@ bool isInActionStage()
 
 void __cdecl DisplayHyperKnux_Icon()
 {
-	HudDisplayLife_t.Original();
-
-	if (!EntityData1Ptrs[0] || EntityData1Ptrs[0]->CharID != Characters_Knuckles || !isHyperKnux[0] || !isInActionStage())
+	if (!lifeIcon || !playertwp[0] || playertwp[0]->counter.b[1] != Characters_Knuckles || !isHyperKnux[0] || !isInActionStage())
 		return;
 
 	HelperFunctionsGlobal.PushScaleUI(uiscale::Align_Automatic, false, 1.0f, 1.0f);
@@ -30,7 +28,7 @@ void __cdecl DisplayHyperKnux_Icon()
 	{
 		HYPERKNUX_EXTRA_SPRITE.p.x = 16.0f;
 
-		if (isDCConversion())
+		if (isDCConversion() && !hudPlus)
 			HYPERKNUX_EXTRA_SPRITE.p.y = VerticalStretch * 480.0f - 80.0f;
 		else
 			HYPERKNUX_EXTRA_SPRITE.p.y = VerticalStretch * 480.0f - 64.0f;
@@ -40,12 +38,4 @@ void __cdecl DisplayHyperKnux_Icon()
 	}
 
 	HelperFunctionsGlobal.PopScaleUI();
-}
-
-void init_HudHack()
-{
-	if (!lifeIcon)
-		return;
-
-	HudDisplayLife_t.Hook(DisplayHyperKnux_Icon);
 }
