@@ -95,5 +95,8 @@
     <ClCompile Include="water-hack.cpp">
       <Filter>Source Files\abilities</Filter>
     </ClCompile>
+    <ClCompile Include="welds.cpp">
+      <Filter>Source Files\hyperknux</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
