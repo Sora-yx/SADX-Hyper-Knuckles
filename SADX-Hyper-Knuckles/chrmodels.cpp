@@ -203,7 +203,7 @@ void SetHyperKnuxAnim()
 	for (uint8_t i = 0; i < LengthOfArray(KnuxAnimCopy); i++)
 	{
 		//8 is empty
-		if (!KNUCKLES_ACTIONS[i]->object || KNUCKLES_ACTIONS[i]->object != KNUCKLES_OBJECTS[0])
+		if (i == 8 || i == 61 || i == 62)
 			continue;
 
 		KNUCKLES_ACTIONS[i]->object = HyperKnux_Model[root]->getmodel();
