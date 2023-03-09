@@ -1,6 +1,6 @@
 #include "pch.h"
 
-static FunctionHook<void> InitKnucklesWeldInfo_t((intptr_t)InitKnucklesWeldInfo);
+static FunctionHook<void> InitKnucklesCharSelAnims_t((intptr_t)InitKnucklesCharSelAnims);
 static UsercallFuncVoid(Knuckles_Upgrades_t, (playerwk* a1), (a1), 0x4726A0, rEAX);
 
 WeldInfo KnucklesWeldInfo_r[60] = { 0 };
@@ -564,7 +564,7 @@ void Knuckles_Upgrades_r(playerwk* a1)
 
 void InitKnucklesWeldInfo_r()
 {
-	InitKnucklesWeldInfo_t.Original();
+	InitKnucklesCharSelAnims_t.Original();
 
 	if (!AlwaysHyperKnux)
 		memcpy(KnucklesWeldInfo_r, KnucklesWeldInfo, sizeof(WeldInfo) * KnucklesWeldInfo.size());
@@ -595,7 +595,7 @@ void InitHyperKnuxWelds()
 	if (modelType == none)
 		return;
 
-	InitKnucklesWeldInfo_t.Hook(InitKnucklesWeldInfo_r);
+	InitKnucklesCharSelAnims_t.Hook(InitKnucklesWeldInfo_r);
 	WriteData((WeldInfo**)0x47a89E, KnucklesWeldInfo_r);
 	Knuckles_Upgrades_t.Hook(Knuckles_Upgrades_r);
 }
