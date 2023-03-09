@@ -45,15 +45,14 @@ void SetHyperKnuxModel_()
 	KNUCKLES_OBJECTS[0] = HyperKnux_Model[root]->getmodel();
 	KNUCKLES_OBJECTS[1] = HyperKnux_Model[root]->getmodel();
 
+	auto r = KNUCKLES_OBJECTS[0];
+
 	KNUCKLES_OBJECTS[2] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->sibling; //2
 
 	KNUCKLES_OBJECTS[3] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling; //3);
 	KNUCKLES_OBJECTS[4] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling;
 
-	if (modelType != Dreamcast)
-		KNUCKLES_OBJECTS[5] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
-	else
-		KNUCKLES_OBJECTS[5] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
+	KNUCKLES_OBJECTS[5] = r->getnode(30);  
 
 	KNUCKLES_OBJECTS[6] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->sibling;
 	KNUCKLES_OBJECTS[7] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->sibling;
@@ -117,10 +116,8 @@ void SetHyperKnuxModel_()
 	KNUCKLES_OBJECTS[64] = KNUCKLES_OBJECTS[5];
 
 	//Thumb model hiearchy is also different with DC Glide Model.
-	if (modelType == Dreamcast)
-		KNUCKLES_OBJECTS[65] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
-	else
-		KNUCKLES_OBJECTS[65] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
+
+	KNUCKLES_OBJECTS[65] = r->getnode(31);
 
 	KNUCKLES_OBJECTS[66] = KNUCKLES_OBJECTS[58];
 	KNUCKLES_OBJECTS[67] = KNUCKLES_OBJECTS[22];
@@ -151,10 +148,7 @@ void SetHyperKnuxModel_()
 	KNUCKLES_MODELS[12] = KNUCKLES_OBJECTS[20]->getbasicdxmodel();
 	KNUCKLES_MODELS[13] = KNUCKLES_OBJECTS[5]->getbasicdxmodel();
 
-	if (modelType == Dreamcast)
-		KNUCKLES_MODELS[14] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling->getbasicdxmodel();
-	else
-		KNUCKLES_MODELS[14] = KNUCKLES_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->getbasicdxmodel();
+	KNUCKLES_MODELS[14] = r->getnode(31)->getbasicdxmodel();
 
 	KNUCKLES_MODELS[15] = HyperKnux_Model[lw]->getmodel()->basicdxmodel;
 
@@ -209,7 +203,7 @@ void SetHyperKnuxAnim()
 	for (uint8_t i = 0; i < LengthOfArray(KnuxAnimCopy); i++)
 	{
 		//8 is empty
-		if (i == 8 || i == 61 || i == 62)
+		if (!KNUCKLES_ACTIONS[i]->object || KNUCKLES_ACTIONS[i]->object != KNUCKLES_OBJECTS[0])
 			continue;
 
 		KNUCKLES_ACTIONS[i]->object = HyperKnux_Model[root]->getmodel();
